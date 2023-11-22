@@ -1,15 +1,19 @@
+using API_BanDienThoai.Data;
 using API_BanDienThoai.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+builder.Services.AddDbContext<API_BanDienThoaiContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("API_BanDienThoaiContext") ?? throw new InvalidOperationException("Connection string 'API_BanDienThoaiContext' not found.")));
 
 //config cho identity
 builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<EshopIdentityContext>()
+    .AddEntityFrameworkStores<API_BanDienThoaiContext>()
     .AddDefaultTokenProviders();
 
 //config cho authentication
