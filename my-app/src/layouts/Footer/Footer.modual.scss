@@ -1,0 +1,70 @@
+.bg{
+    background: #00483d;
+    border-radius: 11px;
+    color: #fff;
+    width: 1180px;
+    min-width: 1200;
+    height: auto;
+    margin-right:10%;
+    margin-left: 10%;
+    padding: 10px 20px 10px 20px;
+}
+.col-content{
+    display: flex;
+}
+.link-content{
+    flex-direction: column;
+    width:16.6%;
+}
+
+.link-content h4{
+    font-size: 1.1rem;
+}
+
+.contact{
+    display: block;
+    margin-left: -30px;
+}
+
+.contact li{
+    font-size: 0.9rem;
+}
+
+a{
+    text-decoration: none;
+}
+
+.list-pay{
+    width: 18%;
+    margin-left: 50px;
+}
+
+.list-pay h4{
+    font-size: 1.1rem;
+}
+
+.list-transport{
+    width: 18%;
+}
+
+.list-transport h4{
+    font-size: 1.1rem;
+ 
+}
+
+.list-logo{
+    margin-left: -30px;
+    display: block;
+}
+
+.subLogo{
+    margin: 8px;
+}
+.info{
+    margin-top: 5px;
+    text-align: center;
+}
+
+.info p{
+    font-size: 1rem;
+}
