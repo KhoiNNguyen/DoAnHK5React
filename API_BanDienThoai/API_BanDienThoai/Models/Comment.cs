@@ -26,7 +26,8 @@ namespace API_BanDienThoai.Models
         public Comment ParentConmment { get; set; }
 
         [DisplayName("Người Dùng")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
         public User User { get; set; }
     }
 }

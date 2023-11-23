@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_BanDienThoai.Models
 {
@@ -11,7 +12,8 @@ namespace API_BanDienThoai.Models
         public Phone Phone { get; set; }
 
         [DisplayName("Người Dùng")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
         public User User { get; set; }
     }
 }

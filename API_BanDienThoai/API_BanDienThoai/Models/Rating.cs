@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_BanDienThoai.Models
 {
@@ -20,7 +21,8 @@ namespace API_BanDienThoai.Models
         public string Image { get; set; }
 
         [DisplayName("Người Dùng")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
         public User User { get; set; }
 
         [DisplayName("Điện Thoại")]
