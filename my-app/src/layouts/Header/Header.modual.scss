@@ -1,0 +1,133 @@
+.wrapper{
+    height: 120px;
+    display: flex;
+    justify-content: center;
+}
+
+.top-link{
+    margin-top: 4px;
+    text-align: center;
+}
+
+.inner{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 15px;
+}
+
+.top-navigation{
+    height:29.6px;
+    width: 1472.8px;
+    background-color: #00483d;
+}
+
+.container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ul{
+    display: flex;
+}
+
+li{
+    list-style: none;
+    color: #fff;
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+
+.btn-checkOrder{
+    display: block;
+    background: #00483e;
+    border-radius: 10px;
+    padding: 6px 8px;
+    box-shadow: 0 4px 6px #ccc;
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    width: 110px;
+    position: relative;
+}
+
+
+.text{
+    text-align: left;
+    display: block;
+    margin-left: 40px;
+    font-size: .9rem;
+}
+
+.border{
+    background-color: #fff;
+    display: flex;
+    margin-left: 10px;
+    border-radius: 15px;
+    padding: 5px 10px;
+    box-shadow: 0 4px 6px #ccc;
+}
+
+input{
+    border: none;
+    outline: none;
+    padding: 7px 0;
+    width: 669px;
+    font-weight: bold;
+}
+
+.search-btn{
+    background-color: #00483d;
+    color: #fff;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.order-tools{
+
+    display: flex;
+    width: 220px;
+    vertical-align: top;
+    padding-left: 25px;
+    justify-content: center;
+    align-items: center;
+}
+.btnCheckOrder{
+    height: 48px;
+    width: 150px;
+    display: block;
+    background: #00483e;
+    border-radius: 10px;
+    padding: 6px 8px;
+    box-shadow: 0 4px 6px #ccc;
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    width: 110px;
+    position: relative;
+}
+
+
+.icon{
+    font-size: 30px;
+    position: absolute;
+    left: 8px;
+    top:14px;
+}
+
+.cart{
+    margin-top: 2px;
+    margin-left: 10px;
+}
+
+.icon-cart{
+    font-size: 38px;
+    color: #00483e;
+}
+
