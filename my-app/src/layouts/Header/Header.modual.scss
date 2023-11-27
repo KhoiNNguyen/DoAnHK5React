@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper-header{
     height: 120px;
     display: flex;
     justify-content: center;
@@ -21,9 +21,10 @@
     background-color: #00483d;
 }
 
-.container{
+.container-header{
     display: flex;
     justify-content: flex-end;
+    margin-right: 5%;
 }
 
 .logo{

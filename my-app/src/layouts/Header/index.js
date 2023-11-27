@@ -15,10 +15,10 @@ function Header() {
         <a href="https://hoanghamobile.com/dien-thoai-di-dong/samsung-galaxy-s20-fe-256gb-chinh-hang" target="_top">Xem chi tiết</a>
         </p>
     </div>
-    <header className={cx('wrapper')}>
+    <header className={cx('wrapper-header')}>
         <div className={cx('Nav')}>
             <div className={cx("top-navigation")}>
-                <div className={cx("container")}>
+                <div className={cx("container-header")}>
                     <ul>
                         <li><a>Gioi Thieu </a></li>
                         <li><a>San Pham  Da Xem</a></li> 
@@ -31,9 +31,9 @@ function Header() {
                 </div>
             </div>
             <div className={cx('inner')}>
-                <div  className={cx("logo")} >  
+                <div className={cx("logo")} >  
                     <div className={cx("Brand")}>
-                    <img src="https://hoanghamobile.com/Content/web/img/logo-text.png" alt="CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ THƯƠNG MẠI HOÀNG HÀ"></img>
+                        <img src="https://hoanghamobile.com/Content/web/img/logo-text.png" alt="One People"></img>
                     </div>
                     <div className={cx("search")}>
                         <form method="get" action="/tim-kiem" onsubmit="return submitSearch(this);" enctype="application/x-www-form-urlencoded">
@@ -61,7 +61,6 @@ function Header() {
         </div>
     </header>
     <SlideShow />
-    <Footer />
     </> );
 }
 

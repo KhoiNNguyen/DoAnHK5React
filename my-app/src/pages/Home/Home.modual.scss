@@ -1,0 +1,24 @@
+.col-brand{
+    justify-content: flex-start;
+}
+
+#logo{
+   margin-left:9%;
+   margin-right: 10%;
+   flex-wrap: wrap;
+   width: 1200px;
+}
+
+.border-logo-brand{
+    margin:3px;
+    background-color: #fff;
+    display: flex;
+    margin-left: 10px;
+    border-radius: 15px;
+    padding: 5px 10px;
+    border: 1px solid #333;
+}
+
+.logo-brand{
+    width:120px;
+}
