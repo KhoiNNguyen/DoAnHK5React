@@ -25,7 +25,8 @@ namespace API_BanDienThoai.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Phone>>> GetPhone()
         {
-            return await _context.Phone.ToListAsync();
+            return await _context.Phone.Include(p => p.Brand)
+                                        .Include(p => p.ProductType).ToListAsync();
         }
 
         // GET: api/Phones/5
