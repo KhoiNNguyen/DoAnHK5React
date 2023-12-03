@@ -2,19 +2,26 @@ import { faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Modal, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Phone = () => {
     const [phone, setPhone] = useState([]);
+    const [showDelete, setShowDelete] = useState(false);
+    const [selectedPhone, setSelectedPhone] = useState({});
 
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete = (id) => {
+        setSelectedPhone(phone.find(a => a.id == id));
+        setShowDelete(true);
+    }
     useEffect(() => {
         axios.get(`https://localhost:7126/api/Phones`)
         .then(res => setPhone(res.data));
-    },[])
+    },[phone])
     const handleDelete = (id) =>{
         axios.delete(`https://localhost:7126/api/Phones/${id}`)
-        setPhone(prev => prev.filter(item => item.id !== id));
+        setShowDelete(false)
     }
     return ( 
         <>
@@ -71,7 +78,7 @@ const Phone = () => {
                                                 <Button variant="warning">
                                                     <Link to={`/Phones/Edit/${item.id}`}><FontAwesomeIcon icon={faPenToSquare} style={{color:"black"}}/></Link>
                                                 </Button>
-                                                <Button variant="danger" onClick={() => handleDelete(item.id)}>
+                                                <Button variant="danger" onClick={() => handleShowDelete(item.id)}>
                                                     <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                                                 </Button>
                                             </dd>
@@ -83,6 +90,19 @@ const Phone = () => {
                         })
                     }   
                 </Row>
+                <Modal show={showDelete} onHide={handleCloseDelete}>
+                    <Modal.Body>
+                        Do you want delete?
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="danger" onClick={() => handleDelete(selectedPhone.id)}>
+                        Ok
+                    </Button>
+                    <Button variant="secondary" onClick={handleCloseDelete}>
+                        Close
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
      );

@@ -51,6 +51,7 @@ const ProductCreate = () => {
                 <FormGroup className="mb-3">
                     <FormLabel>PhoneId: </FormLabel>
                     <FormSelect  name="phoneId" onChange={handleChange}>
+                    <option> None </option>
                     {
                         phone.map(item =>{
                             return(

@@ -3,8 +3,6 @@ import styles from "./Home.modual.scss";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-
 const cx = classNames.bind(styles);
 const Home = ()=> {
   const [product, setProduct] = useState([]);

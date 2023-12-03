@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_BanDienThoai.Data;
 using API_BanDienThoai.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace API_BanDienThoai.Controllers
 {
@@ -15,10 +16,12 @@ namespace API_BanDienThoai.Controllers
     public class BrandsController : ControllerBase
     {
         private readonly API_BanDienThoaiContext _context;
+        public IWebHostEnvironment _environment;
 
-        public BrandsController(API_BanDienThoaiContext context)
+        public BrandsController(API_BanDienThoaiContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/Brands
@@ -78,9 +81,25 @@ namespace API_BanDienThoai.Controllers
         [HttpPost]
         public async Task<ActionResult<Brand>> PostBrand(Brand brand)
         {
-            _context.Brand.Add(brand);
-            await _context.SaveChangesAsync();
+            if (brand.ImageFile != null)
+            {
+                brand.Image = "";
+                _context.Brand.Add(brand);
+                await _context.SaveChangesAsync();
 
+
+                var fileName = brand.Id.ToString() + Path.GetExtension(brand.ImageFile.FileName);
+                var uploadFolder = Path.Combine(_environment.WebRootPath, "images", "brand");
+                var uploadPath = Path.Combine(uploadFolder, fileName);
+                using (FileStream fs = System.IO.File.Create(uploadPath))
+                {
+                    brand.ImageFile.CopyTo(fs);
+                    fs.Flush();
+                }
+                brand.Image = fileName;
+                _context.Brand.Update(brand);
+                await _context.SaveChangesAsync();
+            }
             return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
         }
 

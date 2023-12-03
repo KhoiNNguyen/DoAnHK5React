@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_BanDienThoai.Models
 {
@@ -11,6 +12,9 @@ namespace API_BanDienThoai.Models
 
         [DisplayName("Hình Ảnh")]
         public string Image { get; set; }
+        [NotMapped]
+        [DisplayName("Hình Ảnh")]
+        public IFormFile ImageFile { get; set; }
 
         [DisplayName("Trạng Thái")]
         public bool Status { get; set; }

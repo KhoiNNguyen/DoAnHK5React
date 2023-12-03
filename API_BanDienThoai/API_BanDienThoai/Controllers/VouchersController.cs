@@ -93,8 +93,8 @@ namespace API_BanDienThoai.Controllers
             {
                 return NotFound();
             }
-
-            _context.Voucher.Remove(voucher);
+            voucher.Status = false;
+            _context.Voucher.Update(voucher);
             await _context.SaveChangesAsync();
 
             return NoContent();

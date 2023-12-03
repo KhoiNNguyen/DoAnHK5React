@@ -2,7 +2,7 @@
 
 namespace API_BanDienThoai.Models
 {
-    public class User:IdentityUser
+    public class User : IdentityUser
     {
         public string FullName { get; set; }
         public string Phone { get; set; }

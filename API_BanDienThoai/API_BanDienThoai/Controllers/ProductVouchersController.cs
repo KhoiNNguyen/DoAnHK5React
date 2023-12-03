@@ -25,7 +25,8 @@ namespace API_BanDienThoai.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductVoucher>>> GetProductVoucher()
         {
-            return await _context.ProductVoucher.ToListAsync();
+            return await _context.ProductVoucher.Include(p => p.Voucher)
+                                                .Include(p => p.Product).ToListAsync();
         }
 
         // GET: api/ProductVouchers/5
