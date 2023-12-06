@@ -18,6 +18,12 @@ import PaymentMethodEdit from "./pages/Admin/PaymentMethod/PaymentMethodEdit"
 import ProductVoucher from "./pages/Admin/ProductVoucher/Index"
 import ProductVoucherCreate from "./pages/Admin/ProductVoucher/ProductVoucherCreate"
 import ProductVoucherEdit from "./pages/Admin/ProductVoucher/ProductVoucherEdit"
+import Invoice from "./pages/Admin/Invoice"
+import User from "./pages/Admin/user"
+import InvoiceCreate from "./pages/Admin/Invoice/InvoiceCreate"
+import UserCreate from "./pages/Admin/user/userCreate"
+import UserEdit from "./pages/Admin/user/userEdit"
+import InvoiceEdit from "./pages/Admin/Invoice/InvoiceEdit"
 
 const App = () =>{
     return(
@@ -44,6 +50,18 @@ const App = () =>{
                 <Route path="/ProductVouchers" element={<ProductVoucher />}/>
                 <Route path="/ProductVouchers/Create" element={<ProductVoucherCreate />}/>
                 <Route path="/ProductVouchers/Edit/:id" element={<ProductVoucherEdit />}/>
+                
+                <Route path="/user" element={<User />}/>
+                <Route path="/user/create" element={<UserCreate />}/>
+                <Route path="/user/edit/:id" element={<UserEdit />}/>
+
+
+                <Route path="/invoices" element={<Invoice />}/>
+                <Route path="/invoices/create" element={<InvoiceCreate/>}/>
+                <Route path="/invoices/edit/:id" element={<InvoiceEdit/>}/>
+
+
+                
             </Routes>
         </BrowserRouter>
     )

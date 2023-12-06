@@ -42,5 +42,7 @@ namespace API_BanDienThoai.Data
         public DbSet<API_BanDienThoai.Models.ProductVoucher> ProductVoucher { get; set; }
 
         public DbSet<API_BanDienThoai.Models.Rating> Rating { get; set; }
-    }
+
+        public DbSet<API_BanDienThoai.Models.User> User { get; set; }
+	}
 }

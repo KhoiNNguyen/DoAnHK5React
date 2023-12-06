@@ -29,6 +29,10 @@ const ProductCreate = () => {
         axios.get(`https://localhost:7126/api/Phones`)
             .then(res => setPhone(res.data));
       }, []);
+
+    // date time
+    
+      
     return (
         <>
             <Form className="col-md-3">

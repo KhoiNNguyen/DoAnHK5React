@@ -35,18 +35,22 @@ const Product = () => {
         axios.delete(`https://localhost:7126/api/Products/${id}`)
         setShowDelete(false)
     }
+
     useEffect(() => {
         axios.get(`https://localhost:7126/api/Products`)
             .then(res => setProduct(res.data));
       }, [product]);
+
     useEffect(() => {
         axios.get(`https://localhost:7126/api/Phones`)
             .then(res => setPhone(res.data));
     }, []);
+
     useEffect(() => {
         axios.get(`https://localhost:7126/api/ProductTypes`)
             .then(res => setProductType(res.data));
     }, []);
+    
     useEffect(() => {
         axios.get(`https://localhost:7126/api/Brands`)
             .then(res => setBrand(res.data));

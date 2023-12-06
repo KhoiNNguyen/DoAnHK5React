@@ -19,6 +19,7 @@ const Phone = () => {
         axios.get(`https://localhost:7126/api/Phones`)
         .then(res => setPhone(res.data));
     },[phone])
+    
     const handleDelete = (id) =>{
         axios.delete(`https://localhost:7126/api/Phones/${id}`)
         setShowDelete(false)
