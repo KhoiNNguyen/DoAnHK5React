@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+import axiosClient from '../../../components/axiosClient/axiosClient';
 
 const UserEdit = () => {
 
@@ -25,11 +26,11 @@ const UserEdit = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`https://localhost:7126/api/Users/${id}`, user)
+        axiosClient.put(`/Users/${id}`, user)
             .then(() => navigate('/user'))
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Users/${id}`)
+        axiosClient.get(`/Users/${id}`)
             .then(res => setUser(res.data))
     }, [])
 

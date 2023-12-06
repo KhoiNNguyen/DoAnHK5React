@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 // import VoucherCreate from "./VoucherCreate";
 
 const Voucher = () => {
@@ -17,11 +18,11 @@ const Voucher = () => {
         setShowDelete(true);
     }
     const handleDelete = (id) =>{
-        axios.delete(`https://localhost:7126/api/Vouchers/${id}`)
+        axiosClient.delete(`/Vouchers/${id}`)
         setShowDelete(false)
     }
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/Vouchers`)
+        axiosClient.get(`/Vouchers`)
         .then(res => setVoucher(res.data))
     },[voucher])
     return (  

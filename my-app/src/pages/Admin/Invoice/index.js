@@ -1,9 +1,9 @@
 import { faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 
 const Invoice = () => {
@@ -22,21 +22,21 @@ const Invoice = () => {
         setShowDelete(true);
     }
     const handleDelete = (id) =>{
-        axios.delete(`https://localhost:7126/api/Invoices/${id}`)
+        axiosClient.delete(`/Invoices/${id}`)
         setShowDelete(false)
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Invoices`)
+        axiosClient.get(`/Invoices`)
         .then(res => setInvoice(res.data))
     },[Invoice])
 
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/PaymentMethods`)
+        axiosClient.get(`/PaymentMethods`)
             .then(res => setPaymentMethod(res.data));
     }, []);
 
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Users`)
+        axiosClient.get(`/Users`)
             .then(res => setUser(res.data));
     }, []);
 

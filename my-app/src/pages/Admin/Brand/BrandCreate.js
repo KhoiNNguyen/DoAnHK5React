@@ -1,9 +1,9 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useState } from "react";
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const BrandCreate = () => {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const BrandCreate = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.post(`https://localhost:7126/api/Brands`, brand)
+        axiosClient.post(`/Brands`, brand)
            .then(() => navigate('/Brands'))
     }
     return (  

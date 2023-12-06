@@ -1,9 +1,9 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import React, { useState } from 'react'
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axiosClient from '../../../components/axiosClient/axiosClient';
 
 const UserCreate = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const UserCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`https://localhost:7126/api/Users`, user)
+    axiosClient.post(`/Users`, user)
       .then(() => navigate('/user'))
   }
   return (

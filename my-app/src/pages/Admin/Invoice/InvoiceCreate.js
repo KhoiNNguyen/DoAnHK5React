@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 
 const InvoiceCreate = () => {
@@ -25,16 +26,16 @@ const InvoiceCreate = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post(`https://localhost:7126/api/Invoices`, Invoice)
+        axiosClient.post(`/Invoices`, Invoice)
             .then(() => navigate('/invoices'))
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/PaymentMethods`)
+        axiosClient.get(`/PaymentMethods`)
             .then(res => setPaymentMethod(res.data));
     }, []);
 
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Users`)
+        axiosClient.get(`/Users`)
             .then(res => setUser(res.data));
     }, []);
 

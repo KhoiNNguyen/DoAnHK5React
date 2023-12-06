@@ -1,9 +1,9 @@
 import { faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const PaymentMethod = () => {
     var i = 1;
@@ -15,15 +15,15 @@ const PaymentMethod = () => {
 
     const handleCloseDelete = () => setShowDelete(false);
     const handleShowDelete = (id) => {
-        setSelectedPaymentMethod(paymentMethod.find(a => a.id == id));
+        setSelectedPaymentMethod(paymentMethod.find(a => a.id === id));
         setShowDelete(true);
     }
     const handleDelete = (id) => {
-        axios.delete(`https://localhost:7126/api/PaymentMethods/${id}`)
+        axiosClient.delete(`/PaymentMethods/${id}`)
         setShowDelete(false)
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/PaymentMethods`)
+        axiosClient.get(`/PaymentMethods`)
             .then(res => setPaymentMethod(res.data))
     }, [paymentMethod])
     return (

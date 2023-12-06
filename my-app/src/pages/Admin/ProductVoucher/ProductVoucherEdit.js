@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const ProductVoucherEdit = () => {
     const navigate = useNavigate();
@@ -19,19 +20,19 @@ const ProductVoucherEdit = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.put(`https://localhost:7126/api/ProductVouchers/${id}`,productVoucher)
+        axiosClient.put(`/ProductVouchers/${id}`,productVoucher)
         .then(() => navigate('/ProductVouchers'))
     }
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/ProductVouchers/${id}`)
+        axiosClient.get(`/ProductVouchers/${id}`)
             .then(res => setProductVoucher(res.data))
     },[])
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Products`)
+        axiosClient.get(`/Products`)
             .then(res => setProduct(res.data));
       }, []);
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Vouchers`)
+        axiosClient.get(`/Vouchers`)
             .then(res => setVoucher(res.data));
     }, []);
     return (  

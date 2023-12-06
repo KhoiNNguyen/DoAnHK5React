@@ -1,9 +1,9 @@
 import { faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const Brand = () => {
     const [brand, setBrand] = useState([]);
@@ -16,11 +16,11 @@ const Brand = () => {
         setShowDelete(true);
     }
     const handleDelete = (id) =>{
-        axios.delete(`https://localhost:7126/api/Brands/${id}`)
+        axiosClient.delete(`/Brands/${id}`)
         setShowDelete(false)
     }
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/Brands`)
+        axiosClient.get(`/Brands`)
         .then(res => setBrand(res.data))
     },[brand])
     return (  

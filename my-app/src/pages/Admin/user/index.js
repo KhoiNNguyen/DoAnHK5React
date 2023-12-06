@@ -1,19 +1,18 @@
 import { faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Button, Modal, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axiosClient from '../../../components/axiosClient/axiosClient';
 
 const User = () => {
 
     const [user, setUser] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Users`)
-            .then(res => setUser(res.data));
-    }, [user]);
+        axiosClient.get(`/Users`).then(res=>setUser(res.data));
+    }, [user])
 
     const [showDelete, setShowDelete] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
@@ -24,7 +23,7 @@ const User = () => {
         setShowDelete(true);
     }
     const handleDelete = (id) => {
-        axios.delete(`https://localhost:7126/api/Users/${id}`)
+        axiosClient.delete(`/Users/${id}`)
         setShowDelete(false)
     }
 
