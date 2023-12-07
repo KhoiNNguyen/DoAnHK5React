@@ -1,0 +1,175 @@
+.navPayment{
+    padding: 10px;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+
+.Payment-info{
+    border-bottom: 3px solid #919eab;
+    color: #919eab;
+    cursor: pointer;
+    flex: 1;
+    font-weight: 600;
+    padding: 5px 0;
+    text-transform: uppercase;
+}
+
+.Payment-info--active{
+    border-bottom: 3px solid #d70018;
+    color: #d70018;
+    pointer-events: none;
+}
+
+.block-customer label{
+    color: #999;
+    font-size: 11px;
+    line-height: 1rem;
+    opacity: 1;
+    top: 0;
+}
+
+.box-input_1{
+    gap: 20px;
+}
+
+.box-input{
+    width: 270px;
+}
+
+.box-input input{
+    background-color: #fff;
+    border: 0;
+    border-bottom: 1px solid rgba(145,158,171,.2);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 15px;
+
+    line-height: 24px;
+    padding: 18px 20px 2px 0;
+
+}
+
+.input_2 input{
+    background-color: #fff;
+    border: 0;
+    border-bottom: 1px solid rgba(145,158,171,.2);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 15px;
+    height: 100%;
+    line-height: 24px;
+    padding: 18px 20px 2px 0;
+    width: 100%;
+}
+
+.ThongBaoEmail{
+    display: flex;
+    margin-top: 20px;
+}
+
+.ThongBaoEmail input{
+    width: 14px;
+    margin-right: 10px;
+}
+
+.body-contentUser{
+    margin-bottom: 160px;
+}
+
+
+.ProductSelectPayment1{
+    background-color: #fff;
+    border: 1px solid rgba(145,158,171,.239);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 0;
+    box-shadow: 0 -4px 20px -1px rgba(40,124,234,.15);
+    justify-content: space-between;
+    left: 50%;
+    margin: auto;
+    max-width: 600px;
+    padding: 10px 10px 15px;
+    position: fixed;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 11;
+}
+
+.clickBuyNow1 button{
+    background-color: #0d7b6b;
+    border: 0;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    padding: 5px 20px;
+    width: 100%;
+    margin:10px 0px;
+    
+}
+
+.inputVoucher{
+    width:100%;
+}
+
+.inputVoucher input{
+    width: 85%;
+    margin-right: 12px;
+}
+
+.buttonChapNhan{
+    background-color: #0d7b6b;
+    color: #fff;
+    padding:6px 12px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+
+.info-paymentProduct{
+    display: flex;
+    justify-content: space-between;
+    color: #7c8691;
+    flex-shrink: 0;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.infoProductPayMent{
+    margin-top: 20px;
+    padding: 0px 10px;
+    border-bottom: 2px solid #7c8691;
+}
+
+.infoProductPayMent1{
+    margin-top: 20px;
+    padding: 0px 10px;
+}
+
+.totalPayment{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.contentThanhToan{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.HinhThucThanhToan p{
+    color: #d70018;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.HinhThucThanhToan span{
+    color: #637381;
+    font-size: 12px;
+    font-weight: 400;
+}

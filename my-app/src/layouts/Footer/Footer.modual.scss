@@ -2,11 +2,7 @@
     background: #00483d;
     border-radius: 11px;
     color: #fff;
-    width: 1180px;
-    min-width: 1200;
     height: auto;
-    margin-right:10%;
-    margin-left: 10%;
     padding: 10px 20px 10px 20px;
 }
 .col-content{
@@ -14,24 +10,30 @@
 }
 .link-content{
     flex-direction: column;
-    width:16.6%;
+    width:16.67%;
+}
+
+.link-content button{
+    background-color: #00483d;
 }
 
 .link-content h4{
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .contact{
     display: block;
     margin-left: -30px;
+    line-height: 1.16rem;
 }
 
 .contact li{
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 a{
     text-decoration: none;
+    color: #fff;
 }
 
 .list-pay{
@@ -40,7 +42,7 @@ a{
 }
 
 .list-pay h4{
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .list-transport{
@@ -48,7 +50,7 @@ a{
 }
 
 .list-transport h4{
-    font-size: 1.1rem;
+    font-size: 1rem;
  
 }
 
@@ -66,5 +68,6 @@ a{
 }
 
 .info p{
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin: 0;
 }

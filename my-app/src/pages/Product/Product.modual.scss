@@ -1,0 +1,29 @@
+.iconSapSep{
+    width: 15px;
+    height: 15px;
+}
+
+.sapsep button{
+    align-items: center;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    color: #444;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    height: 34px;
+    margin: 0 10px 10px 0;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+.sapsep h4{
+    font-size: 27px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.iconSapSep+span{
+    font-size: 1rem;
+}

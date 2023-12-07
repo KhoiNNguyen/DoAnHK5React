@@ -1,0 +1,39 @@
+.navOrder{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn-order{
+    padding: 7px 15px;
+    border: 1px solid #eaedef;
+    border-radius: 5px;
+    white-space: nowrap;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.active{
+    background-color: #0d7b6b;
+    color: #fff;
+}
+
+.contentOrder{
+    margin: auto;
+    width: 61%;
+    margin-top: 20px;
+    background-color: #fff;
+    border: 1px solid rgba(145,158,171,.239);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.Dahuy{
+    justify-content: flex-end;
+    color: rgb(156, 71, 71);
+    opacity: 0.9;
+}
+
+.sumProductHuy{
+    margin-top: 2rem;
+}
