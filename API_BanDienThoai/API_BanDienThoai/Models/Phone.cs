@@ -36,6 +36,9 @@ namespace API_BanDienThoai.Models
         [DisplayName("Trung Bình Đánh Giá")]
         public double AverageRating { get; set; }
 
+        [DisplayName("Hình Ảnh")]
+        public string Image { get; set; }
+
         [DisplayName("Trạng Thái")]
         public bool Status { get; set; }
 

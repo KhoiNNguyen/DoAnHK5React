@@ -92,7 +92,7 @@ namespace API_BanDienThoai.Controllers
                 var uploadFolder = Path.Combine(_environment.WebRootPath, "images", "brand");
                 var uploadPath = Path.Combine(uploadFolder, fileName);
                 using (FileStream fs = System.IO.File.Create(uploadPath))
-                {
+                {   
                     brand.ImageFile.CopyTo(fs);
                     fs.Flush();
                 }

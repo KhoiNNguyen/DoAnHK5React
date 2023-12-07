@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./phone.css"
 
 const Phone = () => {
     const [phone, setPhone] = useState([]);
@@ -33,57 +34,60 @@ const Phone = () => {
                             return(
                                 <>
                                     <div className="border pe-5" style={{height: "260px"}}>
-                                    <Col md={3} >
-                                        <dl>
-                                            <dt>Name: </dt>
-                                            <dd>{item.name}</dd>
-                                            <dt>Screen: </dt>
-                                            <dd>{item.screen}</dd>
-                                            <dt>CPU: </dt>
-                                            <dd>{item.cpu}</dd>
-                                            <dt>Pin: </dt>
-                                            <dd>{item.pin}</dd>
-                                        </dl>
-                                    </Col>
-                                    <Col  md={3}>
-                                        <dl>
-                                            <dt>SIM: </dt>
-                                            <dd>{item.sim}</dd>
-                                            <dt>Cam Trước: </dt>
-                                            <dd>{item.camTruoc}</dd>
-                                            <dt>Cam Sau: </dt>
-                                            <dd>{item.camSau}</dd>
-                                            <dt>Hệ Điều Hành: </dt>
-                                            <dd>{item.heDieuHanh}</dd>
-                                        </dl>
-                                    </Col>
-                                    <Col  md={3}>
-                                        <dl>
-                                            <dt>Description: </dt>
-                                            <dd>{item.description}</dd>
-                                            <dt>AverageRating: </dt>
-                                            <dd>{item.averageRating}</dd>
-                                            <dt>Brand: </dt>
-                                            <dd>{item.brand.name}</dd>
-                                            <dt>ProductType: </dt>
-                                            <dd>{item.productType.name}</dd>
-                                        </dl>
-                                    </Col>
-                                    <Col  md={3}>
-                                        <dl>
-                                            <dt>Status: </dt>
-                                            <dd>{item.status?"Hoạt động":"Ngưng hoạt động"}</dd>
-                                            <dt>Function: </dt>
-                                            <dd>
-                                                <Button variant="warning">
-                                                    <Link to={`/Phones/Edit/${item.id}`}><FontAwesomeIcon icon={faPenToSquare} style={{color:"black"}}/></Link>
-                                                </Button>
-                                                <Button variant="danger" onClick={() => handleShowDelete(item.id)}>
-                                                    <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
-                                                </Button>
-                                            </dd>
-                                        </dl>
-                                    </Col>
+                                        <Col md={3} className="widthPhone">
+                                            <img src={`https://localhost:7126/images/product/${item.image}`} style={{width: "200px",height: "220px"}}/>
+                                        </Col>
+                                        <Col md={3} className="widthPhone">
+                                            <dl>
+                                                <dt>Name: </dt>
+                                                <dd>{item.name}</dd>
+                                                <dt>Screen: </dt>
+                                                <dd>{item.screen}</dd>
+                                                <dt>CPU: </dt>
+                                                <dd>{item.cpu}</dd>
+                                                <dt>Pin: </dt>
+                                                <dd>{item.pin}</dd>
+                                            </dl>
+                                        </Col>
+                                        <Col  md={3} className="widthPhone">
+                                            <dl>
+                                                <dt>SIM: </dt>
+                                                <dd>{item.sim}</dd>
+                                                <dt>Cam Trước: </dt>
+                                                <dd>{item.camTruoc}</dd>
+                                                <dt>Cam Sau: </dt>
+                                                <dd>{item.camSau}</dd>
+                                                <dt>Hệ Điều Hành: </dt>
+                                                <dd>{item.heDieuHanh}</dd>
+                                            </dl>
+                                        </Col>
+                                        <Col  md={3} className="widthPhone">
+                                            <dl>
+                                                <dt>Description: </dt>
+                                                <dd>{item.description}</dd>
+                                                <dt>AverageRating: </dt>
+                                                <dd>{item.averageRating}</dd>
+                                                <dt>Brand: </dt>
+                                                <dd>{item.brand.name}</dd>
+                                                <dt>ProductType: </dt>
+                                                <dd>{item.productType.name}</dd>
+                                            </dl>
+                                        </Col>
+                                        <Col  md={3} className="widthPhone">
+                                            <dl>
+                                                <dt>Status: </dt>
+                                                <dd>{item.status?"Hoạt động":"Ngưng hoạt động"}</dd>
+                                                <dt>Function: </dt>
+                                                <dd>
+                                                    <Button variant="warning">
+                                                        <Link to={`/Phones/Edit/${item.id}`}><FontAwesomeIcon icon={faPenToSquare} style={{color:"black"}}/></Link>
+                                                    </Button>
+                                                    <Button variant="danger" onClick={() => handleShowDelete(item.id)}>
+                                                        <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                                                    </Button>
+                                                </dd>
+                                            </dl>
+                                        </Col>
                                     </div>
                                 </>
                             )
