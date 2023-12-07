@@ -1,9 +1,11 @@
-﻿using API_BanDienThoai.Models;
+﻿using API_BanDienThoai.Data;
+using API_BanDienThoai.Models;
 using EshopIdentity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,14 +21,102 @@ namespace EshopIdentity.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public UsersController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+		private readonly API_BanDienThoaiContext _context;
+
+
+		public UsersController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, API_BanDienThoaiContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
-        }
+			_context = context;
+		}
 
-        [HttpPost]
+		// GET: api/User
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<User>>> GetUser()
+		{
+			return await _context.User.ToListAsync();
+		}
+
+		// GET: api/User/5
+		[HttpGet("{id}")]
+		public async Task<ActionResult<User>> GetUser(string id)
+		{
+			var user = await _context.User.FindAsync(id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			return user;
+		}
+
+		// PUT: api/User/5
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPut("{id}")]
+		public async Task<IActionResult> PutUser(string id, User user)
+		{
+			if (id != user.Id)
+			{
+				return BadRequest();
+			}
+
+			_context.Entry(user).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!UserExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
+		}
+
+		private bool UserExists(string id)
+		{
+			return _context.User.Any(e => e.Id == id);
+		}
+
+		// POST: api/User
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost]
+		public async Task<ActionResult<User>> PostUser(User user)
+		{
+			_context.User.Add(user);
+			await _context.SaveChangesAsync();
+
+			return CreatedAtAction("GetUser", new { id = user.Id }, user);
+		}
+
+		// DELETE: api/User/5
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteUser(string id)
+		{
+			var user = await _context.User.FindAsync(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			_context.User.Remove(user);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+
+		[HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([Bind("Username,Password")] LoginModel account)
         {
@@ -67,7 +157,7 @@ namespace EshopIdentity.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(string Username, string Password, string Email)
+        public async Task<IActionResult> Register(string Username, string Password, string Email, string Phone, string Fullname,string Address)
         {
             var userExists = await _userManager.FindByNameAsync(Username);
             if (userExists != null)
@@ -76,6 +166,9 @@ namespace EshopIdentity.Controllers
             User user = new User()
             {
                 Email = Email,
+                Phone = Phone,
+                FullName = Fullname,
+                Address = Address,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = Username
             };
@@ -88,7 +181,7 @@ namespace EshopIdentity.Controllers
 
         [HttpPost]
         [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email)
+        public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email, string Phone, string Fullname, string Address)
         {
             var userExists = await _userManager.FindByNameAsync(Username);
             if (userExists != null)
@@ -97,6 +190,9 @@ namespace EshopIdentity.Controllers
             User user = new User()
             {
                 Email = Email,
+                Phone = Phone,
+                FullName = Fullname,
+                Address= Address,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = Username
             };

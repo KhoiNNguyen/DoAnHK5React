@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const ProductCreate = () => {
     const navigate = useNavigate();
@@ -22,13 +23,17 @@ const ProductCreate = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.post(`https://localhost:7126/api/Products`, product)
+        axiosClient.post(`/Products`, product)
            .then(() => navigate('/Products'))
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Phones`)
+        axiosClient.get(`/Phones`)
             .then(res => setPhone(res.data));
       }, []);
+
+    // date time
+    
+      
     return (
         <>
             <Form className="col-md-3">

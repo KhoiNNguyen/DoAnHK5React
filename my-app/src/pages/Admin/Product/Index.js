@@ -1,9 +1,9 @@
 import { faInfo, faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const Product = () => {
     const [product, setProduct] = useState([]);
@@ -32,23 +32,27 @@ const Product = () => {
         setShowDelete(true);
     }
     const handleDelete = (id) =>{
-        axios.delete(`https://localhost:7126/api/Products/${id}`)
+        axiosClient.delete(`/Products/${id}`)
         setShowDelete(false)
     }
+
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Products`)
+        axiosClient.get(`/Products`)
             .then(res => setProduct(res.data));
       }, [product]);
+
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Phones`)
+        axiosClient.get(`/Phones`)
             .then(res => setPhone(res.data));
     }, []);
+
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/ProductTypes`)
+        axiosClient.get(`/ProductTypes`)
             .then(res => setProductType(res.data));
     }, []);
+    
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Brands`)
+        axiosClient.get(`/Brands`)
             .then(res => setBrand(res.data));
     }, []);
     return ( 

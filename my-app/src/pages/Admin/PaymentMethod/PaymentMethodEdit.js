@@ -1,9 +1,9 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const PaymentMethodEdit = () => {
     const navigate = useNavigate();
@@ -22,11 +22,11 @@ const PaymentMethodEdit = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.put(`https://localhost:7126/api/PaymentMethods/${id}`,paymentMethod)
+        axiosClient.put(`/PaymentMethods/${id}`,paymentMethod)
         .then(() => navigate('/PaymentMethods'))
     }
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/PaymentMethods/${id}`)
+        axiosClient.get(`/PaymentMethods/${id}`)
             .then(res => setPaymentMethod(res.data))
     },[])
     return (  

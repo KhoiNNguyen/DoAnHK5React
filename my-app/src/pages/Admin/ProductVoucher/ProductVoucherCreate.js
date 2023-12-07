@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const ProductVoucherCreate = () => {
     const navigate = useNavigate();
@@ -18,15 +19,15 @@ const ProductVoucherCreate = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.post(`https://localhost:7126/api/ProductVouchers`,productVoucher)
+        axiosClient.post(`/ProductVouchers`,productVoucher)
         .then(() => navigate('/ProductVouchers'))
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Products`)
+        axiosClient.get(`/Products`)
             .then(res => setProduct(res.data));
       }, []);
       useEffect(() => {
-        axios.get(`https://localhost:7126/api/Vouchers`)
+        axiosClient.get(`/Vouchers`)
             .then(res => setVoucher(res.data));
       }, []);
     return (  

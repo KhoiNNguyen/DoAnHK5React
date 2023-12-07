@@ -1,9 +1,9 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const PhoneEdit = () => {
     const navigate = useNavigate();
@@ -24,19 +24,19 @@ const PhoneEdit = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.put(`https://localhost:7126/api/Phones/${id}`, phone)
+        axiosClient.put(`/Phones/${id}`, phone)
            .then(() => navigate('/Phones'))
     }
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/Phones/${id}`)
+        axiosClient.get(`/Phones/${id}`)
             .then(res => setPhone(res.data))
     },[])
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/Brands`)
+        axiosClient.get(`/Brands`)
             .then(res => setBrand(res.data))
     },[])
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/ProductTypes`)
+        axiosClient.get(`/ProductTypes`)
             .then(res => setProductType(res.data))
     },[])
     return (  

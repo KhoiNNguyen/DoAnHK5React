@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const PhoneCreate = () => {
     const navigate = useNavigate();
@@ -23,15 +24,15 @@ const PhoneCreate = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.post(`https://localhost:7126/api/Phones`, phone)
+        axiosClient.post(`/Phones`, phone)
            .then(() => navigate('/Phones'))
     }
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/Brands`)
+        axiosClient.get(`/Brands`)
             .then(res => setBrand(res.data))
     },[])
     useEffect(()=>{
-        axios.get(`https://localhost:7126/api/ProductTypes`)
+        axiosClient.get(`/ProductTypes`)
             .then(res => setProductType(res.data))
     },[])
     return (  

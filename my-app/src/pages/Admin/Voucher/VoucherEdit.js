@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const VoucherEdit = () => {
     const navigate = useNavigate();
@@ -22,11 +23,11 @@ const VoucherEdit = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.put(`https://localhost:7126/api/Vouchers/${id}`, voucher)
+        axiosClient.put(`/Vouchers/${id}`, voucher)
            .then(() => navigate('/Vouchers'))
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Vouchers/${id}`)
+        axiosClient.get(`/Vouchers/${id}`)
             .then(res => setVoucher(res.data));
       }, []);
     return (  

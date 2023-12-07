@@ -1,10 +1,10 @@
 import { faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./phone.css"
+import axiosClient from "../../../components/axiosClient/axiosClient";
 
 const Phone = () => {
     const [phone, setPhone] = useState([]);
@@ -17,11 +17,12 @@ const Phone = () => {
         setShowDelete(true);
     }
     useEffect(() => {
-        axios.get(`https://localhost:7126/api/Phones`)
+        axiosClient.get(`/Phones`)
         .then(res => setPhone(res.data));
     },[phone])
+    
     const handleDelete = (id) =>{
-        axios.delete(`https://localhost:7126/api/Phones/${id}`)
+        axiosClient.delete(`/Phones/${id}`)
         setShowDelete(false)
     }
     return ( 
