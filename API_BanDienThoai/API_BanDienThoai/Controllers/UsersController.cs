@@ -157,7 +157,7 @@ namespace EshopIdentity.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(string Username, string Password, string Email)
+        public async Task<IActionResult> Register(string Username, string Password, string Email, string Phone, string Fullname,string Address)
         {
             var userExists = await _userManager.FindByNameAsync(Username);
             if (userExists != null)
@@ -166,6 +166,9 @@ namespace EshopIdentity.Controllers
             User user = new User()
             {
                 Email = Email,
+                Phone = Phone,
+                FullName = Fullname,
+                Address = Address,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = Username
             };
@@ -178,7 +181,7 @@ namespace EshopIdentity.Controllers
 
         [HttpPost]
         [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email)
+        public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email, string Phone, string Fullname, string Address)
         {
             var userExists = await _userManager.FindByNameAsync(Username);
             if (userExists != null)
@@ -187,6 +190,9 @@ namespace EshopIdentity.Controllers
             User user = new User()
             {
                 Email = Email,
+                Phone = Phone,
+                FullName = Fullname,
+                Address= Address,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = Username
             };

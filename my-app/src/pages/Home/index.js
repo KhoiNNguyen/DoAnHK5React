@@ -42,7 +42,7 @@ const Home = ()=> {
                   <img src="logo192.png" alt=""/>
                   <h1> {item.phone.name} {item.color}</h1>
                   <Button style={{background:"white",color:"blue"}}>{item.rom}</Button>
-                  <h3>Giá: {item.price}$</h3>
+                  <h3>Giá: {item.price}VND</h3>
                 </Col>
               )
             })
