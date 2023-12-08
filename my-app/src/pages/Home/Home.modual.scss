@@ -1,10 +1,51 @@
+.titlePhoneHot a{
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    color: #444;
+    float: right;
+    font-size: 13px;
+    height: 34px;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+.titlePhoneHot a:not(:last-child){
+    margin-right: 10px;
+}
+
+.FlashSale{ 
+    margin-top: 35px;
+    background-color: #009981;
+    height: 427px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.headerFlashSale{
+    margin: 0 10px 10px 10px;
+}
+
+.timeFlashSale strong{
+    padding: 10px;
+    margin: 0 2px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #f3f4f6;
+}
+
+.bodyFlashSale{
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
 .col-brand{
     justify-content: flex-start;
 }
 
 #logo{
-   margin-left:9%;
-   margin-right: 10%;
+
    flex-wrap: wrap;
    width: 1200px;
 }
@@ -20,5 +61,22 @@
 }
 
 .logo-brand{
-    width:120px;
+    width:80px;
+}
+
+.bodyFlashSale .card{
+    height: 21rem;
+    border-radius:30px;
+}
+
+.contentPhoneHot .card{
+    width: 14.62rem;
+    margin-right: 8.1px;
+}
+
+.PhoneLike span{
+    color: #777;
+    font-size: 12px;
+    margin-right: 4px;
+    margin-top: 2px;
 }

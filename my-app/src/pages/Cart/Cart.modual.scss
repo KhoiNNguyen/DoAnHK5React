@@ -1,0 +1,69 @@
+.imageCart{
+    width: 20%;
+}
+
+.product-info{
+    width: 80%;
+}
+
+.contentCart{
+    background-color: #fff;
+    border: 1px solid rgba(145,158,171,.239);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.selectAll{
+    margin: 20px 0px;
+}
+
+.product-info{
+    margin-left: 8px;
+}
+
+.box-infoProduct{
+    margin-left: 30px;
+}
+
+.box-infoProduct p{
+    margin-left: 10px;
+}
+
+.ProductSelectPayment{
+    background-color: #fff;
+    border: 1px solid rgba(145,158,171,.239);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 0;
+    box-shadow: 0 -4px 20px -1px rgba(40,124,234,.15);
+    display: flex;
+    justify-content: space-between;
+    left: 50%;
+    margin: auto;
+    max-width: 600px;
+    padding: 10px 10px 15px;
+    position: fixed;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 11;
+}
+
+.sumProduct p{
+    margin-bottom: 0;
+}
+
+.clickBuyNow button{
+    background-color: #0d7b6b;
+    border: 0;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    padding: 5px 20px;
+}
+
+.BaoHanh{
+    border-top:1px solid rgb(213, 203, 203);
+    padding-top: 10px;
+}
