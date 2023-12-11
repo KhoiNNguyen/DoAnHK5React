@@ -18,10 +18,27 @@ import {
 } from "react-bootstrap";
 import Style from "./ProductDetail.modual.scss";
 import Card from "react-bootstrap/Card";
-import { faAddressCard, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation } from 'react-router-dom';
+import axiosClient from "../../components/axiosClient/axiosClient";
+
 
 const PhoneDetail = () => {
+
+  const [imgs,setImg]=useState([])
+  const [brands, setBrands] = useState({});
+
+  // Sử dụng giá trị location
+  const location = useLocation();
+
+  const nameBr="";
+
+  // Kiểm tra xem location.state có tồn tại không trước khi truy cập thuộc tính bên trong nó console.log(lacation)
+  const { id,name,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,idBr } = location.state;
+
+  console.log(location)
+
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -31,17 +48,30 @@ const PhoneDetail = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    axiosClient.get("/Images").then((res) => setImg(res.data));
+    axiosClient.get("/Brands").then((res) => setBrands(res.data));
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
+  useEffect(()=>{
+    brands.map(brand=>{
+      if(idBr===brand.id){
+        nameBr=brand.name
+        return nameBr;
+      }
+    })
+  },[])
+
+
   const [rating, setRating] = useState(0);
-  // Mảng chứa các icon đánh giá
-  // const stars = Array.from({ length: 5 }, (_, index) => index + 1);
-  // Hàm xử lý sự kiện khi người dùng nhấp vào một icon đánh giá
 
   const handleRatingClick = (selectedRating) => {
     setRating(selectedRating);
   };
+
   return (
     <div className="inner">
       <Breadcrumb className="mb-4" separator="›">
@@ -49,12 +79,15 @@ const PhoneDetail = () => {
           <Link to="/">Điện thoại</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Link to="/iphone">Điện thoại iPhone (Apple)</Link>
+          <Link to="/">{nameBr}</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <p>{name}</p>
         </Breadcrumb.Item>
       </Breadcrumb>
       <Container className="pl-0 ml-0">
         <h5 style={{ display: "inline-block", marginRight: 20 }}>
-          Điện thoại iPhone 12 128GB
+          {name}
         </h5>
         <a href="1" style={{ color: "#f59e0b", marginRight: 10 }}>
           <FaStar />
@@ -76,109 +109,26 @@ const PhoneDetail = () => {
           <Col xl={7}>
             {/* Slider điện thoại */}
             <Carousel
-              className="bg-light "
+              className="bg-light mt-4"
               data-bs-theme="dark"
               prevIcon={null}
               nextIcon={null}
+              
             >
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/1.jpg"
-                  alt="First1 slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/2.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/3.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/4.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/1.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/6.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/7.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/8.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/9.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/10.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/11.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/12.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/13.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="/images/detail/1/14.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
+              {imgs.map(img=>{
+                if(img.phoneId===id){
+                  return (
+                    <Carousel.Item>
+                      <img
+                        className="d-block w-100"
+                        src={`https://localhost:7126/images/product/${img.name}`}
+                        alt="First slide"
+                      />
+                    </Carousel.Item>
+                  )
+                }
+              })}
+              
             </Carousel>
 
             {/* Bảo hành */}
@@ -238,30 +188,30 @@ const PhoneDetail = () => {
                 <h5>Thông tin sản phẩm</h5>
                 <h5>
                   <strong>Apple</strong> đã trình diện đến người dùng mẫu{" "}
-                  <stong>điện thoại iPhone 12 128GB</stong> với sự tuyên bố về
+                  <stong>điện thoại {name}</stong> với sự tuyên bố về
                   một kỷ nguyên mới của iPhone 5G, nâng cấp về màn hình và hiệu
                   năng hứa hẹn đây sẽ là smartphone cao cấp đáng để mọi người
                   đầu tư sở hữu
                 </h5>
                 <h5>Hiệu năng vượt trội, thách thức mọi giới hạn</h5>
                 <p>
-                  Phone 12 được trang bị chipset A14 Bionic - bộ xử lý được
+                  Phone 12 được trang bị chipset {cpu} - bộ xử lý được
                   trang bị lần đầu trên iPad Air 4 vừa cho ra mắt cách đây không
                   lâu, mở đầu xu thế chip 5 nm thương mại trên toàn thế giới.
                 </p>
               </Row>
               <Row className="mt-5">
-                <h5>Đánh giá Điện Thoại iPhone 12 128GB</h5>
+                <h5>Đánh giá Điện Thoại {name}</h5>
                 <h5>
                   <strong>Apple</strong> đã trình diện đến người dùng mẫu{" "}
-                  <stong>điện thoại iPhone 12 128GB</stong> với sự tuyên bố về
+                  <stong>điện thoại {name}</stong> với sự tuyên bố về
                   một kỷ nguyên mới của iPhone 5G, nâng cấp về màn hình và hiệu
                   năng hứa hẹn đây sẽ là smartphone cao cấp đáng để mọi người
                   đầu tư sở hữu
                 </h5>
                 <h5>Hiệu năng vượt trội, thách thức mọi giới hạn</h5>
                 <p>
-                  Phone 12 được trang bị chipset A14 Bionic - bộ xử lý được
+                  {name} được trang bị chipset {cpu} - bộ xử lý được
                   trang bị lần đầu trên iPad Air 4 vừa cho ra mắt cách đây không
                   lâu, mở đầu xu thế chip 5 nm thương mại trên toàn thế giới.
                 </p>
@@ -476,44 +426,40 @@ const PhoneDetail = () => {
             </Container>
             <Container className=" bg-light ">
               <Row className="ml-4">
-                <h5>Cấu hình Điện Thoại iPhone 12 128GB</h5>
+                <h5>Cấu hình Điện Thoại {name}</h5>
                 <Table striped bordered>
                   <tbody>
                     <tr>
                       <td>Màn hình:</td>
-                      <td>OLED 6.1" Super Retina XDR</td>
+                      <td>{screen}</td>
                     </tr>
                     <tr>
                       <td>Hệ điều hành:</td>
-                      <td>iOS 15</td>
+                      <td>{heDieuHanh}</td>
                     </tr>
                     <tr>
                       <td>Camera sau:</td>
-                      <td>2 camera 12 MP</td>
+                      <td>{camSau}</td>
                     </tr>
                     <tr>
                       <td>Camera trước:</td>
-                      <td>12 MP</td>
+                      <td>{camTruoc}</td>
                     </tr>
                     <tr>
                       <td>Chip:</td>
-                      <td>Apple A14 Bionic</td>
-                    </tr>
-                    <tr>
-                      <td>RAM:</td>
-                      <td>4 GB</td>
+                      <td>{cpu}</td>
                     </tr>
                     <tr>
                       <td>Dung lượng lưu trữ:</td>
-                      <td>128 GB</td>
+                      <td>{rom}</td>
                     </tr>
                     <tr>
                       <td>SIM:</td>
-                      <td>1 Nano SIM & 1 eSIM Hỗ trợ 5G</td>
+                      <td>{sim}</td>
                     </tr>
                     <tr>
                       <td>Pin, Sạc:</td>
-                      <td>2815 mAh, 20 W</td>
+                      <td>{pin}, 20 W</td>
                     </tr>
                   </tbody>
                 </Table>

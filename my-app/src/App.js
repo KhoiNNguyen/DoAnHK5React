@@ -43,10 +43,12 @@ import Xiaomi from "./pages/Product/Xiaomi"
 import Oppo from "./pages/Product/Oppo"
 import Vivo from "./pages/Product/Vivo"
 import SoSanh from "./pages/SoSanh"
+import { ShoppingContextProvider } from "./components/Context/ShoppingContext"
 
 
 const App = () =>{
     return(
+        <ShoppingContextProvider>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
@@ -54,11 +56,11 @@ const App = () =>{
                     <Route path="/phoneDetail" element={<PhoneDetail />}/>
                     <Route path="/phoneDetail/SoSanh" element={<SoSanh />}/>
                     <Route path="/PhoneFavorite" element={<PhoneFavorite />}/>
-                    <Route path="/apple" element={<Apple />} />
-                    <Route path="/samsung" element={<SamSung />} />
-                    <Route path="/xiaomi" element={<Xiaomi />} />
-                    <Route path="/oppo" element={<Oppo />} />
-                    <Route path="/vivo" element={<Vivo />} />
+                    <Route path="/Apple" element={<Apple />} />
+                    <Route path="/Samsung" element={<SamSung />} />
+                    <Route path="/Xiaomi" element={<Xiaomi />} />
+                    <Route path="/OPPO" element={<Oppo />} />
+                    <Route path="/Vivo" element={<Vivo />} />
                     
                 </Route>
                 <Route path="/" element={<LayoutHeader />}>
@@ -100,6 +102,7 @@ const App = () =>{
                 <Route path="/invoices/edit/:id" element={<InvoiceEdit/>}/>
             </Routes>
         </BrowserRouter>
+        </ShoppingContextProvider>
     )
 }
 export default App

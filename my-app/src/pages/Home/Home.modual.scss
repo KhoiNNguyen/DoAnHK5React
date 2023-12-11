@@ -57,7 +57,14 @@
     margin-left: 10px;
     border-radius: 15px;
     padding: 5px 10px;
-    border: 1px solid #333;
+    
+}
+
+.border-logo-brand img{
+    border: 1px solid gray;
+    border-radius: 10px;
+    height: 3rem;
+    width:6rem;
 }
 
 .logo-brand{
