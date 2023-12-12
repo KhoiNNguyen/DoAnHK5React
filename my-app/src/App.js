@@ -44,7 +44,6 @@ import Oppo from "./pages/Product/Oppo"
 import Vivo from "./pages/Product/Vivo"
 import SoSanh from "./pages/SoSanh"
 import { ShoppingContextProvider } from "./components/Context/ShoppingContext"
-import Apple_test from "./pages/Product/apple_test"
 
 const App = () =>{
     return(
@@ -61,7 +60,6 @@ const App = () =>{
                     <Route path="/Xiaomi" element={<Xiaomi />} />
                     <Route path="/OPPO" element={<Oppo />} />
                     <Route path="/Vivo" element={<Vivo />} />
-                    <Route path="/AppleTest" element={<Apple_test />} />
                     
                 </Route>
                 <Route path="/" element={<LayoutHeader />}>
