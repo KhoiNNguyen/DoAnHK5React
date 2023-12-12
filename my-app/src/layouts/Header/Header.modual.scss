@@ -18,6 +18,9 @@
     margin-right: 10%;
     margin-top: 15px;
 }
+.inner-flex{
+    display: flex;
+}
 
 .top-navigation{
     height:29.6px;
@@ -31,9 +34,11 @@
 }
 
 .logo{
-    display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    z-index: 5;
 }
 
 .menu-header{
@@ -272,4 +277,19 @@ input{
 
 .controls-sex{
     display: flex;
+}
+.result-list{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 8px #ddd;
+    border-radius: 10px;
+    margin-top: 1rem;
+    max-height: 300px;
+    padding-left: 5px;
+    overflow-y: scroll;
+}
+.result-list h5{
+    margin-left: 10px;
 }

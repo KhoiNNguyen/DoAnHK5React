@@ -27,7 +27,7 @@ import axiosClient from "../../components/axiosClient/axiosClient";
 const PhoneDetail = () => {
 
   const [imgs,setImg]=useState([])
-  const [brands, setBrands] = useState({});
+  const [brands, setBrands] = useState([]);
 
   // Sử dụng giá trị location
   const location = useLocation();
