@@ -9,6 +9,7 @@ import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { GiShoppingCart } from "react-icons/gi";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 
 function Xiaomi() {
@@ -18,6 +19,19 @@ function Xiaomi() {
 
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+
+  const sortUpToDown = () =>{
+    let xiaomi = productXiaomis.filter(item => {
+        return item.phone.brandId === 4;
+    })
+    setProductXiaomis(xiaomi.sort((a,b) => a.price > b.price ? -1 : 1))
+  }
+  const sortDownToUp = () =>{
+    let xiaomi = productXiaomis.filter(item => {
+        return item.phone.brandId === 4;
+    })
+    setProductXiaomis(xiaomi.sort((a,b) => a.price > b.price ? 1 : -1))
+  }
 
   const handleCardClick = (cardId, value) => {
     setSelectedCard(cardId);
@@ -44,16 +58,16 @@ function Xiaomi() {
         <h4>Sắp xếp theo</h4>
         <div className="d-flex">
           <div style={{ marginRight: 6 }}>
-            <button>
+            <Button onClick={sortUpToDown}>
               <FaSortAmountDown className="iconSapSep" />
               <span>giá cao-thấp</span>
-            </button>
+            </Button>
           </div>
           <div>
-            <button>
+            <Button onClick={sortDownToUp}> 
               <FaSortAmountDownAlt className="iconSapSep" />
               <span>giá thấp-cao</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

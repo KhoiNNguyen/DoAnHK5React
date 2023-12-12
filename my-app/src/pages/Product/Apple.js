@@ -9,6 +9,7 @@ import { GiShoppingCart } from "react-icons/gi";
 import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 
 function Apple() {
@@ -20,6 +21,18 @@ function Apple() {
 
   const{addCartItem,addFavotiteItem}=useShoppingContext();
 
+  const sortUpToDown = () =>{
+    let apple = productApples.filter(item => {
+        return item.phone.brandId === 1;
+    })
+    setProductApples(apple.sort((a,b) => a.price > b.price ? -1 : 1))
+  }
+  const sortDownToUp = () =>{
+    let apple = productApples.filter(item => {
+        return item.phone.brandId === 1;
+    })
+    setProductApples(apple.sort((a,b) => a.price > b.price ? 1 : -1))
+  }
   const handleCardClick = (cardId, value) => {
     // setSelectedCard(cardId);
     // setTym(!value);
@@ -30,7 +43,9 @@ function Apple() {
     axiosClient.get("/Products").then((res) => setProductApples(res.data));
 
   }, []);
-
+  //giá trị nhỏ hơn 0 thì a sẽ đứng trước b.
+  //giá trị lớn hơn 0 thì a sẽ đứng sau b.
+  //giá trị bằng 0 thì giữ nguyên thứ tự a, b.
   return (
     <div className="inner">
       <Breadcrumb className="mb-4" separator="›">
@@ -45,16 +60,16 @@ function Apple() {
         <h4>Sắp xếp theo</h4>
         <div className="d-flex">
           <div style={{ marginRight: 6 }}>
-            <button>
+            <Button onClick={sortUpToDown}>
               <FaSortAmountDown className="iconSapSep" />
               <span>giá cao-thấp</span>
-            </button>
+            </Button>
           </div>
           <div>
-            <button>
+            <Button onClick={sortDownToUp}> 
               <FaSortAmountDownAlt className="iconSapSep" />
               <span>giá thấp-cao</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

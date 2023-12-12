@@ -9,6 +9,7 @@ import { useShoppingContext } from "../../components/Context/ShoppingContext";
       import { Breadcrumb } from "antd";
       import { GiShoppingCart } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 function Samsung() {
   const [phones, SetPhones] = useState([]);
   const [productSamsungs, setProductSamsungs] = useState([]);
@@ -17,6 +18,19 @@ function Samsung() {
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
+  const sortUpToDown = () =>{
+    let samsung = productSamsungs.filter(item => {
+        return item.phone.brandId === 2;
+    })
+    setProductSamsungs(samsung.sort((a,b) => a.price > b.price ? -1 : 1))
+  }
+  const sortDownToUp = () =>{
+    let samsung = productSamsungs.filter(item => {
+        return item.phone.brandId === 2;
+    })
+    setProductSamsungs(samsung.sort((a,b) => a.price > b.price ? 1 : -1))
+  }
+  
   const handleCardClick = (cardId, value) => {
     setSelectedCard(cardId);
     setTym(!value);
@@ -42,16 +56,16 @@ function Samsung() {
         <h4>Sắp xếp theo</h4>
         <div className="d-flex">
           <div style={{ marginRight: 6 }}>
-            <button>
+            <Button onClick={sortUpToDown}>
               <FaSortAmountDown className="iconSapSep" />
               <span>giá cao-thấp</span>
-            </button>
+            </Button>
           </div>
           <div>
-            <button>
+            <Button onClick={sortDownToUp}>
               <FaSortAmountDownAlt className="iconSapSep" />
               <span>giá thấp-cao</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { GiShoppingCart } from "react-icons/gi";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 function Vivo() {
   const [phones, SetPhones] = useState([]);
@@ -17,6 +18,19 @@ function Vivo() {
 
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+
+  const sortUpToDown = () =>{
+    let vivo = productVivos.filter(item => {
+        return item.phone.brandId === 5;
+    })
+    setProductVivos(vivo.sort((a,b) => a.price > b.price ? -1 : 1))
+  }
+  const sortDownToUp = () =>{
+    let vivo = productVivos.filter(item => {
+        return item.phone.brandId === 5;
+    })
+    setProductVivos(vivo.sort((a,b) => a.price > b.price ? 1 : -1))
+  }
 
   const handleCardClick = (cardId, value) => {
     setSelectedCard(cardId);
@@ -43,16 +57,16 @@ function Vivo() {
         <h4>Sắp xếp theo</h4>
         <div className="d-flex">
           <div style={{ marginRight: 6 }}>
-            <button>
+            <Button onClick={sortUpToDown}>
               <FaSortAmountDown className="iconSapSep" />
               <span>giá cao-thấp</span>
-            </button>
+            </Button>
           </div>
           <div>
-            <button>
+            <Button onClick={sortDownToUp}> 
               <FaSortAmountDownAlt className="iconSapSep" />
               <span>giá thấp-cao</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

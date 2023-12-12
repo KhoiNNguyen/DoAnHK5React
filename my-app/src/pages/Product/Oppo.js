@@ -9,6 +9,7 @@ import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { GiShoppingCart } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { Breadcrumb } from "antd";
+import { Button } from "react-bootstrap";
 
 function Apple() {
   const [phones, SetPhones] = useState([]);
@@ -19,6 +20,18 @@ function Apple() {
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
+  const sortUpToDown = () =>{
+    let oppo = productOppos.filter(item => {
+        return item.phone.brandId === 3;
+    })
+    setProductOppos(oppo.sort((a,b) => a.price > b.price ? -1 : 1))
+  }
+  const sortDownToUp = () =>{
+    let oppo = productOppos.filter(item => {
+        return item.phone.brandId === 3;
+    })
+    setProductOppos(oppo.sort((a,b) => a.price > b.price ? 1 : -1))
+  }
   const handleCardClick = (cardId, value) => {
     setSelectedCard(cardId);
     setTym(!value);
@@ -44,16 +57,16 @@ function Apple() {
         <h4>Sắp xếp theo</h4>
         <div className="d-flex">
           <div style={{ marginRight: 6 }}>
-            <button>
+            <Button onClick={sortUpToDown}>
               <FaSortAmountDown className="iconSapSep" />
               <span>giá cao-thấp</span>
-            </button>
+            </Button>
           </div>
           <div>
-            <button>
+            <Button onClick={sortDownToUp}> 
               <FaSortAmountDownAlt className="iconSapSep" />
               <span>giá thấp-cao</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
