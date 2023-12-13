@@ -83,11 +83,11 @@ function Apple() {
                   alt="1"
                   variant="top"
                   style={{ height: "160px" }}
-                  src="/images/detail/1/11.jpg"
+                  src={`https://localhost:7126/images/product/${productOppo.phone.image}`}
                 />
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productOppo.phone.name}
+                    {productOppo.phone.name} {productOppo.color} {productOppo.rom}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"

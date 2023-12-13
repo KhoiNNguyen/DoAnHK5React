@@ -85,11 +85,11 @@ function Apple() {
                   alt="1"
                   variant="top"
                   style={{ height: "160px" }}
-                  src={`https://localhost:7126/images/brand/${productApple.image}`}
+                  src={`https://localhost:7126/images/product/${productApple.phone.image}`}
                 />
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productApple.phone.name}
+                    {productApple.phone.name} {productApple.color} {productApple.rom}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"

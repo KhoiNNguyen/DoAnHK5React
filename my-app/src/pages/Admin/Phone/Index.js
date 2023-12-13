@@ -34,6 +34,9 @@ const Phone = () => {
                             return(
                                 <>
                                     <div className="border pe-5" style={{height: "260px"}}>
+                                    <Col md={3} style={{width:"20%"}}>
+                                        <img src={`https://localhost:7126/images/product/${item.image}`} style={{width: "200px",height: "200px",marginTop:"20px"}}/>
+                                    </Col>
                                     <Col md={3} >
                                         <dl>
                                             <dt>Name: </dt>

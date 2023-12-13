@@ -83,11 +83,11 @@ function Vivo() {
                   alt="1"
                   variant="top"
                   style={{ height: "160px" }}
-                  src="/images/detail/1/11.jpg"
+                  src={`https://localhost:7126/images/product/${productVivo.phone.image}`}
                 />
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productVivo.phone.name}
+                    {productVivo.phone.name}  {productVivo.color} {productVivo.rom}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"
