@@ -73,8 +73,13 @@ function Apple() {
       <div className="d-flex justify-content-start flex-wrap">
         {productOppos.map((productOppo) => {
 
-          if(productOppo.phone.brandId===3)
+          if(productOppo.phone.brandId===3){
+              const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productOppo.phone
+              const {rom}=productOppo
+          
             return (
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId }} >
               <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
@@ -87,7 +92,7 @@ function Apple() {
                 />
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productOppo.phone.name} {productOppo.color} {productOppo.rom}
+                    {productOppo.phone.name}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"
@@ -110,8 +115,9 @@ function Apple() {
                   </div>
                 </Card.Body>
               </Card>
+              </Link>
             );
-          }
+          }}
         )}
       </div>
     </div>

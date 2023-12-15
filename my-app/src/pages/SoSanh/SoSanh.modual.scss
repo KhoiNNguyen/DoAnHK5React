@@ -4,3 +4,22 @@
     color: #222;
     margin: 20px 0px;
 }
+
+.icon-add{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    height: 60px;
+}
+
+.subicon-add{
+    width: 50px;
+    height:50px;
+}
+
+.btn-nextSoSanh{
+    &:hover{
+        background-color: #009981;
+        color:#fff;
+    }
+}

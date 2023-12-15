@@ -74,8 +74,12 @@ function Xiaomi() {
       <div className="d-flex justify-content-start flex-wrap">
         {productXiaomis.map((productXiaomi) => {
 
-          if(productXiaomi.phone.brandId===4)
+          if(productXiaomi.phone.brandId===4){
+            const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productXiaomi.phone
+              const {rom}=productXiaomi
             return (
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId }} >
               <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
@@ -88,13 +92,13 @@ function Xiaomi() {
                 />
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productXiaomi.phone.name} {productXiaomi.color} {productXiaomi.rom}
+                    {productXiaomi.phone.name}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"
                     style={{ height: "68px", fontSize: "1rem" }}
-                  > 
-                    <p>
+                  >
+                   <p>
                       {productXiaomi.price}
                     </p> 
                   </Card.Title>
@@ -111,8 +115,9 @@ function Xiaomi() {
                   </div>
                 </Card.Body>
               </Card>
+              </Link>
             );
-          }
+          }}
         )}
       </div>
     </div>

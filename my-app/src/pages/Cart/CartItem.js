@@ -10,7 +10,7 @@ function CartItem({item}) {
               <div className="imageCart d-flex">
                 <img
                   style={{ width: 100, height: 100 }}
-                  src={item.img}
+                  src={`https://localhost:7126/images/product/${item.image}`}
                   alt="1"
                 />
               </div>
@@ -20,7 +20,7 @@ function CartItem({item}) {
                     <p>{item.name}</p>
                   </div>
                   <div>
-                    <button onclick={()=>removeCartItem(item.id)}>
+                    <button onClick={()=>removeCartItem(item.id)}>
                       <CiTrash />
                     </button>
                   </div>

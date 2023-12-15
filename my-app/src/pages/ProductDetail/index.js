@@ -5,7 +5,7 @@ import { RiRefund2Line } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
 import { BsShieldCheck, BsBox } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
-import { PiShoppingCartThin } from "react-icons/pi"; 
+import { PiShoppingCartThin } from "react-icons/pi";
 import { CiHeart } from "react-icons/ci";
 import {
   Container,
@@ -16,31 +16,46 @@ import {
   Table,
   Form,
 } from "react-bootstrap";
-import Style from "./ProductDetail.modual.scss";
+import "./ProductDetail.modual.scss";
 import Card from "react-bootstrap/Card";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import axiosClient from "../../components/axiosClient/axiosClient";
-
+import { useShoppingContext } from "../../components/Context/ShoppingContext";
 
 const PhoneDetail = () => {
-
-  const [imgs,setImg]=useState([])
-  const [brands, setBrands] = useState([]);
+  const [imgs, setImg] = useState([]);
+  const [phones, setPhones] = useState([]);
+  const [brands, setBrands] = useState({});
 
   // Sử dụng giá trị location
   const location = useLocation();
-
-  const nameBr="";
-
   // Kiểm tra xem location.state có tồn tại không trước khi truy cập thuộc tính bên trong nó console.log(lacation)
-  const { id,name,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,idBr } = location.state;
+  const {
+    id,
+    name,
+    screen,
+    camSau,
+    camTruoc,
+    cpu,
+    rom,
+    heDieuHanh,
+    pin,
+    sim,
+    brandId,
+    price,
+    color,
+    item,
+  } = location.state;
 
-  console.log(location)
+  console.log(location.state);
 
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [nameBr, setNameBr] = useState("");
+
+  const { addCartItem } = useShoppingContext();
 
   const handleCardClick = (cardId, value) => {
     setSelectedCard(cardId);
@@ -49,22 +64,24 @@ const PhoneDetail = () => {
 
   useEffect(() => {
     axiosClient.get("/Images").then((res) => setImg(res.data));
-    axiosClient.get("/Brands").then((res) => setBrands(res.data));
+    axiosClient.get("/Products").then((res) => setPhones(res.data));
   }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
-  useEffect(()=>{
-    brands.map(brand=>{
-      if(idBr===brand.id){
-        nameBr=brand.name
-        return nameBr;
-      }
-    })
-  },[])
 
+  useEffect(() => {
+    axiosClient.get("/Brands").then((res) => {
+      setBrands(res.data);
+
+      // Logic để tìm và set giá trị cho nameBr dựa trên idBr
+      const foundBrand = res.data.find((brand) => brand.id === brandId);
+      if (foundBrand) {
+        setNameBr(foundBrand.name);
+      }
+    });
+  }, [brandId]);
 
   const [rating, setRating] = useState(0);
 
@@ -79,16 +96,14 @@ const PhoneDetail = () => {
           <Link to="/">Điện thoại</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Link to="/">{nameBr}</Link>
+          <Link to={`/${nameBr}`}>{nameBr}</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
           <p>{name}</p>
         </Breadcrumb.Item>
       </Breadcrumb>
       <Container className="pl-0 ml-0">
-        <h5 style={{ display: "inline-block", marginRight: 20 }}>
-          {name}
-        </h5>
+        <h5 style={{ display: "inline-block", marginRight: 20 }}>{name}</h5>
         <a href="1" style={{ color: "#f59e0b", marginRight: 10 }}>
           <FaStar />
           <FaStar />
@@ -97,12 +112,6 @@ const PhoneDetail = () => {
           <FaStar />
         </a>
         <span>171 đánh giá</span>
-        <Link to="/phoneDetail/SoSanh">
-        <button className="btn-sosanh">
-          <FontAwesomeIcon icon={faPlus} />
-          So sánh
-        </button>
-        </Link>
       </Container>
       <Container className="border-top">
         <Row>
@@ -113,10 +122,9 @@ const PhoneDetail = () => {
               data-bs-theme="dark"
               prevIcon={null}
               nextIcon={null}
-              
             >
-              {imgs.map(img=>{
-                if(img.phoneId===id){
+              {imgs.map((img) => {
+                if (img.phoneId === id) {
                   return (
                     <Carousel.Item>
                       <img
@@ -125,10 +133,9 @@ const PhoneDetail = () => {
                         alt="First slide"
                       />
                     </Carousel.Item>
-                  )
+                  );
                 }
               })}
-              
             </Carousel>
 
             {/* Bảo hành */}
@@ -177,43 +184,37 @@ const PhoneDetail = () => {
             </Container>
             {/* Ảnh thông tin điện thoại */}
             <Container className="bg-light ">
-              <Row>
-                <img
-                  alt="1"
-                  src="/images/detail/1/note.jpg"
-                  style={{ width: "100%" }}
-                />
-              </Row>
+              <Row></Row>
               <Row className="mt-5">
                 <h5>Thông tin sản phẩm</h5>
                 <h5>
-                  <strong>Apple</strong> đã trình diện đến người dùng mẫu{" "}
-                  <stong>điện thoại {name}</stong> với sự tuyên bố về
-                  một kỷ nguyên mới của iPhone 5G, nâng cấp về màn hình và hiệu
-                  năng hứa hẹn đây sẽ là smartphone cao cấp đáng để mọi người
-                  đầu tư sở hữu
+                  <strong>{nameBr}</strong> đã trình diện đến người dùng mẫu{" "}
+                  <stong>điện thoại {name}</stong> với sự tuyên bố về một kỷ
+                  nguyên mới của iPhone 5G, nâng cấp về màn hình và hiệu năng
+                  hứa hẹn đây sẽ là smartphone cao cấp đáng để mọi người đầu tư
+                  sở hữu
                 </h5>
                 <h5>Hiệu năng vượt trội, thách thức mọi giới hạn</h5>
                 <p>
-                  Phone 12 được trang bị chipset {cpu} - bộ xử lý được
-                  trang bị lần đầu trên iPad Air 4 vừa cho ra mắt cách đây không
-                  lâu, mở đầu xu thế chip 5 nm thương mại trên toàn thế giới.
+                  {nameBr} được trang bị chipset {cpu} - bộ xử lý được trang bị
+                  lần đầu trên iPad Air 4 vừa cho ra mắt cách đây không lâu, mở
+                  đầu xu thế chip 5 nm thương mại trên toàn thế giới.
                 </p>
               </Row>
               <Row className="mt-5">
                 <h5>Đánh giá Điện Thoại {name}</h5>
                 <h5>
-                  <strong>Apple</strong> đã trình diện đến người dùng mẫu{" "}
-                  <stong>điện thoại {name}</stong> với sự tuyên bố về
-                  một kỷ nguyên mới của iPhone 5G, nâng cấp về màn hình và hiệu
-                  năng hứa hẹn đây sẽ là smartphone cao cấp đáng để mọi người
-                  đầu tư sở hữu
+                  <strong>{nameBr}</strong> đã trình diện đến người dùng mẫu{" "}
+                  <stong>điện thoại {name}</stong> với sự tuyên bố về một kỷ
+                  nguyên mới của iPhone 5G, nâng cấp về màn hình và hiệu năng
+                  hứa hẹn đây sẽ là smartphone cao cấp đáng để mọi người đầu tư
+                  sở hữu
                 </h5>
                 <h5>Hiệu năng vượt trội, thách thức mọi giới hạn</h5>
                 <p>
-                  {name} được trang bị chipset {cpu} - bộ xử lý được
-                  trang bị lần đầu trên iPad Air 4 vừa cho ra mắt cách đây không
-                  lâu, mở đầu xu thế chip 5 nm thương mại trên toàn thế giới.
+                  {name} được trang bị chipset {cpu} - bộ xử lý được trang bị
+                  lần đầu trên iPad Air 4 vừa cho ra mắt cách đây không lâu, mở
+                  đầu xu thế chip 5 nm thương mại trên toàn thế giới.
                 </p>
               </Row>
             </Container>
@@ -224,36 +225,18 @@ const PhoneDetail = () => {
                 <Col className="mt-2">
                   <div className="box-linked" data-v-da80e888="">
                     <div className="list-linked" data-v-da80e888="">
-                      <a
-                        href="https://cellphones.com.vn/iphone-15-512gb.html"
-                        className="item-linked button__link linked-undefined false"
-                        data-v-da80e888=""
-                      >
-                        <div data-v-da80e888="">
-                          <strong>512GB</strong>
-                        </div>{" "}
-                        <span data-v-da80e888="">28.490.000 đ</span>
-                      </a>
-                      <a
-                        href="https://cellphones.com.vn/iphone-15-256gb.html"
-                        className="item-linked button__link linked-undefined false"
-                        data-v-da80e888=""
-                      >
-                        <div data-v-da80e888="">
-                          <strong>256GB</strong>
-                        </div>{" "}
-                        <span data-v-da80e888="">24.790.000 đ</span>
-                      </a>
-                      <a
-                        href="https://cellphones.com.vn/iphone-15.html"
-                        className="item-linked button__link linked-undefined active"
-                        data-v-da80e888=""
-                      >
-                        <div data-v-da80e888="">
-                          <strong>128GB</strong>
-                        </div>{" "}
-                        <span data-v-da80e888="">21.990.000 đ</span>
-                      </a>
+                      {phones.map((phone) => {
+                        if (phone.phoneId === id&&phone.color===color) {
+                          console.log(phone);
+                          return (
+                            <>
+                              <button className="btn-sosanh">
+                                <span>{phone.rom}</span>
+                              </button>
+                            </>
+                          );
+                        }
+                      })}
                     </div>
                   </div>
                 </Col>
@@ -262,99 +245,21 @@ const PhoneDetail = () => {
                 <Col>
                   <div className="box-content">
                     <ul className="list-variants">
-                      <li className="item-variant false disable">
-                        <a
-                          href="1"
-                          data-index="0"
-                          name="0"
-                          title="Xanh"
-                          className="button__change-color is-flex is-align-items-center disabled"
-                        >
-                          <img
-                            src="https://cdn2.cellphones.com.vn/insecure/rs:fill:50:50/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/m/sm-s908_galaxys22ultra_front_green_211119_1_1.jpg"
-                            width="50"
-                            height="50"
-                            alt="Samsung Galaxy S22 Ultra (12GB - 256GB)-Xanh"
-                            loading="lazy"
-                          />
-                          <div className="is-flex is-flex-direction-column">
-                            <strong className="item-variant-name">Xanh</strong>{" "}
-                            <span>17.190.000₫</span>
-                          </div>
-                        </a>
-                      </li>
-                      <li
-                        className="item-variant active
-  false"
-                      >
-                        <a
-                          href="1"
-                          data-index="1"
-                          name="1"
-                          title="Đen"
-                          className="button__change-color is-flex is-align-items-center"
-                        >
-                          <img
-                            src="https://cdn2.cellphones.com.vn/insecure/rs:fill:50:50/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/m/sm-s908_galaxys22ultra_front_phantomblack_211119_3.jpg"
-                            width="50"
-                            height="50"
-                            alt="Samsung Galaxy S22 Ultra (12GB - 256GB)-Đen"
-                            loading="lazy"
-                          />{" "}
-                          <div className="is-flex is-flex-direction-column">
-                            <strong className="item-variant-name">Đen</strong>{" "}
-                            <span>17.190.000₫</span>
-                          </div>
-                        </a>
-                      </li>
-                      <li
-                        className="item-variant false
-  false"
-                      >
-                        <a
-                          href="1"
-                          data-index="2"
-                          name="2"
-                          title="Đỏ"
-                          className="button__change-color is-flex is-align-items-center"
-                        >
-                          <img
-                            src="https://cdn2.cellphones.com.vn/insecure/rs:fill:50:50/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/m/sm-s908_galaxys22ultra_front_burgundy_211119_5.jpg"
-                            width="50"
-                            height="50"
-                            alt="Samsung Galaxy S22 Ultra (12GB - 256GB)-Đỏ"
-                            loading="lazy"
-                          />{" "}
-                          <div className="is-flex is-flex-direction-column">
-                            <strong className="item-variant-name">Đỏ</strong>{" "}
-                            <span>17.190.000₫</span>
-                          </div>
-                        </a>
-                      </li>
-                      <li
-                        className="item-variant false
-  disable"
-                      >
-                        <a
-                          href="1"
-                          data-index="3"
-                          name="3"
-                          title="Trắng"
-                          className="button__change-color is-flex is-align-items-center disabled"
-                        >
-                          <img
-                            src="https://cdn2.cellphones.com.vn/insecure/rs:fill:50:50/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/m/sm-s908_galaxys22ultra_front_phantomwhite_211119_1_2.jpg"
-                            width="50"
-                            height="50"
-                            alt="Samsung Galaxy S22 Ultra (12GB - 256GB)-Trắng"
-                            loading="lazy"
-                          />{" "}
-                          <div className="is-flex is-flex-direction-column">
-                            <strong className="item-variant-name">Trắng</strong>{" "}
-                            <span>17.190.000₫</span>
-                          </div>
-                        </a>
-                      </li>
+                      {phones.map((phone) => {
+                        if (phone.phoneId===id&&phone.rom===rom) {
+                          return (
+                            <>
+                              <li className="item-variant false disable">
+                                  <div className="is-flex is-flex-direction-column">
+                                    <strong className="item-variant-name">
+                                      {phone.color}
+                                    </strong>{" "}
+                                  </div>
+                              </li>
+                            </>
+                          );
+                        }
+                      })}
                     </ul>
                   </div>
                 </Col>
@@ -363,7 +268,7 @@ const PhoneDetail = () => {
                 <Col xl={12} md={12} sm={12}>
                   <h5>Giá</h5>
                   <p className="h4 detail-price text-danger font-weight-bold">
-                    10.490.000đ
+                    {price}
                   </p>
                 </Col>
                 <Col xl={12} md={12} sm={12}>
@@ -399,12 +304,16 @@ const PhoneDetail = () => {
                     </div>
                     <div className="w-100">
                       <div className="d-flex">
-                      <Button variant="danger" className="w-100">
-                        MUA NGAY GIÁ RẺ QUÁ{" "}
-                      </Button>
-                      <button className="btn-cart"><PiShoppingCartThin className="iconCartAdd" /></button>
+                        <Button variant="danger" className="w-100 ml-4">
+                          MUA NGAY GIÁ RẺ QUÁ{" "}
+                        </Button>
+                        <button
+                          className="btn-cart"
+                          onClick={() => addCartItem(item)}
+                        >
+                          <PiShoppingCartThin className="iconCartAdd" />
+                        </button>
                       </div>
-
                       <Button
                         variant="primary"
                         style={{ width: "48%", margin: "1%" }}

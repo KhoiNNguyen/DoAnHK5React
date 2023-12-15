@@ -1,14 +1,17 @@
 import { FaCheck } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
-import style from"./SoSanh.modual.scss"
+import "./SoSanh.modual.scss"
 
 function SoSanh() {
+  const location=useLocation();
+  const{item1,item2}=location.state
   return (
     <div className="inner">
       <div class="row">
         <div class="col-sm border">Hinh anh minh hoa</div>
-        <div class="col-sm border"><img style={{width:160}} src="https://img.tgdd.vn/imgt/f_webp,fit_outside,quality_100/https://cdn.tgdd.vn/Products/Images/42/251192/iphone-14-pro-max-tim-thumb-600x600.jpg" alt=""/></div>
-        <div class="col-sm border"><img style={{width:160}} src="https://img.tgdd.vn/imgt/f_webp,fit_outside,quality_100/https://cdn.tgdd.vn/Products/Images/42/251192/iphone-14-pro-max-tim-thumb-600x600.jpg" alt="" /></div>
+        <div class="col-sm border"><img style={{width:160}} src={`https://localhost:7126/images/product/${item1.image}`} alt=""/></div>
+        <div class="col-sm border"><img style={{width:160}} src={`https://localhost:7126/images/product/${item2.image}`} alt="" /></div>
       </div>
       <div class="row">
         <div className="titleSoSanh">
@@ -37,8 +40,8 @@ function SoSanh() {
        <strong>Camera Sau</strong>
         </div>
         <div class="col-sm border">Độ phân giải</div>
-        <div class="col-sm border">Chính 48 MP & Phụ 12 MP, 12 MP</div>
-        <div class="col-sm border">Chính 48 MP & Phụ 12 MP</div>
+        <div class="col-sm border">{item1.camSau}</div>
+        <div class="col-sm border">{item2.camSau}</div>
       </div>
       <div class="row">
         <div class="col-sm border">Quay phim</div>
@@ -121,8 +124,8 @@ function SoSanh() {
       </div>
       <div class="row">
         <div class="col-sm border">Dung lượng lưu trữ</div>
-        <div class="col-sm border">128 GB</div>
-        <div class="col-sm border">128 GB</div>
+        <div class="col-sm border">{item1.rom}</div>
+        <div class="col-sm border">{item2.rom}</div>
       </div>
       <div class="row">
         <div class="col-sm border">Dung lượng còn lại (khả dụng) khoảng</div>

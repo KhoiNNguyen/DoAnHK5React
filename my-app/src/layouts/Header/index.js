@@ -213,20 +213,35 @@ function Header() {
                 </div>
                 </Modal.Body>
             </Modal>
-            <div className={cx('inner inner-flex')}>
-                <div className={cx("Brand")}>
-                        <Link to="/"><img src="/Images/logo/logo.png" style={{width:"260px",height:"60px"}} alt="One People" /></Link>
-                </div>
+             <div className={cx('inner')}>
                 <div className={cx("logo")} >  
-                    <Form className="d-flex mt-3">
-                        <Form.Group className="w-100">
-                            <FormControl type="text" name="search" placeholder="Tìm kiếm" onChange={handleChange}></FormControl>
-                        </Form.Group>
-                        <Button type="submit">
-                            <FontAwesomeIcon icon={faSearch} onClick={handleSubmit}/>
-                        </Button>
-                    </Form>
-                    <div className="result-list">
+                    <div className={cx("Brand")}>
+                        <Link to="/"><img src="/Images/logo/logo.png" style={{width:"260px",height:"60px"}} alt="One People" /></Link>
+                    </div>
+                    <div className={cx("search")}>
+                        <form method="get" action="/tim-kiem" onsubmit="return submitSearch(this);" enctype="application/x-www-form-urlencoded">
+                            <div className={cx("border")}>
+                                <input type="text" id="search" value={searchValue} name="search"  placeholder="Tìm kiếm" onChange={handleChange}/>
+                                <button type="submit" onClick={handleSubmit} className={cx("search-btn")}><FontAwesomeIcon icon={faSearch} /></button>
+                            </div>
+                        </form>
+                       
+                    </div>
+                <div className={cx("order-tools")}>
+                    <div className={cx("item check-order")}>
+                        <a className={cx("btnCheckOrder")}>
+                            <span className={cx("icon")}><FontAwesomeIcon icon={faTruckMoving} /></span>
+                            <span className={cx("text")}>Kiểm tra đơn hàng</span>
+                        </a>
+                    </div>
+                    <div className={cx("item cart")}>
+                        <Link to="/cart">
+                            <i className={cx("icon-cart")}><FontAwesomeIcon icon={faCartShopping} /></i>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            <div className="result-list inner">
                     {
                         keyWord.map(itemPhone => {
                             const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,idBr}=itemPhone
@@ -245,20 +260,6 @@ function Header() {
                         })
                     }
                     </div>
-                </div>
-                <div className={cx("order-tools")}>
-                    <div className={cx("item check-order")}>
-                        <a className={cx("btnCheckOrder")}>
-                            <span className={cx("icon")}><FontAwesomeIcon icon={faTruckMoving} /></span>
-                            <span className={cx("text")}>Kiểm tra đơn hàng</span>
-                        </a>
-                    </div>
-                    <div className={cx("item cart")}>
-                        <Link to="/cart">
-                            <i className={cx("icon-cart")}><FontAwesomeIcon icon={faCartShopping} /></i>
-                        </Link>
-                    </div>
-                </div>
             </div>
         </div>
     </header>

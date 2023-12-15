@@ -1,6 +1,12 @@
 import { IoIosArrowDown } from "react-icons/io";
+import { useLocation } from 'react-router-dom';
+
+
 
 function ThanhToan() {
+  const location =useLocation();
+  const {totalPrice}=location.state;
+  console.log(location)
     return ( <div className="inner">
         <div className="w-50 m-auto">
         <div className="navPayment d-flex justify-content-center">
@@ -32,12 +38,8 @@ function ThanhToan() {
                         </div>
                         <div className="infoProductPayMent">
                           <div className="info-paymentProduct">
-                            <p>So Luong San Pham</p>
-                            <p>01</p>
-                          </div>
-                          <div className="info-paymentProduct">
                             <p>Tien Hang</p>
-                            <p>012321312</p>
+                            <p>{totalPrice}</p>
                           </div>
                           <div className="info-paymentProduct">
                             <p>Phi Van Chuyen</p>
@@ -46,7 +48,7 @@ function ThanhToan() {
                         </div>
                         <div className="totalPayment">
                           <p>Tong Tien</p>
-                          <p>20.000.000đ</p>
+                          <p>{totalPrice}</p>
                         </div>
                       </div>
                     </div>
@@ -108,7 +110,7 @@ function ThanhToan() {
             <div className="ProductSelectPayment1">
           <div className="sumProduct d-flex justify-content-between">
             <p>Tong Tien Tam Tinh:</p>
-            <p>0đ</p>
+            <p>{totalPrice}</p>
           </div>
           <div className="clickBuyNow1">
             <button>ThanhToan</button>

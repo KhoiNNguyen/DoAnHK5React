@@ -72,8 +72,13 @@ function Samsung() {
       <div className="d-flex justify-content-start flex-wrap">
         {productSamsungs.map((productSamsung) => {
 
-          if(productSamsung.phone.brandId===2)
+          if(productSamsung.phone.brandId===2){
+            const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productSamsung.phone
+              const {rom}=productSamsung
+          
             return (
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId }} >
               <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
@@ -86,7 +91,7 @@ function Samsung() {
                 />
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productSamsung.phone.name} {productSamsung.color} {productSamsung.rom}
+                    {productSamsung.phone.name}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"
@@ -109,8 +114,9 @@ function Samsung() {
                   </div>
                 </Card.Body>
               </Card>
+              </Link>
             );
-          }
+          }}
         )}
       </div>
     </div>

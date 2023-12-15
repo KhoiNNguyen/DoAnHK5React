@@ -73,8 +73,12 @@ function Vivo() {
       <div className="d-flex justify-content-start flex-wrap">
         {productVivos.map((productVivo) => {
 
-          if(productVivo.phone.brandId===5)
+          if(productVivo.phone.brandId===5){
+            const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productVivo.phone
+              const {rom}=productVivo
             return (
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId }} >
               <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
@@ -87,7 +91,7 @@ function Vivo() {
                 />
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productVivo.phone.name}  {productVivo.color} {productVivo.rom}
+                    {productVivo.phone.name}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"
@@ -110,8 +114,9 @@ function Vivo() {
                   </div>
                 </Card.Body>
               </Card>
+              </Link>
             );
-          }
+          }}
         )}
       </div>
     </div>

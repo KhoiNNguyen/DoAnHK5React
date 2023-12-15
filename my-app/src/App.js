@@ -44,6 +44,10 @@ import Oppo from "./pages/Product/Oppo"
 import Vivo from "./pages/Product/Vivo"
 import SoSanh from "./pages/SoSanh"
 import { ShoppingContextProvider } from "./components/Context/ShoppingContext"
+import Iphone1 from "./pages/SoSanh/Iphoness1"
+import Iphone2 from "./pages/SoSanh/Iphoness2"
+import ButtonSoSanh from "./pages/SoSanh/ButtonSoSanh"
+
 
 const App = () =>{
     return(
@@ -59,9 +63,9 @@ const App = () =>{
                     <Route path="/Samsung" element={<SamSung />} />
                     <Route path="/Xiaomi" element={<Xiaomi />} />
                     <Route path="/OPPO" element={<Oppo />} />
-                    <Route path="/Vivo" element={<Vivo />} />
-                    
+                    <Route path="/Vivo" element={<Vivo />} /> 
                 </Route>
+
                 <Route path="/" element={<LayoutHeader />}>
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/cart/payment" element={<Payment />} />
@@ -72,7 +76,12 @@ const App = () =>{
                     <Route path="/order/DaHuy" element={<DaHuy />} />
                     <Route path="/order/DaXacNhan" element={<DaXacNhan />} />
                     <Route path="/order/DaDat" element={<DaDat />} />
+                    <Route path="/SoSanh" element={<SoSanh />}/>
+                    <Route path="/ButtonSoSanh" element={<ButtonSoSanh />}/>
+                    <Route path="/Iphone1" element={<Iphone1 />} />
+                    <Route path="/Iphone2" element={<Iphone2 />} />
                 </Route>
+
                 <Route path="/Products" element={<Product />}/>
                 <Route path="/Products/Create" element={<ProductCreate />}/>
                 <Route path="/Products/Edit/:id" element={<ProductEdit />}/>

@@ -6,8 +6,14 @@ import Header from "../../layouts/Header";
 import styles from "./Payment.modual.scss";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
 
 function Payment() {
+
+  const location=useLocation();
+  const {totalPrice}=location.state;
+  console.log(location)
   return (
     <div>
       <div className="inner ">
@@ -31,48 +37,6 @@ function Payment() {
             </div>
             <div className="ThongTin">
               <div className="bodyInfo">
-                <div className="contentCart">
-                  <div className="d-flex">
-                    <div className="imageCart d-flex">
-                      <img
-                        style={{ width: 100, height: 100 }}
-                        src="https://cdn2.cellphones.com.vn/insecure/rs:fill:350:0/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/b/mbp-silver-select-202206_2.jpg"
-                        alt="1"
-                      />
-                    </div>
-                    <div className="product-info ">
-                      <div className="d-flex justify-content-between align-items-start  mr-4">
-                        <div>
-                          <p>Iphone 123promax</p>
-                        </div>
-                        <div></div>
-                      </div>
-                      <div class="d-flex justify-content-between align-items-end">
-                        <div class="block-box-price">
-                          <span class="title-price" style={{ display: "none" }}>
-                            :
-                          </span>{" "}
-                          <div class="box-info__box-price d-flex ">
-                            <p class="product__price--show">29.890.000đ</p>
-                          </div>
-                        </div>
-                        <div class="action d-flex">
-                          <p>So Luong:</p>
-                          <p
-                            style={{
-                              marginRight: 4,
-                              marginLeft: 4,
-                              color: "red",
-                            }}
-                          >
-                            {" "}
-                            1
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div className="body-contentUser">
                   <div className="infoUser">
                     <div className="header-infoUser">
@@ -191,10 +155,10 @@ function Payment() {
               <div className="ProductSelectPayment1">
                 <div className="sumProduct d-flex justify-content-between">
                   <p>Tong Tien Tam Tinh:</p>
-                  <p>0đ</p>
+                  <p>{totalPrice}</p>
                 </div>
                 <div className="clickBuyNow1">
-                  <Link to="/cart/ThanhToan"><button>Tiep Tuc</button></Link>
+                  <Link to="/cart/ThanhToan" state={{totalPrice}}><button>Tiep Tuc</button></Link>
                 </div>
               </div>
             </div>

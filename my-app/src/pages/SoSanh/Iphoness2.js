@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styles from "./Product.modual.scss";
 import Card from "react-bootstrap/Card";
 import { FaHeart, FaSortAmountDown } from "react-icons/fa";
 import { FaSortAmountDownAlt } from "react-icons/fa";
@@ -9,10 +8,9 @@ import { GiShoppingCart } from "react-icons/gi";
 import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
 
 
-function Apple() {
+function Iphone2() {
   const [phones, SetPhones] = useState([]);
   const [productApples, setProductApples] = useState([]);
 
@@ -21,79 +19,32 @@ function Apple() {
 
   const{addCartItem,addFavotiteItem}=useShoppingContext();
 
-  const sortUpToDown = () =>{
-    let apple = productApples.filter(item => {
-        return item.phone.brandId === 1;
-    })
-    setProductApples(apple.sort((a,b) => a.price > b.price ? -1 : 1))
-  }
-  const sortDownToUp = () =>{
-    let apple = productApples.filter(item => {
-        return item.phone.brandId === 1;
-    })
-    setProductApples(apple.sort((a,b) => a.price > b.price ? 1 : -1))
-  }
-  const handleCardClick = (cardId, value) => {
-    // setSelectedCard(cardId);
-    // setTym(!value);
-  };
-
   useEffect(() => {
     axiosClient.get("/Phones").then((res) => SetPhones(res.data));
     axiosClient.get("/Products").then((res) => setProductApples(res.data));
 
   }, []);
-  //giá trị nhỏ hơn 0 thì a sẽ đứng trước b.
-  //giá trị lớn hơn 0 thì a sẽ đứng sau b.
-  //giá trị bằng 0 thì giữ nguyên thứ tự a, b.
+
   return (
     <div className="inner">
-      <Breadcrumb className="mb-4" separator="›">
-        <Breadcrumb.Item>
-          <Link to="/">Điện thoại</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/Apple">Apple</Link>
-        </Breadcrumb.Item>
-      </Breadcrumb>
-      <div className="sapsep">
-        <h4>Sắp xếp theo</h4>
-        <div className="d-flex">
-          <div style={{ marginRight: 6 }}>
-            <Button onClick={sortUpToDown}>
-              <FaSortAmountDown className="iconSapSep" />
-              <span>giá cao-thấp</span>
-            </Button>
-          </div>
-          <div>
-            <Button onClick={sortDownToUp}> 
-              <FaSortAmountDownAlt className="iconSapSep" />
-              <span>giá thấp-cao</span>
-            </Button>
-          </div>
-        </div>
-      </div>
       <div className="d-flex justify-content-start flex-wrap">
         {productApples.map((productApple) => {
-          if(productApple.phone.brandId===1){
-                  const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
+                  const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId,image}=productApple.phone
                   const {rom}=productApple;
                   const item=productApple;
             return (
-               <Card
+            <Link  to='/ButtonSoSanh'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,item,image,key:'phone2' }} >
+              <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
               >
-                <Link  to='/phoneDetail'
-              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,item }} >
-             
                 <Card.Img
                   alt="1"
                   variant="top"
                   style={{ height: "160px" }}
                   src={`https://localhost:7126/images/product/${productApple.phone.image}`}
                 />
-                </Link> 
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
                     {productApple.phone.name}
@@ -106,7 +57,6 @@ function Apple() {
                       {productApple.price}
                     </p> 
                   </Card.Title>
-  
                   <div className="d-flex justify-content-end PhoneLike">
                     <span>Yêu Thích</span>
                     <button
@@ -120,13 +70,13 @@ function Apple() {
                   </div>
                 </Card.Body>
               </Card>
-       
+              </Link>
             );
-          }}
+          }
         )}
       </div>
     </div>
   );
 }
 
-export default Apple;
+export default Iphone2;

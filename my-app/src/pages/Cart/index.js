@@ -22,12 +22,12 @@ function Cart() {
           </div>
           <div style={{marginBottom:160}}>
               {cartItems.map(item=>{
-                const { id, img, price,qty } = item;
-                const {name}=item.phone
+                const { id, price,qty } = item;
+                const {name,image}=item.phone
                 return (
                 <div 
                 className="contentCart">
-                  <CartItem item={{ id,name, img, price,qty }} />    
+                  <CartItem item={{ id,name, image, price,qty }} />    
                 </div>)
               })}
           </div>
@@ -39,7 +39,7 @@ function Cart() {
           <p>{totalPrice}</p>
         </div>
         <div className="clickBuyNow">
-          <Link to="/cart/payment"><button>Mua Ngay</button></Link>
+          <Link to="/cart/payment" state={{totalPrice}}><button>Mua Ngay</button></Link>
         </div>
       </div>
     </div>
