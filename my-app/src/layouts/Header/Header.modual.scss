@@ -270,14 +270,6 @@ input{
     }
 }
 
-.result-list{
-    position: absolute;
-    z-index: 100;
-    width: 100%;
-    background-color: #fff;
-}
-
-.result-list a{
-    color: #333;
-    display: block;
+.controls-sex{
+    display: flex;
 }

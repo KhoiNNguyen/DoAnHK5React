@@ -68,14 +68,7 @@ export const ShoppingContextProvider = ({ children }) => {
             if (product) {
                 const currentCartItem = cartFavorites.find(item => item.id === product.id);
                 if (currentCartItem) {
-                    const newItems = cartFavorites.map(item => {
-                        if (item.id === product.id) {
-                            return { ...item };
-                        } else {
-                            return item;
-                        }
-                    });
-                    setcartFavorite(newItems);
+                   removeCartFavoriteItem(product.id)
                 } else {
                     const newItem = { ...product };
                     setcartFavorite([...cartFavorites, newItem]);
@@ -84,7 +77,7 @@ export const ShoppingContextProvider = ({ children }) => {
         }
 
     const addCartItem = (product) => {
-        console.log("product=> ", product);
+        console.log("product=> ", {...product});
         if (product) {
             const currentCartItem = cartItems.find(item => item.id === product.id);
             if (currentCartItem) {
@@ -109,6 +102,14 @@ export const ShoppingContextProvider = ({ children }) => {
         const newItems = [...cartItems];
         newItems.splice(currentCartItemIndex, 1);
         setCartItems(newItems);
+    };
+
+    const removeCartFavoriteItem = (id) => {
+        console.log("removeCartFavoriteItem => ", id);
+        const currentCartItemIndex = cartFavorites.findIndex(item => item.id === id);
+        const newItems = [...cartItems];
+        newItems.splice(currentCartItemIndex, 1);
+        setcartFavorite(newItems);
     };
 
     const clearCart = () => {

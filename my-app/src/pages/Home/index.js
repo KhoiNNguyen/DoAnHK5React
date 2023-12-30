@@ -4,23 +4,19 @@ import { CiHeart } from "react-icons/ci";
 
 import { IoFlashOutline } from "react-icons/io5";
 import SlideShow from "../../components/Slide";
-import style from "./Home.modual.scss";
+import "./Home.modual.scss";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import axiosClient from "../../components/axiosClient/axiosClient";
 import PhoneFavorite from "../PhoneFavorire";
+import { useShoppingContext } from "../../components/Context/ShoppingContext";
 
 
 function Home() {
   const [productApples, setProductApples] = useState([]);
+  const{addCartItem,addFavotiteItem}=useShoppingContext();
 
-  const [countApple,setCountApple]=useState(0);
-  const [countSamSung,setCountSamSung]=useState(0);
-  const [countOppo,setcountOppo]=useState(0);
-  const [countXiaomi,setcountXiaomi]=useState(0);
-
-  
   
   let isRenderApple=false;
   let isRenderOppo=false;
@@ -30,9 +26,10 @@ function Home() {
 
   const[appleProducts,setAppleProducts]=useState([])
   const[samsungProducts,setSamsungProducts]=useState([])
+  const[oppoProducts,setOppoProduct]=useState([])
+  const[xiaomiProducts,setXiaomiProduct]=useState([])
+  const[vivoProducts,setVivoProduct]=useState([])
   
-  const [tym, setTym] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
   const [brands, setBrand] = useState([]);
 
   useEffect(() => {
@@ -45,16 +42,17 @@ function Home() {
   if (productApples.length > 0) {
     const appleProducts = productApples.filter(product => product.phone.brandId === 1).slice(0, 5);
     setAppleProducts(appleProducts);
-
     const samsungProducts = productApples.filter(product => product.phone.brandId === 2).slice(0, 5);
     setSamsungProducts(samsungProducts);
+    const oppoProducts = productApples.filter(product => product.phone.brandId === 3).slice(0, 5);
+    setOppoProduct(oppoProducts);
+    const xiaomiProducts = productApples.filter(product => product.phone.brandId === 4).slice(0, 5);
+    setXiaomiProduct(xiaomiProducts);
+    const vivoProducts = productApples.filter(product => product.phone.brandId === 5).slice(0, 5);
+    setVivoProduct(vivoProducts);
   }
 }, [productApples]);
 
-  const handleCardClick = (cardId, value) => {
-    setSelectedCard(cardId);
-    setTym(!value);
-  };
   return (
     <>
       <SlideShow />
@@ -98,20 +96,21 @@ function Home() {
                   const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
                   const {rom,price,color}=productApple
                   return (  
-                    <Link  to='/phoneDetail'
-                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                     <Card
                     className="mt-3 p-3 col-3"
                     style={{ width: "13.9rem", marginRight: 10 }}
                   >
+                    <Link  to='/phoneDetail'
+                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                     <div className="h-100">
                     <Card.Img
                       alt="1"
                       variant="top"
                       style={{ height: "160px" }}
                       src={`https://localhost:7126/images/product/${productApple.phone.image}`}
-                    />
+                      />
                     </div>
+                      </Link>
                     <Card.Body>
                       <Card.Title style={{ fontSize: "1rem" }}>
                         {productApple.phone.name}
@@ -126,14 +125,13 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => handleCardClick(4, tym)}
+                          onClick={() => {addFavotiteItem(productApple)}}
                         >
-                          {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
+                          <CiHeart />
                         </button>
                       </div>
                     </Card.Body>
                     </Card>
-                    </Link>
                   );
                 }
                 else if (productApple.phone.brandId === 2&&!isRenderSamSung){
@@ -142,13 +140,13 @@ function Home() {
                   const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
                   const {rom,price,color}=productApple
                   return (
-                    <Link  to='/phoneDetail'
-                    state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
-              
+                    
                     <Card
                     className="mt-3 p-3 col-3"
                     style={{ width: "13.9rem", marginRight: 10 }}
-                  >
+                    >
+                    <Link  to='/phoneDetail'
+                    state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                     <div className="h-100">
                     <Card.Img
                       alt="1"
@@ -157,6 +155,7 @@ function Home() {
                       src={`https://localhost:7126/images/product/${productApple.phone.image}`}
                     />
                     </div>
+                    </Link>
                     <Card.Body
                     style={{padding:"8px 8px"}}
                     >
@@ -173,14 +172,13 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => handleCardClick(4, tym)}
+                          onClick={() => {addFavotiteItem(productApple)}}
                         >
-                          {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
+                          <CiHeart />
                         </button>
                       </div>
                     </Card.Body>
                     </Card>
-                    </Link>
                   );
                 }
                 else if (productApple.phone.brandId === 3&&!isRenderOppo){
@@ -189,19 +187,22 @@ function Home() {
                   const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
                   const {rom,price,color}=productApple
                   return (
-                    <Link  to='/phoneDetail'
-                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                     
                     <Card
                     className="mt-3 p-3 col-3"
                     style={{ width: "13.9rem", marginRight: 10 }}
                   >
+                    <Link  to='/phoneDetail'
+                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
+                    <div className="h-100">
                     <Card.Img
                       alt="1"
                       variant="top"
-                      style={{ height: "160px" }}
-                      src="/images/detail/1/11.jpg"
+                      style={{ height: "160px",width:"100%" }}
+                      src={`https://localhost:7126/images/product/${productApple.phone.image}`}
                     />
+                    </div>
+                      </Link>
                     <Card.Body>
                       <Card.Title style={{ fontSize: "1rem" }}>
                         {productApple.phone.name}
@@ -216,14 +217,13 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => handleCardClick(4, tym)}
+                          onClick={() => {addFavotiteItem(productApple)}}
                         >
-                          {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
+                          <CiHeart />
                         </button>
                       </div>
                     </Card.Body>
                   </Card>
-                  </Link>
                   );
                 }
                 else if (productApple.phone.brandId === 4&&!isRenderXiaomi){
@@ -232,19 +232,22 @@ function Home() {
                   const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
                   const {rom,price,color}=productApple
                   return (
-                    <Link  to='/phoneDetail'
-                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                     
                     <Card
                     className="mt-3 p-3 col-3"
                     style={{ width: "13.9rem", marginRight: 10 }}
                   >
+                    <Link  to='/phoneDetail'
+                    state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
+                    <div className="h-100">
                     <Card.Img
                       alt="1"
                       variant="top"
-                      style={{ height: "160px" }}
-                      src="/images/detail/1/11.jpg"
+                      style={{ height: "160px",width:"100%" }}
+                      src={`https://localhost:7126/images/product/${productApple.phone.image}`}
                     />
+                    </div>
+                      </Link>
                     <Card.Body>
                       <Card.Title style={{ fontSize: "1rem" }}>
                         {productApple.phone.name}
@@ -259,14 +262,13 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => handleCardClick(4, tym)}
+                          onClick={() => {addFavotiteItem(productApple)}}
                         >
-                          {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
+                          <CiHeart />
                         </button>
                       </div>
                     </Card.Body>
                   </Card>
-                  </Link>
                   );
                 }
                 else if (productApple.phone.brandId === 5&&!isRenderVivo){
@@ -275,19 +277,22 @@ function Home() {
                   const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
                   const {rom,price,color}=productApple
                   return (
-                    <Link  to='/phoneDetail'
-                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                     
                     <Card
                     className="mt-3 p-3 col-3"
                     style={{ width: "13.9rem", marginRight: 10 }}
                   >
+                    <Link  to='/phoneDetail'
+                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
+                   <div className="h-100">
                     <Card.Img
                       alt="1"
                       variant="top"
-                      style={{ height: "160px" }}
-                      src="/images/detail/1/11.jpg"
+                      style={{ height: "160px",width:"100%" }}
+                      src={`https://localhost:7126/images/product/${productApple.phone.image}`}
                     />
+                    </div>
+                      </Link>
                     <Card.Body>
                       <Card.Title style={{ fontSize: "1rem" }}>
                         {productApple.phone.name}
@@ -302,14 +307,13 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => handleCardClick(4, tym)}
+                          onClick={() => {addFavotiteItem(productApple)}}
                         >
-                          {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
+                          <CiHeart />
                         </button>
                       </div>
                     </Card.Body>
                   </Card>
-                  </Link>
                   );
                 }
                   
@@ -334,19 +338,20 @@ function Home() {
                const {rom,price,color}=appleProduct
              return(
              <> 
-               <Link  to='/phoneDetail'
-                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                     
              <Card
               className="mt-3 p-3 col-3"
               style={{ width: "14.2rem", marginRight: 14.5 }}
             >
+               <Link  to='/phoneDetail'
+                          state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
               <Card.Img
                 alt="1"
                 variant="top"
                 style={{ height: "160px" }}
                 src={`https://localhost:7126/images/product/${appleProduct.phone.image}`}
               />
+                </Link>
               <Card.Body>
                 <Card.Title style={{ fontSize: "1rem" }}>
                   {appleProduct.phone.name}
@@ -361,14 +366,13 @@ function Home() {
                   <span>Yêu Thích</span>
                   <button
                     className="heart"
-                    onClick={() => handleCardClick(4, tym)}
+                    onClick={() => {addFavotiteItem(appleProduct)}}
                   >
-                    {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
+                    <CiHeart />
                   </button>
                 </div>
               </Card.Body>
                     </Card>
-                    </Link>
             </>)
             })}
             {samsungProducts.map(samsungProduct=>{
@@ -376,18 +380,19 @@ function Home() {
                const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=samsungProduct.phone
                const {rom,price,color}=samsungProduct
              return (
-              <Link  to='/phoneDetail'
-              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
-        <Card
+               <Card
               className="mt-3 p-3 col-3"
               style={{ width: "14.2rem", marginRight: 14.5 }}
             >
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
               <Card.Img
                 alt="1"
                 variant="top"
                 style={{ height: "160px" }}
                 src={`https://localhost:7126/images/product/${samsungProduct.phone.image}`}
               />
+                </Link>
               <Card.Body>
                 <Card.Title style={{ fontSize: "1rem" }}>
                   {samsungProduct.phone.name}
@@ -402,14 +407,136 @@ function Home() {
                   <span>Yêu Thích</span>
                   <button
                     className="heart"
-                    onClick={() => handleCardClick(4, tym)}
+                    onClick={() => {addFavotiteItem(samsungProduct)}}
                   >
-                    {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
+                    <CiHeart />
                   </button>
                 </div>
               </Card.Body>
                     </Card>
-                    </Link>
+             )
+            })}
+             {oppoProducts.map(oppoProduct=>{
+               const item=oppoProduct;
+               const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=oppoProduct.phone
+               const {rom,price,color}=oppoProduct
+             return (
+               <Card
+              className="mt-3 p-3 col-3"
+              style={{ width: "14.2rem", marginRight: 14.5 }}
+            >
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
+              <Card.Img
+                alt="1"
+                variant="top"
+                style={{ height: "160px" }}
+                src={`https://localhost:7126/images/product/${oppoProduct.phone.image}`}
+              />
+                </Link>
+              <Card.Body>
+                <Card.Title style={{ fontSize: "1rem" }}>
+                  {oppoProduct.phone.name}
+                </Card.Title>
+                <Card.Title
+                  className="font-weight-bold"
+                  style={{ height: "68px", fontSize: "1rem" }}
+                >
+                  <p>{oppoProduct.price}</p>
+                </Card.Title>
+                <div className="d-flex justify-content-end PhoneLike">
+                  <span>Yêu Thích</span>
+                  <button
+                    className="heart"
+                    onClick={() => {addFavotiteItem(oppoProduct)}}
+                  >
+                    <CiHeart />
+                  </button>
+                </div>
+              </Card.Body>
+                    </Card>
+             )
+            })}
+            {xiaomiProducts.map(xiaomiProduct=>{
+               const item=xiaomiProduct;
+               const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=xiaomiProduct.phone
+               const {rom,price,color}=xiaomiProduct
+             return (
+               <Card
+              className="mt-3 p-3 col-3"
+              style={{ width: "14.2rem", marginRight: 14.5 }}
+            >
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
+              <Card.Img
+                alt="1"
+                variant="top"
+                style={{ height: "160px" }}
+                src={`https://localhost:7126/images/product/${xiaomiProduct.phone.image}`}
+              />
+                </Link>
+              <Card.Body>
+                <Card.Title style={{ fontSize: "1rem" }}>
+                  {xiaomiProduct.phone.name}
+                </Card.Title>
+                <Card.Title
+                  className="font-weight-bold"
+                  style={{ height: "68px", fontSize: "1rem" }}
+                >
+                  <p>{xiaomiProduct.price}</p>
+                </Card.Title>
+                <div className="d-flex justify-content-end PhoneLike">
+                  <span>Yêu Thích</span>
+                  <button
+                    className="heart"
+                    onClick={() => {addFavotiteItem(xiaomiProduct)}}
+                  >
+                    <CiHeart />
+                  </button>
+                </div>
+              </Card.Body>
+                    </Card>
+             )
+            })}
+            {vivoProducts.map(vivoProduct=>{
+               const item=vivoProduct;
+               const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=vivoProduct.phone
+               const {rom,price,color}=vivoProduct
+             return (
+               <Card
+              className="mt-3 p-3 col-3"
+              style={{ width: "14.2rem", marginRight: 14.5 }}
+            >
+              <Link  to='/phoneDetail'
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
+              <Card.Img
+                alt="1"
+                variant="top"
+                style={{ height: "160px" }}
+                src={`https://localhost:7126/images/product/${vivoProduct.phone.image}`}
+              />
+                </Link>
+              <Card.Body>
+                <Card.Title style={{ fontSize: "1rem" }}>
+                  {vivoProduct.phone.name}
+                </Card.Title>
+                <Card.Title
+                  className="font-weight-bold"
+                  style={{ height: "68px", fontSize: "1rem" }}
+                >
+                  <p>{vivoProduct.price}</p>
+                </Card.Title>
+                <div className="d-flex justify-content-end PhoneLike">
+                  <span>Yêu Thích</span>
+                  <button
+                    className="heart"
+                    onClick={() => {addFavotiteItem(vivoProduct)}}
+                  >
+                    <CiHeart />
+                  </button>
+                </div>
+              </Card.Body>
+                    </Card>
              )
             })}
           </div>

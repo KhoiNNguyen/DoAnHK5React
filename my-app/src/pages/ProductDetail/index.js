@@ -18,16 +18,12 @@ import {
 } from "react-bootstrap";
 import "./ProductDetail.modual.scss";
 import Card from "react-bootstrap/Card";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import axiosClient from "../../components/axiosClient/axiosClient";
 import { useShoppingContext } from "../../components/Context/ShoppingContext";
+import Comment from "../Comment/Comment";
 
 const PhoneDetail = () => {
-  const [imgs, setImg] = useState([]);
-  const [phones, setPhones] = useState([]);
-  const [brands, setBrands] = useState({});
 
   // Sử dụng giá trị location
   const location = useLocation();
@@ -49,23 +45,50 @@ const PhoneDetail = () => {
     item,
   } = location.state;
 
-  console.log(location.state);
-
+  const [imgs, setImg] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [brands, setBrands] = useState({});
+  const [prices,setPrices]=useState(price);
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [nameBr, setNameBr] = useState("");
+  const [phones,setPhones] =useState([]);
+  const [selectedColor, setSelectedColor] = useState(color); // State để lưu màu được chọn
+  const [selectedRom, setSelectedRom] = useState(rom); // State để lưu Rom được chọn
 
+  const handleColorChange = (id,color) => {
+    setSelectedColor(color); // Cập nhật màu được chọn
+  };
+  const handleRomChange = (id,rom) => {
+    setSelectedRom(rom); // Cập nhật màu được chọn
+  };
+  
   const { addCartItem } = useShoppingContext();
 
   const handleCardClick = (cardId, value) => {
     setSelectedCard(cardId);
     setTym(!value);
   };
-
+  
   useEffect(() => {
     axiosClient.get("/Images").then((res) => setImg(res.data));
-    axiosClient.get("/Products").then((res) => setPhones(res.data));
+    axiosClient.get("/Products").then((res) => setProducts(res.data));
+    axiosClient.get("/Phones").then((res) => setPhones(res.data));
   }, []);
+  
+  useEffect(()=>{
+    products.map(product=>{
+      if(product.phoneId===id&&product.color===selectedColor&&product.rom===selectedRom)
+      setPrices(product.price);
+    })
+  },[selectedColor])
+
+  useEffect(()=>{
+    products.map(product=>{
+      if(product.phoneId===id&&product.rom===selectedRom&&product.color===selectedColor)
+      setPrices(product.price);
+    })
+  },[selectedRom])
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -74,7 +97,6 @@ const PhoneDetail = () => {
   useEffect(() => {
     axiosClient.get("/Brands").then((res) => {
       setBrands(res.data);
-
       // Logic để tìm và set giá trị cho nameBr dựa trên idBr
       const foundBrand = res.data.find((brand) => brand.id === brandId);
       if (foundBrand) {
@@ -82,12 +104,6 @@ const PhoneDetail = () => {
       }
     });
   }, [brandId]);
-
-  const [rating, setRating] = useState(0);
-
-  const handleRatingClick = (selectedRating) => {
-    setRating(selectedRating);
-  };
 
   return (
     <div className="inner">
@@ -225,12 +241,11 @@ const PhoneDetail = () => {
                 <Col className="mt-2">
                   <div className="box-linked" data-v-da80e888="">
                     <div className="list-linked" data-v-da80e888="">
-                      {phones.map((phone) => {
-                        if (phone.phoneId === id&&phone.color===color) {
-                          console.log(phone);
+                      {products.map((phone) => {
+                        if (phone.phoneId === id && phone.color === color) {
                           return (
                             <>
-                              <button className="btn-sosanh">
+                              <button className="btn-sosanh" onClick={()=>handleRomChange(phone.phoneId,phone.rom)}>
                                 <span>{phone.rom}</span>
                               </button>
                             </>
@@ -245,17 +260,13 @@ const PhoneDetail = () => {
                 <Col>
                   <div className="box-content">
                     <ul className="list-variants">
-                      {phones.map((phone) => {
-                        if (phone.phoneId===id&&phone.rom===rom) {
+                      {products.map((phone) => {
+                        if (phone.phoneId === id && phone.rom === rom) {
                           return (
                             <>
-                              <li className="item-variant false disable">
-                                  <div className="is-flex is-flex-direction-column">
-                                    <strong className="item-variant-name">
-                                      {phone.color}
-                                    </strong>{" "}
-                                  </div>
-                              </li>
+                               <button className="btn-sosanh1 primary" onClick={()=>handleColorChange(phone.phoneId,phone.color)}>
+                                <span>{phone.color}</span>
+                              </button>
                             </>
                           );
                         }
@@ -268,7 +279,7 @@ const PhoneDetail = () => {
                 <Col xl={12} md={12} sm={12}>
                   <h5>Giá</h5>
                   <p className="h4 detail-price text-danger font-weight-bold">
-                    {price}
+                    {prices}
                   </p>
                 </Col>
                 <Col xl={12} md={12} sm={12}>
@@ -304,7 +315,7 @@ const PhoneDetail = () => {
                     </div>
                     <div className="w-100">
                       <div className="d-flex">
-                        <Button variant="danger" className="w-100 ml-4">
+                        <Button variant="danger" className="w-100" style={{marginLeft:4}}>
                           MUA NGAY GIÁ RẺ QUÁ{" "}
                         </Button>
                         <button
@@ -360,7 +371,7 @@ const PhoneDetail = () => {
                     </tr>
                     <tr>
                       <td>Dung lượng lưu trữ:</td>
-                      <td>{rom}</td>
+                      <td>{selectedRom}</td>
                     </tr>
                     <tr>
                       <td>SIM:</td>
@@ -657,24 +668,6 @@ const PhoneDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className="d-flex items-start justify-start  ">
-                <div className="avatar overflow-hidden pr-5 ml-5">
-                  <img
-                    alt="1"
-                    src="https://didongviet.vn/images/pc/defaultavatar.png"
-                  />
-                </div>
-                <div className="flex-column items-start justify-start px-3 w-11/12">
-                  <div className="d-flex items-center">
-                    <p className="text-ddv font-bold text-16 mt-1">
-                      Di Động Việt xin chào Anh Tân ạ! Di động việt xin chân
-                      thành cảm ơn Anh Tài đã tin tưởng và sử dụng dịch vụ cũng
-                      như sản phẩm tại Di Động Việt ạ! Di Động Việt hy vọng tiếp
-                      được phục vụ Anh Tài trong tương lai ạ !
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
           </Col>
         </Row>
@@ -686,490 +679,7 @@ const PhoneDetail = () => {
             <div className=" my-2 rounded-lg  bg-white py-3 px-3">
               <div className="flex-column">
                 <h4 className="text-danger font-weight-bold p-0">Bình luận</h4>
-                <div className="mb-5">
-                  <Form>
-                    <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
-                      <Col md={7} className="w-full h-full mb-3 md:mb-0">
-                        <Form.Group className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry">
-                          <Form.Control
-                            as="textarea"
-                            className="rounded-lg border-neutral-300 mantine-Input-input mantine-Textarea-input mantine-1jx8v2y"
-                            id="mantine-r8"
-                            placeholder="Nhận xét về sản phẩm"
-                            rows="6"
-                            aria-invalid="false"
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={5} className="w-full flex flex-col md:px-2">
-                        <Form.Group className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry">
-                          <Form.Control
-                            type="text"
-                            className="rounded-lg border-neutral-300 mb-4 mantine-Input-input mantine-TextInput-input mantine-1gixdds"
-                            id="mantine-r9"
-                            placeholder="Họ và tên"
-                            aria-invalid="false"
-                            value=""
-                          />
-                        </Form.Group>
-                        <Form.Group className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry">
-                          <Form.Control
-                            type="text"
-                            className="rounded-lg border-neutral-300 mb-4 mantine-Input-input mantine-TextInput-input mantine-1gixdds"
-                            id="mantine-ra"
-                            placeholder="Số điện thoại"
-                            aria-invalid="false"
-                            value=""
-                          />
-                        </Form.Group>
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
-                          style={{ width: "100%", height: "44px" }}
-                        >
-                          Gửi
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Form>
-                </div>
-                <div className="pt-4">
-                  <div className="d-flex items-start justify-start ">
-                    <div className="avatar overflow-hidden">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start pl-2 w-11/12">
-                      <div className="d-flex items-center">
-                        <span
-                          style={{
-                            display: "inline-block",
-                            direction: "1tr",
-                          }}
-                        >
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                        </span>
-                        <p className="text-brow text-sm mx-2">
-                          2023-11-03T07:07:29.000Z
-                        </p>
-                      </div>
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16">
-                          <span className="text-16 mx-2 text-black font-normal">
-                            Có loại Ram 6gb chưa e?
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex items-start justify-start  ">
-                    <div className="avatar overflow-hidden pr-5 ml-5">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start px-3 w-11/12">
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16 mt-1">
-                          Di Động Việt xin chào Anh Hải ạ !<br />
-                          Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram
-                          4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ
-                          3.790.000.
-                          <br />
-                          Ưu đãi khi mua cùng máy
-                          <br />
-                          Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo
-                          bảng giá hôm nay tại đây)
-                          <br />
-                          Tặng thêm voucher 100.000đ cho khách hàng mới
-                          <br />
-                          Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ
-                          <br />
-                          Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model
-                          máy cũ)
-                          <br />
-                          Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng
-                          đài 1800 6018 (miễn phí). Trân trọng !
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="pt-4">
-                  <div className="d-flex items-start justify-start ">
-                    <div className="avatar overflow-hidden">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start pl-2 w-11/12">
-                      <div className="d-flex items-center">
-                        <span
-                          style={{
-                            display: "inline-block",
-                            direction: "1tr",
-                          }}
-                        >
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                        </span>
-                        <p className="text-brow text-sm mx-2">
-                          2023-11-03T07:07:29.000Z
-                        </p>
-                      </div>
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16">
-                          <span className="text-16 mx-2 text-black font-normal">
-                            Có loại Ram 6gb chưa e?
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex items-start justify-start  ">
-                    <div className="avatar overflow-hidden pr-5 ml-5">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start px-3 w-11/12">
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16 mt-1">
-                          Di Động Việt xin chào Anh Hải ạ !<br />
-                          Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram
-                          4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ
-                          3.790.000.
-                          <br />
-                          Ưu đãi khi mua cùng máy
-                          <br />
-                          Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo
-                          bảng giá hôm nay tại đây)
-                          <br />
-                          Tặng thêm voucher 100.000đ cho khách hàng mới
-                          <br />
-                          Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ
-                          <br />
-                          Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model
-                          máy cũ)
-                          <br />
-                          Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng
-                          đài 1800 6018 (miễn phí). Trân trọng !
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="pt-4">
-                  <div className="d-flex items-start justify-start ">
-                    <div className="avatar overflow-hidden">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start pl-2 w-11/12">
-                      <div className="d-flex items-center">
-                        <span
-                          style={{
-                            display: "inline-block",
-                            direction: "1tr",
-                          }}
-                        >
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                        </span>
-                        <p className="text-brow text-sm mx-2">
-                          2023-11-03T07:07:29.000Z
-                        </p>
-                      </div>
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16">
-                          <span className="text-16 mx-2 text-black font-normal">
-                            Có loại Ram 6gb chưa e?
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex items-start justify-start  ">
-                    <div className="avatar overflow-hidden pr-5 ml-5">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start px-3 w-11/12">
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16 mt-1">
-                          Di Động Việt xin chào Anh Hải ạ !<br />
-                          Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram
-                          4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ
-                          3.790.000.
-                          <br />
-                          Ưu đãi khi mua cùng máy
-                          <br />
-                          Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo
-                          bảng giá hôm nay tại đây)
-                          <br />
-                          Tặng thêm voucher 100.000đ cho khách hàng mới
-                          <br />
-                          Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ
-                          <br />
-                          Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model
-                          máy cũ)
-                          <br />
-                          Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng
-                          đài 1800 6018 (miễn phí). Trân trọng !
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="pt-4">
-                  <div className="d-flex items-start justify-start ">
-                    <div className="avatar overflow-hidden">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start pl-2 w-11/12">
-                      <div className="d-flex items-center">
-                        <span
-                          style={{
-                            display: "inline-block",
-                            direction: "1tr",
-                          }}
-                        >
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                          <span
-                            style={{
-                              cursor: "inherit",
-                              display: "inline-block",
-                              position: "relative",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                        </span>
-                        <p className="text-brow text-sm mx-2">
-                          2023-11-03T07:07:29.000Z
-                        </p>
-                      </div>
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16">
-                          <span className="text-16 mx-2 text-black font-normal">
-                            Có loại Ram 6gb chưa e?
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex items-start justify-start  ">
-                    <div className="avatar overflow-hidden pr-5 ml-5">
-                      <img
-                        alt="1"
-                        src="https://didongviet.vn/images/pc/defaultavatar.png"
-                      />
-                    </div>
-                    <div className="flex-column items-start justify-start px-3 w-11/12">
-                      <div className="d-flex items-center">
-                        <p className="text-ddv font-bold text-16 mt-1">
-                          Di Động Việt xin chào Anh Hải ạ !<br />
-                          Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram
-                          4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ
-                          3.790.000.
-                          <br />
-                          Ưu đãi khi mua cùng máy
-                          <br />
-                          Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo
-                          bảng giá hôm nay tại đây)
-                          <br />
-                          Tặng thêm voucher 100.000đ cho khách hàng mới
-                          <br />
-                          Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ
-                          <br />
-                          Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model
-                          máy cũ)
-                          <br />
-                          Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng
-                          đài 1800 6018 (miễn phí). Trân trọng !
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                        <Comment />
               </div>
             </div>
           </Col>

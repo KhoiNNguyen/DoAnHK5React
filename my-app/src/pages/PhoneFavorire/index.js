@@ -12,13 +12,13 @@ function PhoneFavorite() {
         <div className="d-flex justify-content-start flex-wrap">
           {cartFavorites.map((item) => {
             console.log(item)
-            const { id, img, price } = item;
-            const {name}=item.phone;
+            const { id, price } = item;
+            const {name,image}=item.phone;
             const items = item; // Gán items là tất cả các mục yêu thích
             return (
               <PhoneFavoriteItem
                 items={items}
-                item={{ name, id, img, price }}
+                item={{ name, id, image, price }}
               />
             );
           })}

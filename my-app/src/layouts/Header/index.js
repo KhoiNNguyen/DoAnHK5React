@@ -2,48 +2,23 @@ import classNames from "classnames/bind";
 import styles from'./Header.modual.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faSearch, faTruckMoving } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
 import { Link } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import axiosClient from "../../components/axiosClient/axiosClient";
-import { Button, Form, FormControl } from "react-bootstrap";
 
 const cx=classNames.bind(styles)
 function Header() {
     const [searchValue,setSearchValue]=useState('')
     const [register, setRegister] = useState(false);
     const [lgShow, setLgShow] = useState(false);
-    const dl = "256BG"
-    const [phone, setPhone] = useState([]);
-    const [product, setProduct] = useState([]);
-    const [keyWord, setKeyWord] = useState([]);
-    const none = []
-    const handleChange = (e) =>{
-        let value = e.target.value
-        if(value == ""){
-            let search = none.filter(item => {
-                return item.name.toUpperCase().includes(value.toUpperCase())
-            })
-            setKeyWord(search)
-        }
-        else{
-            let search = phone.filter(item => {
-                return item.name.toUpperCase().includes(value.toUpperCase())
-            })
-            setKeyWord(search)
-        }
+
+    const handleChange=(e)=>{
+        const value=e.target.value;
+        setSearchValue(value)
     }
-    useEffect(()=>{
-        axiosClient.get(`/Phones`)  
-            .then(res => setPhone(res.data))
-    },[])
-    useEffect(()=>{
-        axiosClient.get(`/Products`)
-            .then(res => setProduct(res.data))
-    },[])
     console.log(searchValue)
 
     const handleSubmit=(e)=>{
@@ -74,7 +49,7 @@ function Header() {
                     <ul className={cx("menu-header")}>
                         <li><Link to="/PhoneFavorite">Giới Thiệu</Link></li>
                         <li><Link to="/PhoneFavorite">Yêu Thích</Link></li>
-                        <li><Link to="/PhoneFavorite">Sản Phẩm Đả Xem</Link></li>
+                        <li><Link to="/ButtonSoSanh">So Sánh</Link></li>
                         <li><Link to="/order">Quản Lý Đơn Hàng</Link></li>
                         <li><button className="btn-login" onClick={handleShow}>Đăng nhập</button></li>
                     </ul>
@@ -213,7 +188,7 @@ function Header() {
                 </div>
                 </Modal.Body>
             </Modal>
-             <div className={cx('inner')}>
+            <div className={cx('inner')}>
                 <div className={cx("logo")} >  
                     <div className={cx("Brand")}>
                         <Link to="/"><img src="/Images/logo/logo.png" style={{width:"260px",height:"60px"}} alt="One People" /></Link>
@@ -221,15 +196,14 @@ function Header() {
                     <div className={cx("search")}>
                         <form method="get" action="/tim-kiem" onsubmit="return submitSearch(this);" enctype="application/x-www-form-urlencoded">
                             <div className={cx("border")}>
-                                <input type="text" id="search" value={searchValue} name="search"  placeholder="Tìm kiếm" onChange={handleChange}/>
+                                <input type="text" id="search" value={searchValue} name="search" placeholder="Hôm nay bạn cần tìm gì?" autocomplete="off" onChange={handleChange}/>
                                 <button type="submit" onClick={handleSubmit} className={cx("search-btn")}><FontAwesomeIcon icon={faSearch} /></button>
                             </div>
                         </form>
-                       
                     </div>
                 <div className={cx("order-tools")}>
                     <div className={cx("item check-order")}>
-                        <a className={cx("btnCheckOrder")}>
+                        <a className={cx("btnCheckOrder")} style={{width:150}}>
                             <span className={cx("icon")}><FontAwesomeIcon icon={faTruckMoving} /></span>
                             <span className={cx("text")}>Kiểm tra đơn hàng</span>
                         </a>
@@ -241,25 +215,6 @@ function Header() {
                     </div>
                 </div>
             </div>
-            <div className="result-list inner">
-                    {
-                        keyWord.map(itemPhone => {
-                            const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,idBr}=itemPhone
-                            const {rom} = product.map(item => {
-                                if(item.phoneId === itemPhone.id && item.rom === "256GB" && item.color === "Titan Xanh"){
-                                    return item
-                                }
-                            })
-                            return (
-                                <>
-                                    <Link to={`/phoneDetail`} state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,idBr }} >
-                                        {itemPhone.name}
-                                    </Link>
-                                </>
-                            )
-                        })
-                    }
-                    </div>
             </div>
         </div>
     </header>
