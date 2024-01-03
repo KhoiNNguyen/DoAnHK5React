@@ -1,0 +1,73 @@
+/* .div-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.title-login{
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+} */
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.title-login {
+    color: #000;
+    margin-right: 4px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    padding-top: 30px;
+}
+
+.text-login {
+    font-weight: 600;
+    padding-bottom: 3px;
+}
+.input-login{
+    padding: 8px 5px;
+    outline: none;
+    margin-bottom: 10px;
+    border: 1px solid #d7d7d9;
+    background: #f1f1f2;
+    width: 100%;
+    border-radius: 3px;
+}
+.input-login:hover{
+    background-color: #dedede;
+    border: 1px solid #dedede;
+}
+.button-login{
+    padding: 10px;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    margin-top: 15px;
+}
+.active{
+    background: #fe3c55;
+}
+.back-login{
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.input-position{
+    position: relative;
+}
+.icon-position{
+    position: absolute;
+    top: 14px;
+    right: 10px;
+    cursor: pointer;
+}
+button[disabled=disabled], button:disabled {
+    cursor: not-allowed;
+}

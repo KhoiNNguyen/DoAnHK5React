@@ -117,69 +117,83 @@ namespace EshopIdentity.Controllers
 		}
 
 		[HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> Login([Bind("Username,Password")] LoginModel account)
-        {
-            var user = await _userManager.FindByNameAsync(account.Username);
-            if (user != null && await _userManager.CheckPasswordAsync(user, account.Password))
-            {
-                var userRoles = await _userManager.GetRolesAsync(user);
+		[Route("login")]
+		public async Task<IActionResult> Login([Bind("Username,Password")] LoginModel account)
+		{
+			var user = await _userManager.FindByNameAsync(account.Username);
+			if (user != null && await _userManager.CheckPasswordAsync(user, account.Password))
+			{
+				var userRoles = await _userManager.GetRolesAsync(user);
 
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
+				var authClaims = new List<Claim>
+				{
+					new Claim(ClaimTypes.Name, user.UserName),
+					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+				};
 
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
+				foreach (var userRole in userRoles)
+				{
+					authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+				}
 
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+				var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
+				var token = new JwtSecurityToken(
+					issuer: _configuration["JWT:ValidIssuer"],
+					audience: _configuration["JWT:ValidAudience"],
+					expires: DateTime.Now.AddHours(3),
+					claims: authClaims,
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+					);
 
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
-            }
-            return Unauthorized();
-        }
+				return Ok(new
+				{
+					token = new JwtSecurityTokenHandler().WriteToken(token),
+					expiration = token.ValidTo,
+					userRole = userRoles
+				});
+			}
+			return Unauthorized();
+		}
 
-        [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> Register(string Username, string Password, string Email, string Phone, string Fullname,string Address)
-        {
-            var userExists = await _userManager.FindByNameAsync(Username);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError);
+		[HttpPost]
+		[Route("register")]
+		public async Task<IActionResult> Register(string Username, string Password, string Email, string Phone, string Fullname, string Address)
+		{
+			var userExists = await _userManager.FindByNameAsync(Username);
+			if (userExists != null)
+				return StatusCode(StatusCodes.Status500InternalServerError);
 
-            User user = new User()
-            {
-                Email = Email,
-                Phone = Phone,
-                FullName = Fullname,
-                Address = Address,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = Username
-            };
-            var result = await _userManager.CreateAsync(user, Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError);
+			User user = new User()
+			{
+				Email = Email,
+				Phone = Phone,
+				FullName = Fullname,
+				Address = Address,
+				SecurityStamp = Guid.NewGuid().ToString(),
+				UserName = Username
+			};
+			var result = await _userManager.CreateAsync(user, Password);
+			if (!await _roleManager.RoleExistsAsync("User"))
+				await _roleManager.CreateAsync(new IdentityRole("User"));
+			if (await _roleManager.RoleExistsAsync("User"))
+			{
+				await _userManager.AddToRoleAsync(user, "User");
+			}
+			if (!result.Succeeded)
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			if (!await _roleManager.RoleExistsAsync("User"))
+				await _roleManager.CreateAsync(new IdentityRole("User"));
 
-            return Ok();
-        }
+			if (await _roleManager.RoleExistsAsync("User"))
+			{
+				await _userManager.AddToRoleAsync(user, "User");
+			}
 
-        [HttpPost]
+			return Ok();
+		}
+
+		[HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email, string Phone, string Fullname, string Address)
         {

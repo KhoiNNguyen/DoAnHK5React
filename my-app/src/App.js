@@ -47,6 +47,7 @@ import { ShoppingContextProvider } from "./components/Context/ShoppingContext"
 import Iphone1 from "./pages/SoSanh/Iphoness1"
 import Iphone2 from "./pages/SoSanh/Iphoness2"
 import ButtonSoSanh from "./pages/SoSanh/ButtonSoSanh"
+import Login from "./pages/Login/test"
 
 
 const App = () =>{
@@ -108,6 +109,8 @@ const App = () =>{
                 <Route path="/invoices" element={<Invoice />}/>
                 <Route path="/invoices/create" element={<InvoiceCreate/>}/>
                 <Route path="/invoices/edit/:id" element={<InvoiceEdit/>}/>
+
+                <Route path="/login" element={<Login/>} />
             </Routes>
         </BrowserRouter>
         </ShoppingContextProvider>
