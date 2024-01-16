@@ -149,7 +149,7 @@ function SoSanh() {
       <div class="row">
         <div class="col-sm border">Dung lượng còn lại (khả dụng) khoảng</div>
         <div class="col-sm border">113 GB</div>
-        <div class="col-sm border"></div>
+        <div class="col-sm border">113 GB</div>
       </div>
       <div class="row">
         <div class="col-sm border">Thẻ nhớ</div>

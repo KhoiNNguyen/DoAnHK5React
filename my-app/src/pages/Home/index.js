@@ -1,23 +1,20 @@
 import Card from "react-bootstrap/Card";
-import { FaHeart } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
-
 import { IoFlashOutline } from "react-icons/io5";
 import SlideShow from "../../components/Slide";
 import "./Home.modual.scss";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import axiosClient from "../../components/axiosClient/axiosClient";
-import PhoneFavorite from "../PhoneFavorire";
 import { useShoppingContext } from "../../components/Context/ShoppingContext";
-
+import { useDispatch } from "react-redux";
+import { addToWishlist } from "../../features/products/productSlice";
 
 function Home() {
   const [productApples, setProductApples] = useState([]);
   const{addCartItem,addFavotiteItem}=useShoppingContext();
+  const dispatch = useDispatch();
 
-  
   let isRenderApple=false;
   let isRenderOppo=false;
   let isRenderSamSung=false;
@@ -31,7 +28,13 @@ function Home() {
   const[vivoProducts,setVivoProduct]=useState([])
   
   const [brands, setBrand] = useState([]);
-
+  const addToWish=(id)=>{
+    const userId = JSON.parse(localStorage.getItem("customer")).userId;
+      dispatch(addToWishlist({
+        userId: userId,
+        productId: id,
+    }))
+  }
   useEffect(() => {
     axiosClient.get("/Brands").then((res) => setBrand(res.data));
     axiosClient.get("/Products").then((res) =>setProductApples(res.data));
@@ -51,7 +54,7 @@ function Home() {
     const vivoProducts = productApples.filter(product => product.phone.brandId === 5).slice(0, 5);
     setVivoProduct(vivoProducts);
   }
-}, [productApples]);
+}, []);
 
   return (
     <>
@@ -125,7 +128,7 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => {addFavotiteItem(productApple)}}
+                          onClick={(e)=>addToWish(productApple.id)}
                         >
                           <CiHeart />
                         </button>
@@ -140,7 +143,6 @@ function Home() {
                   const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
                   const {rom,price,color}=productApple
                   return (
-                    
                     <Card
                     className="mt-3 p-3 col-3"
                     style={{ width: "13.9rem", marginRight: 10 }}
@@ -172,7 +174,7 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => {addFavotiteItem(productApple)}}
+                          onClick={() => {addToWish(productApple.id)}}
                         >
                           <CiHeart />
                         </button>
@@ -217,7 +219,7 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => {addFavotiteItem(productApple)}}
+                          onClick={() => {addToWish(productApple.id)}}
                         >
                           <CiHeart />
                         </button>
@@ -262,7 +264,7 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => {addFavotiteItem(productApple)}}
+                          onClick={() => {addToWish(productApple.id)}}
                         >
                           <CiHeart />
                         </button>
@@ -307,7 +309,7 @@ function Home() {
                         <span>Yêu Thích</span>
                         <button
                           className="heart"
-                          onClick={() => {addFavotiteItem(productApple)}}
+                          onClick={() => {addToWish(productApple.id)}}
                         >
                           <CiHeart />
                         </button>
@@ -366,7 +368,7 @@ function Home() {
                   <span>Yêu Thích</span>
                   <button
                     className="heart"
-                    onClick={() => {addFavotiteItem(appleProduct)}}
+                    onClick={() => {addToWish(appleProduct.id)}}
                   >
                     <CiHeart />
                   </button>
@@ -389,7 +391,6 @@ function Home() {
               <Card.Img
                 alt="1"
                 variant="top"
-                style={{ height: "160px" }}
                 src={`https://localhost:7126/images/product/${samsungProduct.phone.image}`}
               />
                 </Link>
@@ -407,7 +408,7 @@ function Home() {
                   <span>Yêu Thích</span>
                   <button
                     className="heart"
-                    onClick={() => {addFavotiteItem(samsungProduct)}}
+                    onClick={() => {addToWish(samsungProduct.id)}}
                   >
                     <CiHeart />
                   </button>
@@ -430,7 +431,6 @@ function Home() {
               <Card.Img
                 alt="1"
                 variant="top"
-                style={{ height: "160px" }}
                 src={`https://localhost:7126/images/product/${oppoProduct.phone.image}`}
               />
                 </Link>
@@ -448,7 +448,7 @@ function Home() {
                   <span>Yêu Thích</span>
                   <button
                     className="heart"
-                    onClick={() => {addFavotiteItem(oppoProduct)}}
+                    onClick={() => {addToWish(oppoProduct.id)}}
                   >
                     <CiHeart />
                   </button>
@@ -471,7 +471,6 @@ function Home() {
               <Card.Img
                 alt="1"
                 variant="top"
-                style={{ height: "160px" }}
                 src={`https://localhost:7126/images/product/${xiaomiProduct.phone.image}`}
               />
                 </Link>
@@ -489,7 +488,7 @@ function Home() {
                   <span>Yêu Thích</span>
                   <button
                     className="heart"
-                    onClick={() => {addFavotiteItem(xiaomiProduct)}}
+                    onClick={() => {addToWish(xiaomiProduct.id)}}
                   >
                     <CiHeart />
                   </button>
@@ -512,7 +511,6 @@ function Home() {
               <Card.Img
                 alt="1"
                 variant="top"
-                style={{ height: "160px" }}
                 src={`https://localhost:7126/images/product/${vivoProduct.phone.image}`}
               />
                 </Link>
@@ -530,7 +528,7 @@ function Home() {
                   <span>Yêu Thích</span>
                   <button
                     className="heart"
-                    onClick={() => {addFavotiteItem(vivoProduct)}}
+                    onClick={() => {addToWish(vivoProduct.id)}}
                   >
                     <CiHeart />
                   </button>

@@ -45,14 +45,25 @@ namespace API_BanDienThoai.Controllers
         // PUT: api/Carts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCart(int id, Cart cart)
+        public async Task<IActionResult> PutCart(int id, Cart updatedCart)
         {
-            if (id != cart.Id)
+            if (id != updatedCart.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(cart).State = EntityState.Modified;
+            // Lấy giỏ hàng từ database để cập nhật số lượng
+            var existingCart = await _context.Cart.FindAsync(id);
+
+            if (existingCart == null)
+            {
+                return NotFound();
+            }
+
+            // Cập nhật số lượng mới từ client
+            existingCart.Quantity = updatedCart.Quantity;
+
+            _context.Entry(existingCart).State = EntityState.Modified;
 
             try
             {

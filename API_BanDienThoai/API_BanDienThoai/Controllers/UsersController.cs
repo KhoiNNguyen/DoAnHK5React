@@ -124,8 +124,9 @@ namespace EshopIdentity.Controllers
 			if (user != null && await _userManager.CheckPasswordAsync(user, account.Password))
 			{
 				var userRoles = await _userManager.GetRolesAsync(user);
+				var userId = await _userManager.GetUserIdAsync(user);
 
-				var authClaims = new List<Claim>
+                var authClaims = new List<Claim>
 				{
 					new Claim(ClaimTypes.Name, user.UserName),
 					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -150,50 +151,54 @@ namespace EshopIdentity.Controllers
 				{
 					token = new JwtSecurityTokenHandler().WriteToken(token),
 					expiration = token.ValidTo,
-					userRole = userRoles
-				});
+					userRole = userRoles,
+                    userId= userId
+                });
 			}
 			return Unauthorized();
 		}
 
 		[HttpPost]
 		[Route("register")]
-		public async Task<IActionResult> Register(string Username, string Password, string Email, string Phone, string Fullname, string Address)
+		public async Task<IActionResult> Register(Register register)
 		{
-			var userExists = await _userManager.FindByNameAsync(Username);
-			if (userExists != null)
-				return StatusCode(StatusCodes.Status500InternalServerError);
+            if (register.Password != register.Repassword)
+            {
+                return new BadRequestObjectResult("Password must be matched with Repassword!");
+            }
+            var userExist = await _userManager.FindByNameAsync(register.Username);
+            if (userExist != null)
+            {
+                var errorResponse = new { Message = "User already exists" };
+                return new BadRequestObjectResult(errorResponse);
+            }
+            var checkEmail = await _userManager.FindByEmailAsync(register.Email);
+            if (checkEmail != null)
+            {
+                var errorResponse = new { Message = "Email already exists" };
+                return new BadRequestObjectResult(errorResponse);
+            }
+            User user = new User()
+            {
+                UserName = register.Username,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                Email = register.Email
+            };
+            var result = await _userManager.CreateAsync(user, register.Password);
+            if (!result.Succeeded)
+            {
+                var errorResponse = new { Message = "Something went wrong!" };
+                return new BadRequestObjectResult(errorResponse);
+            }
+            if (await _roleManager.RoleExistsAsync("User"))
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+            }
+            return new OkResult();
 
-			User user = new User()
-			{
-				Email = Email,
-				Phone = Phone,
-				FullName = Fullname,
-				Address = Address,
-				SecurityStamp = Guid.NewGuid().ToString(),
-				UserName = Username
-			};
-			var result = await _userManager.CreateAsync(user, Password);
-			if (!await _roleManager.RoleExistsAsync("User"))
-				await _roleManager.CreateAsync(new IdentityRole("User"));
-			if (await _roleManager.RoleExistsAsync("User"))
-			{
-				await _userManager.AddToRoleAsync(user, "User");
-			}
-			if (!result.Succeeded)
-				return StatusCode(StatusCodes.Status500InternalServerError);
-			if (!await _roleManager.RoleExistsAsync("User"))
-				await _roleManager.CreateAsync(new IdentityRole("User"));
+        }
 
-			if (await _roleManager.RoleExistsAsync("User"))
-			{
-				await _userManager.AddToRoleAsync(user, "User");
-			}
-
-			return Ok();
-		}
-
-		[HttpPost]
+        [HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email, string Phone, string Fullname, string Address)
         {

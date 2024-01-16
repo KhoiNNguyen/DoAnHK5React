@@ -18,7 +18,7 @@ function Apple() {
 
   // const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-
+  
   const{addCartItem,addFavotiteItem}=useShoppingContext();
 
   const sortUpToDown = () =>{
@@ -77,7 +77,7 @@ function Apple() {
         {productApples.map((productApple) => {
           if(productApple.phone.brandId===1){
                   const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productApple.phone
-                  const {rom}=productApple;
+                  const {rom,price,color}=productApple
                   const item=productApple;
             return (
                <Card
@@ -85,8 +85,7 @@ function Apple() {
                 style={{ width: "13.9rem", marginRight: 10 }}
               >
                 <Link  to='/phoneDetail'
-              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,item }} >
-             
+                  state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
                 <Card.Img
                   alt="1"
                   variant="top"

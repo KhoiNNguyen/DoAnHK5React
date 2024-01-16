@@ -74,11 +74,12 @@ function Samsung() {
 
           if(productSamsung.phone.brandId===2){
             const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productSamsung.phone
-              const {rom}=productSamsung
+            const {rom,price,color}=productSamsung
+            const item=productSamsung;
           
             return (
               <Link  to='/phoneDetail'
-              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId }} >
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
               <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
@@ -86,7 +87,6 @@ function Samsung() {
                 <Card.Img
                   alt="1"
                   variant="top"
-                  style={{ height: "160px" }}
                   src={`https://localhost:7126/images/product/${productSamsung.phone.image}`}
                 />
                 <Card.Body>

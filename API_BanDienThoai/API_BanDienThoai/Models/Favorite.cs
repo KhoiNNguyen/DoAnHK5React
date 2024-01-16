@@ -8,8 +8,8 @@ namespace API_BanDienThoai.Models
         public int Id { get; set; }
 
         [DisplayName("Điện Thoại")]
-        public int PhoneId { get; set; }
-        public Phone Phone { get; set; }
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
 
         [DisplayName("Người Dùng")]
         public string UserId { get; set; }

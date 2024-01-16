@@ -17,5 +17,7 @@ namespace API_BanDienThoai.Models
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
+        public float Price { get; set; }
+        public string Color { get; set; }
     }
 }

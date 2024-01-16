@@ -75,10 +75,11 @@ function Vivo() {
 
           if(productVivo.phone.brandId===5){
             const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productVivo.phone
-              const {rom}=productVivo
+            const {rom,price,color}=productVivo
+            const item=productVivo;
             return (
               <Link  to='/phoneDetail'
-              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId }} >
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
               <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
@@ -86,7 +87,6 @@ function Vivo() {
                 <Card.Img
                   alt="1"
                   variant="top"
-                  style={{ height: "160px" }}
                   src={`https://localhost:7126/images/product/${productVivo.phone.image}`}
                 />
                 <Card.Body>

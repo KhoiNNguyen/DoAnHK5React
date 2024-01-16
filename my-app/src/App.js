@@ -47,7 +47,9 @@ import { ShoppingContextProvider } from "./components/Context/ShoppingContext"
 import Iphone1 from "./pages/SoSanh/Iphoness1"
 import Iphone2 from "./pages/SoSanh/Iphoness2"
 import ButtonSoSanh from "./pages/SoSanh/ButtonSoSanh"
-import Login from "./pages/Login/test"
+// import Login from "./pages/Login/test"
+import LoginPage from "./pages/Login/LoginPage"
+import RegisterPage from "./pages/Login/RegisterPage"
 
 
 const App = () =>{
@@ -65,6 +67,8 @@ const App = () =>{
                     <Route path="/Xiaomi" element={<Xiaomi />} />
                     <Route path="/OPPO" element={<Oppo />} />
                     <Route path="/Vivo" element={<Vivo />} /> 
+                    <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 </Route>
 
                 <Route path="/" element={<LayoutHeader />}>
@@ -110,7 +114,8 @@ const App = () =>{
                 <Route path="/invoices/create" element={<InvoiceCreate/>}/>
                 <Route path="/invoices/edit/:id" element={<InvoiceEdit/>}/>
 
-                <Route path="/login" element={<Login/>} />
+                
+
             </Routes>
         </BrowserRouter>
         </ShoppingContextProvider>

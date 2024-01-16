@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import styles from "./Product.modual.scss";
+import  "./Product.modual.scss";
 import Card from "react-bootstrap/Card";
-import { FaHeart, FaSortAmountDown } from "react-icons/fa";
+import {FaSortAmountDown } from "react-icons/fa";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import axiosClient from "../../components/axiosClient/axiosClient";
 import { CiHeart } from "react-icons/ci";
@@ -17,9 +17,6 @@ function Apple() {
   
   const{addCartItem,addFavotiteItem}=useShoppingContext();
 
-  const [tym, setTym] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-
   const sortUpToDown = () =>{
     let oppo = productOppos.filter(item => {
         return item.phone.brandId === 3;
@@ -32,10 +29,6 @@ function Apple() {
     })
     setProductOppos(oppo.sort((a,b) => a.price > b.price ? 1 : -1))
   }
-  const handleCardClick = (cardId, value) => {
-    setSelectedCard(cardId);
-    setTym(!value);
-  };
 
   useEffect(() => {
     axiosClient.get("/Phones").then((res) => SetPhones(res.data));
@@ -72,14 +65,14 @@ function Apple() {
       </div>
       <div className="d-flex justify-content-start flex-wrap">
         {productOppos.map((productOppo) => {
-
           if(productOppo.phone.brandId===3){
-              const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productOppo.phone
-              const {rom}=productOppo
+            const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,brandId}=productOppo.phone
+            const {rom,price,color}=productOppo
+            const item=productOppo;
           
             return (
               <Link  to='/phoneDetail'
-              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId }} >
+              state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,brandId,price,color,item }} >
               <Card
                 className="mt-3 p-3 col-3"
                 style={{ width: "13.9rem", marginRight: 10 }}
@@ -87,7 +80,6 @@ function Apple() {
                 <Card.Img
                   alt="1"
                   variant="top"
-                  style={{ height: "160px" }}
                   src={`https://localhost:7126/images/product/${productOppo.phone.image}`}
                 />
                 <Card.Body>

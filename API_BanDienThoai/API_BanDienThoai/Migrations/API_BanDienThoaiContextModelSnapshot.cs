@@ -52,6 +52,12 @@ namespace API_BanDienThoai.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -115,7 +121,7 @@ namespace API_BanDienThoai.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("PhoneId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -123,7 +129,7 @@ namespace API_BanDienThoai.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PhoneId");
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -694,9 +700,9 @@ namespace API_BanDienThoai.Migrations
 
             modelBuilder.Entity("API_BanDienThoai.Models.Favorite", b =>
                 {
-                    b.HasOne("API_BanDienThoai.Models.Phone", "Phone")
+                    b.HasOne("API_BanDienThoai.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("PhoneId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -704,7 +710,7 @@ namespace API_BanDienThoai.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("Phone");
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });

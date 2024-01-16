@@ -1,11 +1,18 @@
 import Card from "react-bootstrap/Card";
 import { GiShoppingCart } from "react-icons/gi";
-import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { removeToWishList } from "../../features/products/productSlice";
+import { IoMdClose } from "react-icons/io";
 
-function PhoneFavoriteItem({ items, item }) {
-  const { addCartItem } = useShoppingContext();
-  console.log(items, item);
+
+function PhoneFavoriteItem({ items,idFavorite }) {
+
+  const item=items;
+  const dispatch = useDispatch();
+  const removeFromWishList=(id)=>{
+    dispatch(removeToWishList(id))
+  }
   const {
     id,
     name,
@@ -47,23 +54,25 @@ function PhoneFavoriteItem({ items, item }) {
           <Card.Img
             alt="1"
             variant="top"
-            style={{ height: "160px" }}
-            src={`https://localhost:7126/images/product/${item.image}`}
+            src={`https://localhost:7126/images/product/${items.phone.image}`}
           />
         </Link>
         <Card.Body>
           <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-            {item.name}
+            {items.phone.name}
           </Card.Title>
           <Card.Title
             className="font-weight-bold"
             style={{ height: "68px", fontSize: "1rem" }}
           >
-            <p>{item.price}</p>
+              {items.price}
           </Card.Title>
-          <div className="d-flex justify-content-end">
-            <button onClick={() => addCartItem(items)}>
+          <div className="d-flex justify-content-end justify-content-between ">
+            <button >
               <GiShoppingCart />
+            </button>
+            <button onClick={()=>removeFromWishList(idFavorite)}>
+            <IoMdClose />
             </button>
           </div>
         </Card.Body>

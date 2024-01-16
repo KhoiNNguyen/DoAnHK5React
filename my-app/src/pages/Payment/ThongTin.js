@@ -1,18 +1,30 @@
-import { CiGift, CiTrash } from "react-icons/ci";
-import { FiMinus } from "react-icons/fi";
-import { GoPlus, GoShieldCheck } from "react-icons/go";
+
 import { IoIosArrowBack } from "react-icons/io";
-import Header from "../../layouts/Header";
-import styles from "./Payment.modual.scss";
-import { IoIosArrowDown } from "react-icons/io";
+import "./Payment.modual.scss";
+
 import { Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import { useState } from "react";
 
 
 function Payment() {
 
   const location=useLocation();
-  const {totalPrice}=location.state;
+  const {totalPrice,cartItems}=location.state;
+  var [account,setAccount] = useState({
+    username : "",
+    SDT: "",
+    Email: "",
+    Tinh:"",
+    Quan:"",
+    DiaChi:"",
+    EmailAddrest:""
+});
+  const handleChange = (e) =>{
+    var name = e.target.name;
+    var value = e.target.value;
+    setAccount(x => ({...x,[name]:value}))
+}
   console.log(location)
   return (
     <div>
@@ -21,7 +33,9 @@ function Payment() {
           <div>
             <div className="header-cart d-flex">
               <div className="icon-headerCart">
+                <Link to="/cart">
                 <IoIosArrowBack />
+                </Link>
               </div>
               <div className="title-cart m-auto">
                 <h5>Thanh Toan</h5>
@@ -54,6 +68,9 @@ function Payment() {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 placeholder="Nhap Ho Va Ten"
+                                value={account.username}
+                                name="username"
+                                onChange={handleChange}
                               />
                             </div>
                             <div class="form-group1 box-input">
@@ -66,6 +83,10 @@ function Payment() {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 placeholder="Nhap So Dien Thoai"
+                                value={account.SDT}
+                                name="SDT"
+                                onChange={handleChange}
+
                               />
                             </div>
                           </div>
@@ -78,6 +99,9 @@ function Payment() {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 placeholder="Enter"
+                                onChange={handleChange}
+                                name="Email"
+                                value={account.Email}
                               />
                             </div>
                           </div>
@@ -107,6 +131,9 @@ function Payment() {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 placeholder="Nhap Tinh/ThanhPho"
+                                onChange={handleChange}
+                                name="Tinh"
+                                value={account.Tinh}
                               />
                             </div>
                             <div class="form-group1 box-input">
@@ -117,6 +144,9 @@ function Payment() {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 placeholder="Nhap Quan/Huyen"
+                                onChange={handleChange}
+                                name="Quan"
+                                value={account.Quan}
                               />
                             </div>
                           </div>
@@ -129,6 +159,9 @@ function Payment() {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 placeholder="Nhap Dia Chi"
+                                onChange={handleChange}
+                                name="DiaChi"
+                                value={account.DiaChi}
                               />
                             </div>
                           </div>
@@ -143,6 +176,9 @@ function Payment() {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 placeholder="Ghi Chu Neu Co"
+                                onChange={handleChange}
+                                name="EmailAddrest"
+                                value={account.EmailAddrest}
                               />
                             </div>
                           </div>
@@ -158,7 +194,7 @@ function Payment() {
                   <p>{totalPrice}</p>
                 </div>
                 <div className="clickBuyNow1">
-                  <Link to="/cart/ThanhToan" state={{totalPrice}}><button>Tiep Tuc</button></Link>
+                  <Link to="/cart/ThanhToan" state={{totalPrice,account,cartItems}}><button>Tiep Tuc</button></Link>
                 </div>
               </div>
             </div>

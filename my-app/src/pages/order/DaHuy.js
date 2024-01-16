@@ -9,7 +9,7 @@ function DaHuy() {
         <Link to="/order"><button className="btn-order">Tất cả</button></Link>
             <Link to="/order/DaDat"><button className="btn-order">Đã đặt</button></Link>
             <Link to="/order/DaGiao"><button className="btn-order">Đã Giao</button></Link>
-            <Link to="/order/DaHuy"><button className="btn-order active">Đả Hủy</button></Link>
+            <Link to="/order/DaHuy"><button className="btn-order activeOrder">Đả Hủy</button></Link>
             <Link to="/order/DangGiao"><button className="btn-order">Đang giao hàng</button></Link>
             <Link to="/order/DaXacNhan"><button className="btn-order">Đã xác nhận</button></Link>
         </div>

@@ -1,13 +1,23 @@
 import axios from "axios";
 
+const getTokenFromLocalStorage = localStorage.getItem("customer")
+  ? JSON.parse(localStorage.getItem("customer"))
+  : null;
+  
 const axiosClient = axios.create({
     baseURL: `https://localhost:7126/api`,
     headers: {
-        "Accept": 'application/json',
-        "Content-Type": 'application/json',
-        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
-    }
+        Authorization: `Bearer ${
+          getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+        }`,
+        Accept: "application/json",
+      },
 });
+
+
+  export const config = {
+   
+  };
 
 axiosClient.interceptors.response.use(
     res => res,

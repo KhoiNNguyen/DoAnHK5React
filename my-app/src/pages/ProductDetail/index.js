@@ -1,33 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
-import { RiRefund2Line } from "react-icons/ri";
-import { FaStar } from "react-icons/fa";
-import { BsShieldCheck, BsBox } from "react-icons/bs";
-import { FaHeart } from "react-icons/fa";
+import { FaStar,FaStarHalf,FaHeart } from "react-icons/fa";
+import { CiStar } from "react-icons/ci";
 import { PiShoppingCartThin } from "react-icons/pi";
-import { CiHeart } from "react-icons/ci";
-import {
-  Container,
-  Row,
-  Col,
-  Carousel,
-  Button,
-  Table,
-  Form,
-} from "react-bootstrap";
+import { Container, Row, Col, Carousel, Button, Table,Card } from "react-bootstrap";
 import "./ProductDetail.modual.scss";
-import Card from "react-bootstrap/Card";
 import { useLocation } from "react-router-dom";
 import axiosClient from "../../components/axiosClient/axiosClient";
-import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import Comment from "../Comment/Comment";
+import { useDispatch,useSelector } from "react-redux";
+import { UpdateCart, addProToCart } from "../../features/user/userSlice";
 
 const PhoneDetail = () => {
-
-  // Sử dụng giá trị location
+  const dispatch = useDispatch();
   const location = useLocation();
-  // Kiểm tra xem location.state có tồn tại không trước khi truy cập thuộc tính bên trong nó console.log(lacation)
   const {
     id,
     name,
@@ -44,51 +31,72 @@ const PhoneDetail = () => {
     color,
     item,
   } = location.state;
-
+  const averageRating = item.phone.averageRating;
   const [imgs, setImg] = useState([]);
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState({});
-  const [prices,setPrices]=useState(price);
+  const [prices, setPrices] = useState(price);
   const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [nameBr, setNameBr] = useState("");
-  const [phones,setPhones] =useState([]);
+  const [phones, setPhones] = useState([]);
   const [selectedColor, setSelectedColor] = useState(color); // State để lưu màu được chọn
+  const [selectId, setSelectId] = useState(item.id); // State để lưu màu được chọn
   const [selectedRom, setSelectedRom] = useState(rom); // State để lưu Rom được chọn
+  const userCartState = useSelector((state) => state?.auth?.cartProduct);
+  const [relatedProduct,setRelatedProduct]=useState([]);
+  
 
-  const handleColorChange = (id,color) => {
+  const handleColorChange = (color) => {
     setSelectedColor(color); // Cập nhật màu được chọn
   };
-  const handleRomChange = (id,rom) => {
-    setSelectedRom(rom); // Cập nhật màu được chọn
+  const handleRomChange = (rom) => {
+    setSelectedRom(rom); 
   };
-  
-  const { addCartItem } = useShoppingContext();
 
   const handleCardClick = (cardId, value) => {
     setSelectedCard(cardId);
     setTym(!value);
   };
-  
+
+  const userId = JSON.parse(localStorage.getItem("customer")).userId;
+  // const productId = item.id;
+
+  const uploadCart = () => {
+    const findCart = userCartState.find(item => item.productId === selectId);
+  if (findCart) {
+    const newQuantity = findCart.quantity + 1;
+    dispatch(UpdateCart({ id:findCart.id, quantity: newQuantity }));
+  } else {
+    dispatch(addProToCart({
+      userId: userId,
+      productId: selectId,
+      quantity: 1,
+      color: color,
+      price: price,
+    }));
+  }
+  };
+
   useEffect(() => {
     axiosClient.get("/Images").then((res) => setImg(res.data));
     axiosClient.get("/Products").then((res) => setProducts(res.data));
     axiosClient.get("/Phones").then((res) => setPhones(res.data));
   }, []);
-  
-  useEffect(()=>{
-    products.map(product=>{
-      if(product.phoneId===id&&product.color===selectedColor&&product.rom===selectedRom)
-      setPrices(product.price);
-    })
-  },[selectedColor])
 
-  useEffect(()=>{
-    products.map(product=>{
-      if(product.phoneId===id&&product.rom===selectedRom&&product.color===selectedColor)
-      setPrices(product.price);
-    })
-  },[selectedRom])
+
+  useEffect(() => {
+    const foundProduct = products.find((product) => (
+      product.phoneId === id &&
+      product.rom === selectedRom &&
+      product.color === selectedColor
+      ));
+      if (foundProduct) {
+      console.log(foundProduct);
+      setSelectId(foundProduct.id)
+      setPrices(foundProduct.price);
+      }
+      }, [selectedRom, selectedColor]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -102,8 +110,16 @@ const PhoneDetail = () => {
       if (foundBrand) {
         setNameBr(foundBrand.name);
       }
+      console.log(foundBrand)
+      if (products.length > 0) {
+        const BrandProducts = products.filter(product => product.phone.brandId === foundBrand.id).slice(0, 5);
+        if(BrandProducts.length>0){
+          setRelatedProduct(BrandProducts)
+        }
+        
+      }
     });
-  }, [brandId]);
+  },[]);
 
   return (
     <div className="inner">
@@ -119,15 +135,141 @@ const PhoneDetail = () => {
         </Breadcrumb.Item>
       </Breadcrumb>
       <Container className="pl-0 ml-0">
-        <h5 style={{ display: "inline-block", marginRight: 20 }}>{name}</h5>
-        <a href="1" style={{ color: "#f59e0b", marginRight: 10 }}>
-          <FaStar />
-          <FaStar />
-          <FaStar />
-          <FaStar />
-          <FaStar />
-        </a>
-        <span>171 đánh giá</span>
+        <h5 style={{ display: "inline-block", marginRight: 10 }}>{name}</h5>
+        {averageRating === 0 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <CiStar />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating > 0 && averageRating < 1 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStarHalf />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating === 1 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating > 1 && averageRating < 2 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStarHalf />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating === 2 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStar />
+            <CiStar />
+            <CiStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating > 2 && averageRating < 3 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStar />
+            <FaStarHalf />
+            <CiStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating === 3 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <CiStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating > 3 && averageRating < 4 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStarHalf />
+            <CiStar />
+          </a>
+        )}
+        {averageRating === 4 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <CiStar />
+          </a>
+        )}
+        {averageRating > 4 && averageRating < 5 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStarHalf />
+          </a>
+        )}
+        {averageRating === 5 && (
+          <a
+            href="your_link_here"
+            style={{ color: "#f59e0b", marginRight: 10 }}
+          >
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStar />
+          </a>
+        )}
+        <span>| {averageRating}</span>
       </Container>
       <Container className="border-top">
         <Row>
@@ -144,7 +286,7 @@ const PhoneDetail = () => {
                   return (
                     <Carousel.Item>
                       <img
-                        className="d-block w-100"
+                        className="d-block w-75"
                         src={`https://localhost:7126/images/product/${img.name}`}
                         alt="First slide"
                       />
@@ -153,51 +295,6 @@ const PhoneDetail = () => {
                 }
               })}
             </Carousel>
-
-            {/* Bảo hành */}
-            <Container className="mt-5 bg-light ">
-              <Row className="detail-boder p-4">
-                <Col xl={6} md={6} sm={6} className="p-2">
-                  <span>
-                    <RiRefund2Line
-                      style={{
-                        fontSize: "32px",
-                        padding: "4px",
-                        color: "blue",
-                      }}
-                    />{" "}
-                    Hư gì đổi nấy <strong>12 tháng</strong> tại 3300 siêu thị
-                    toàn quốc (miễn phí tháng đầu)
-                  </span>
-                </Col>
-                <Col xl={6} md={6} sm={6} className="p-2">
-                  <span>
-                    <BsShieldCheck
-                      style={{
-                        fontSize: "32px",
-                        padding: "4px",
-                        color: "blue",
-                      }}
-                    />{" "}
-                    Bảo hành <strong>chính hãng</strong> điện thoại{" "}
-                    <strong>1 năm</strong> tại các trung tâm bảo hành hãng
-                  </span>
-                </Col>
-                <Col xl={6} md={6} sm={6} className="p-2">
-                  <span>
-                    <BsBox
-                      style={{
-                        fontSize: "32px",
-                        padding: "4px",
-                        color: "blue",
-                      }}
-                    />{" "}
-                    Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp
-                    Lightning - Type{" "}
-                  </span>
-                </Col>
-              </Row>
-            </Container>
             {/* Ảnh thông tin điện thoại */}
             <Container className="bg-light ">
               <Row></Row>
@@ -245,7 +342,12 @@ const PhoneDetail = () => {
                         if (phone.phoneId === id && phone.color === color) {
                           return (
                             <>
-                              <button className="btn-sosanh" onClick={()=>handleRomChange(phone.phoneId,phone.rom)}>
+                              <button
+                                className="btn-sosanh"
+                                onClick={() =>
+                                  handleRomChange(phone.rom)
+                                }
+                              >
                                 <span>{phone.rom}</span>
                               </button>
                             </>
@@ -264,7 +366,12 @@ const PhoneDetail = () => {
                         if (phone.phoneId === id && phone.rom === rom) {
                           return (
                             <>
-                               <button className="btn-sosanh1 primary" onClick={()=>handleColorChange(phone.phoneId,phone.color)}>
+                              <button
+                                className="btn-sosanh1 primary"
+                                onClick={() =>
+                                  handleColorChange( phone.color)
+                                }
+                              >
                                 <span>{phone.color}</span>
                               </button>
                             </>
@@ -315,12 +422,16 @@ const PhoneDetail = () => {
                     </div>
                     <div className="w-100">
                       <div className="d-flex">
-                        <Button variant="danger" className="w-100" style={{marginLeft:4}}>
+                        <Button
+                          variant="danger"
+                          className="w-100"
+                          style={{ marginLeft: 4 }}
+                        >
                           MUA NGAY GIÁ RẺ QUÁ{" "}
                         </Button>
                         <button
                           className="btn-cart"
-                          onClick={() => addCartItem(item)}
+                          onClick={(e) => uploadCart()}
                         >
                           <PiShoppingCartThin className="iconCartAdd" />
                         </button>
@@ -394,11 +505,15 @@ const PhoneDetail = () => {
             <div className="item button__tab active">SẢN PHẨM TƯƠNG TỰ</div>
           </div>
         </div>
+        {/* Sanr pham lien quan */}                    
         <div className="same-product-header mt-2">
           <h2>San Pham Tuong Tu</h2>
         </div>
         <div className="container">
           <div className="d-flex justify-content-start flex-wrap">
+            {relatedProduct.map(item=>{
+              console.log(item)
+              return (
             <Card
               className="mt-3 p-3 col-3"
               style={{ width: "13.9rem", marginRight: 10 }}
@@ -407,157 +522,29 @@ const PhoneDetail = () => {
                 alt="1"
                 variant="top"
                 style={{ height: "160px" }}
-                src="/images/detail/1/11.jpg"
+                src={`https://localhost:7126/images/product/${item.phone.image}`}
               />
               <Card.Body>
                 <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                  Iphone 12 Pro Max123
+                  {item.phone.name}
                 </Card.Title>
                 <Card.Title
                   className="font-weight-bold"
                   style={{ height: "68px", fontSize: "1rem" }}
                 >
-                  <p>3.500.000</p>
-                </Card.Title>
-                <div className="d-flex justify-content-between">
-                  <div className="star">
-                    <a style={{ color: "#f59e0b", marginRight: 10 }} href="/">
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                    </a>
-                  </div>
-                  <button
-                    className="heart"
-                    onClick={() => handleCardClick(1, tym)}
-                  >
-                    {selectedCard === 1 && tym ? <FaHeart /> : <CiHeart />}
-                  </button>
-                </div>
-              </Card.Body>
-            </Card>
-            <Card
-              className="mt-3 p-3 col-3"
-              style={{ width: "13.9rem", marginRight: 10 }}
-            >
-              <Card.Img
-                alt="1"
-                variant="top"
-                style={{ height: "160px" }}
-                src="/images/detail/1/11.jpg"
-              />
-              <Card.Body>
-                <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                  Iphone 12 Pro Max123
-                </Card.Title>
-                <Card.Title
-                  className="font-weight-bold"
-                  style={{ height: "68px", fontSize: "1rem" }}
-                >
-                  <p>3.500.000</p>
-                </Card.Title>
-                <div className="d-flex justify-content-end">
-                  <button
-                    className="heart"
-                    onClick={() => handleCardClick(2, tym)}
-                  >
-                    {selectedCard === 2 && tym ? <FaHeart /> : <CiHeart />}
-                  </button>
-                </div>
-              </Card.Body>
-            </Card>
-            <Card
-              className="mt-3 p-3 col-3"
-              style={{ width: "13.9rem", marginRight: 10 }}
-            >
-              <Card.Img
-                alt="1"
-                variant="top"
-                style={{ height: "160px" }}
-                src="/images/detail/1/11.jpg"
-              />
-              <Card.Body>
-                <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                  Iphone 12 Pro Max123
-                </Card.Title>
-                <Card.Title
-                  className="font-weight-bold"
-                  style={{ height: "68px", fontSize: "1rem" }}
-                >
-                  <p>3.500.000</p>
-                </Card.Title>
-                <div className="d-flex justify-content-end">
-                  <button
-                    className="heart"
-                    onClick={() => handleCardClick(3, tym)}
-                  >
-                    {selectedCard === 3 && tym ? <FaHeart /> : <CiHeart />}
-                  </button>
-                </div>
-              </Card.Body>
-            </Card>
-            <Card
-              className="mt-3 p-3 col-3"
-              style={{ width: "13.9rem", marginRight: 10 }}
-            >
-              <Card.Img
-                alt="1"
-                variant="top"
-                style={{ height: "160px" }}
-                src="/images/detail/1/11.jpg"
-              />
-              <Card.Body>
-                <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                  Iphone 12 Pro Max123
-                </Card.Title>
-                <Card.Title
-                  className="font-weight-bold"
-                  style={{ height: "68px", fontSize: "1rem" }}
-                >
-                  <p>3.500.000</p>
-                </Card.Title>
-                <div className="d-flex justify-content-end">
-                  <button
-                    className="heart"
-                    onClick={() => handleCardClick(4, tym)}
-                  >
-                    {selectedCard === 4 && tym ? <FaHeart /> : <CiHeart />}
-                  </button>
-                </div>
-              </Card.Body>
-            </Card>
-            <Card
-              className="mt-3 p-3 col-3"
-              style={{ width: "13.9rem", marginRight: 10 }}
-            >
-              <Card.Img
-                alt="1"
-                variant="top"
-                style={{ height: "160px" }}
-                src="/images/detail/1/11.jpg"
-              />
-              <Card.Body>
-                <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                  Iphone 12 Pro Max123
-                </Card.Title>
-                <Card.Title
-                  className="font-weight-bold"
-                  style={{ height: "68px", fontSize: "1rem" }}
-                >
-                  <p>3.500.000</p>
+                  <p>{item.price}</p>
                 </Card.Title>
                 <div className="d-flex justify-content-end">
                   <button
                     className="heart"
                     onClick={() => handleCardClick(5, tym)}
                   >
-                    {selectedCard === 5 && tym ? <FaHeart /> : <CiHeart />}
                   </button>
                 </div>
               </Card.Body>
             </Card>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -565,25 +552,6 @@ const PhoneDetail = () => {
       <Container className="bg-light shadow p-3 mb-5 bg-white rounded  mt-3">
         <Row>
           <Col>
-            {/* <div>
-                  <h2>Đánh giá sản phẩm</h2>
-                  <p>Điểm đánh giá: {rating}</p>
-                  <div> */}
-            {/* Hiển thị các icon đánh giá */}
-            {/* {stars.map((star) => (
-                      <span
-                        key={star}
-                        onClick={() => handleRatingClick(star)}
-                        style={{
-                          cursor: "pointer",
-                          color: star <= rating ? "gold" : "gray",
-                        }}
-                      >
-                        &#9733;
-                      </span>
-                    ))}
-                  </div>
-                </div> */}
             <div className="d-flex justify-start items-center">
               <p className="mt-1 mr-2">Lọc đánh giá theo</p>
               <button className="btn-danhgia">Tất cả</button>
@@ -679,7 +647,7 @@ const PhoneDetail = () => {
             <div className=" my-2 rounded-lg  bg-white py-3 px-3">
               <div className="flex-column">
                 <h4 className="text-danger font-weight-bold p-0">Bình luận</h4>
-                        <Comment />
+                <Comment />
               </div>
             </div>
           </Col>

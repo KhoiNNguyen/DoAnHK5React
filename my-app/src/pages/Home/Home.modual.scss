@@ -10,6 +10,10 @@
     white-space: nowrap;
 }
 
+img{
+    object-fit: cover;
+}
+
 .titlePhoneHot a:not(:last-child){
     margin-right: 10px;
 }

@@ -23,11 +23,12 @@ function Login() {
         try {
             const response = await axiosClient.post('/Users/login', { username, password });
 
-            const { userRole } = response.data;
+            const { userRole, userId } = response.data;
             // Lưu thông tin xác thực vào localStorage hoặc sessionStorage
             localStorage.setItem('token', response.data.token);
             
             localStorage.setItem('userRole', userRole);
+            localStorage.setItem('userId', userId);
             //console.log(userRole)
             if(userRole =="Admin"){
                 navigate('/admin')
@@ -43,7 +44,7 @@ function Login() {
 
     return (
         <div className='login-container col-12 col-sm-4'>
-            <div className='title-login'>Log in</div>
+            <div className='title-login'>Log inkhoinguyen123-Khoinguyen@123</div>
             <div className='text-login'>Enter username</div>
             <input className='input-login' type='text' placeholder='Username...'
                 value={username} onChange={(event) => setUsername(event.target.value)}
@@ -62,7 +63,7 @@ function Login() {
 
             </div>
             <button
-                className={`button-login ${username && password ? 'active' : ''}`}
+                className={`button-login ${username && password ? 'activeLogin' : ''}`}
                 disabled={username && password ? false : true}
                 onClick={() => handeLogin()}
             >

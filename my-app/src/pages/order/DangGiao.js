@@ -1,5 +1,5 @@
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import style from"./order.modual.scss"
+
+import "./order.modual.scss"
 import { Link } from "react-router-dom";
 
 function DangGiao() {
@@ -10,7 +10,7 @@ function DangGiao() {
             <Link to="/order/DaDat"><button className="btn-order">Đã đặt</button></Link>
             <Link to="/order/DaGiao"><button className="btn-order">Đã Giao</button></Link>
             <Link to="/order/DaHuy"><button className="btn-order">Đả Hủy</button></Link>
-            <Link to="/order/DangGiao"><button className="btn-order active">Đang giao hàng</button></Link>
+            <Link to="/order/DangGiao"><button className="btn-order activeOrder">Đang giao hàng</button></Link>
             <Link to="/order/DaXacNhan"><button className="btn-order">Đã xác nhận</button></Link>
         </div>
         <div className="contentOrder">

@@ -2,10 +2,17 @@ import { CiGift, CiTrash } from "react-icons/ci";
 import { FiMinus } from "react-icons/fi";
 import { GoPlus, GoShieldCheck } from "react-icons/go";
 import { useShoppingContext } from "../../components/Context/ShoppingContext";
+import {useDispatch} from "react-redux";
+import { useEffect } from "react";
+import { removeProductCartItem } from "../../features/user/userSlice";
 
 function CartItem({item}) {
-    const { increaseQty, decreaseQty, removeCartItem } = useShoppingContext()
-    return ( <>
+  const dispath=useDispatch()
+  const removeCartItem=(id)=>{
+    dispath(removeProductCartItem(id)) 
+  }
+    return (
+       <>
             <div className="d-flex">
               <div className="imageCart d-flex">
                 <img
@@ -35,11 +42,11 @@ function CartItem({item}) {
                     </div>
                   </div>
                   <div class="action d-flex">
-                    <button onClick={() => increaseQty(item.id)} style={{ height: 20 }}>
+                    <button   style={{ height: 20 }}>
                       <GoPlus />
                     </button>
-                    <p style={{ marginRight: 4, marginLeft: 4 }}>{item.qty}</p>
-                    <button onClick={() => decreaseQty(item.id)}style={{ height: 20 }}>
+                    <p style={{ marginRight: 4, marginLeft: 4 }}>{item.quantity}</p>
+                    <button style={{ height: 20 }}>
                       <FiMinus />
                     </button>
                   </div>
