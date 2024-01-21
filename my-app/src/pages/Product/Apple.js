@@ -9,17 +9,73 @@ import { GiShoppingCart } from "react-icons/gi";
 import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 
 
 function Apple() {
   const [phones, SetPhones] = useState([]);
   const [productApples, setProductApples] = useState([]);
+  const [productRom, setProductRom] = useState([]);
+  const [productScreen, setProductScreen] = useState([]);
 
   // const [tym, setTym] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   
   const{addCartItem,addFavotiteItem}=useShoppingContext();
+
+  const callAll = () => {
+    return axiosClient.get("/Products").then((res) => setProductApples(res.data));
+  }
+
+  const filter64GB = () =>{
+    let rom= productRom.filter((item) => {
+      return item.rom === '64GB'
+    });
+    setProductApples(rom)
+  }
+  const filter128GB = () =>{
+    let rom= productRom.filter((item) => {
+      return item.rom === '128GB'
+    });
+    setProductApples(rom)
+  }
+  const filter256GB = () =>{
+    let rom= productRom.filter((item) => {
+      return item.rom === '256GB'
+    });
+    setProductApples(rom)
+  }
+  const filter512GB = () =>{
+    let rom= productRom.filter((item) => {
+      return item.rom === '512GB'
+    });
+    setProductApples(rom)
+  }
+  const filter1TB = () =>{
+    let rom= productRom.filter((item) => {
+      return item.rom === '1TB'
+    });
+    setProductApples(rom)
+  }
+
+  const filterScreen6_1 = () =>{
+    let screen = productScreen.filter(item => {
+      return item.phone.screen === "6.1 inches"
+    });
+    setProductApples(screen)
+  }
+  const filterScreen6_7 = () =>{
+    let screen = productScreen.filter(item => {
+      return item.phone.screen === "6.7 inches"
+    });
+    setProductApples(screen)
+  }
+  const filterScreen6_4 = () =>{
+    let screen = productScreen.filter(item => {
+      return item.phone.screen === "6.4 inches"
+    });
+    setProductApples(screen)
+  }
 
   const sortUpToDown = () =>{
     let apple = productApples.filter(item => {
@@ -33,6 +89,7 @@ function Apple() {
     })
     setProductApples(apple.sort((a,b) => a.price > b.price ? 1 : -1))
   }
+
   const handleCardClick = (cardId, value) => {
     // setSelectedCard(cardId);
     // setTym(!value);
@@ -41,7 +98,8 @@ function Apple() {
   useEffect(() => {
     axiosClient.get("/Phones").then((res) => SetPhones(res.data));
     axiosClient.get("/Products").then((res) => setProductApples(res.data));
-
+    axiosClient.get("/Products").then((res) => setProductRom(res.data));
+    axiosClient.get("/Products").then((res) => setProductScreen(res.data));
   }, []);
   //giá trị nhỏ hơn 0 thì a sẽ đứng trước b.
   //giá trị lớn hơn 0 thì a sẽ đứng sau b.
@@ -60,6 +118,11 @@ function Apple() {
         <h4>Sắp xếp theo</h4>
         <div className="d-flex">
           <div style={{ marginRight: 6 }}>
+            <Button onClick={callAll}>
+              <span>Tất cả</span>
+            </Button>
+          </div>
+          <div style={{ marginRight: 6 }}>
             <Button onClick={sortUpToDown}>
               <FaSortAmountDown className="iconSapSep" />
               <span>giá cao-thấp</span>
@@ -71,6 +134,24 @@ function Apple() {
               <span>giá thấp-cao</span>
             </Button>
           </div>
+          <Dropdown>
+            <Dropdown.Toggle variant="success">Rom</Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item  onClick={filter64GB}>64GB</Dropdown.Item>
+              <Dropdown.Item  onClick={filter128GB}>128GB</Dropdown.Item>
+              <Dropdown.Item  onClick={filter256GB}>256GB</Dropdown.Item>
+              <Dropdown.Item  onClick={filter512GB}>512GB</Dropdown.Item>
+              <Dropdown.Item  onClick={filter1TB}>1TB</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Dropdown>
+            <Dropdown.Toggle variant="success">Màn hình</Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item  onClick={filterScreen6_7}>6.7 inches</Dropdown.Item>
+              <Dropdown.Item  onClick={filterScreen6_1}>6.1 inches</Dropdown.Item>
+              <Dropdown.Item  onClick={filterScreen6_4}>6.4 inches</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
       <div className="d-flex justify-content-start flex-wrap">
@@ -95,7 +176,7 @@ function Apple() {
                 </Link> 
                 <Card.Body>
                   <Card.Title style={{ height: "40px", fontSize: "1rem" }}>
-                    {productApple.phone.name}
+                    {productApple.phone.name} {productApple.rom}
                   </Card.Title>
                   <Card.Title
                     className="font-weight-bold"

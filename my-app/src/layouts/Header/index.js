@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import axiosClient from "../../components/axiosClient/axiosClient";
 
 const cx = classNames.bind(styles)
 function Header() {
@@ -15,12 +16,37 @@ function Header() {
     const [searchValue, setSearchValue] = useState('')
     const [register, setRegister] = useState(false);
     const [lgShow, setLgShow] = useState(false);
+    const [phone, setPhone] = useState([]);
+    const [product, setProduct] = useState([]);
+    const [keyWord, setKeyWord] = useState([]);
+    const none = []
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         const value = e.target.value;
+        if(value == ""){
+            let search = none.filter(item => {
+                return item.name.toUpperCase().includes(value.toUpperCase())
+            })
+            setKeyWord(search)
+        }
+        else{
+            let search = product.filter(item => {
+                return item.phone.name.toUpperCase().includes(value.toUpperCase())
+            })
+            setKeyWord(search)
+        }
         setSearchValue(value)
     }
+
+    useEffect(()=>{
+        axiosClient.get(`/Phones`)  
+            .then(res => setPhone(res.data))
+    },[])
+    useEffect(()=>{
+        axiosClient.get(`/Products`)
+            .then(res => setProduct(res.data))
+    },[])
 
     const handleSubmit = (e) => {
         console.log(searchValue)
@@ -87,6 +113,22 @@ function Header() {
                                     <input type="text" id="search" value={searchValue} name="search" placeholder="Hôm nay bạn cần tìm gì?" autocomplete="off" onChange={handleChange} />
                                     <button type="submit" onClick={handleSubmit} className={cx("search-btn")}><FontAwesomeIcon icon={faSearch} /></button>
                                 </div>
+                                <div className="result-list">
+                                    {
+                                        keyWord.map(itemPhone => {
+                                            const item = itemPhone;
+                                            const {id,name,screen,camSau,camTruoc,cpu,heDieuHanh,pin,sim,idBr}=itemPhone.phone
+                                            const {rom,color,price} = itemPhone
+                                            return (
+                                                <>
+                                                    <Link to={`/phoneDetail`} state= {{ name,id,screen,camSau,camTruoc,cpu,rom,heDieuHanh,pin,sim,idBr,color,price,item }} >
+                                                        {itemPhone.phone.name} {itemPhone.color} ({itemPhone.rom}) 
+                                                    </Link>
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </div> 
                             </form>
                         </div>
                         <div className={cx("order-tools")}>

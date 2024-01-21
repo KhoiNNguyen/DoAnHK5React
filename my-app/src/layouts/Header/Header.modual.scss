@@ -273,3 +273,21 @@ input{
 .controls-sex{
     display: flex;
 }
+
+.result-list{
+    position: absolute;
+    z-index: 100;
+    width: 49%;
+    background-color: #fff;
+    margin-left: 13px;
+    padding: 5px 10px;
+    flex-direction: column;
+    max-height: 300px;
+    overflow-y: scroll;
+    border-radius: 10px;
+}
+
+.result-list a{
+    color: #333;
+    display: block;
+}
