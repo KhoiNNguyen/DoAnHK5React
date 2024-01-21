@@ -2,15 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productService from "./productService";
 import { toast } from "react-toastify";
 
-export const getFavorite=createAsyncThunk("product/wishlish/get",
-    async (thunkAPI) => {
-      try {
-        return await productService.getFavorites();
-      } catch (error) {
-        return thunkAPI.rejectWithValue(error);
-      }
+export const getUserFavorite = createAsyncThunk(
+  "product/wishlist/get",
+  async (thunkAPI) => {
+    try {
+      return await productService.getFavorites();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
-)
+  }
+);
 
 export const addToWishlist = createAsyncThunk(
   "product/wishlist/add",
@@ -56,14 +57,15 @@ export const productSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.addToWishlist = action.payload;
-       state.message="Product add to wishlist";
+        if(state.isSuccess===true){
+          toast.info("success")
+        }
       })
       .addCase(addToWishlist.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-        
       })
       .addCase(removeToWishList.pending, (state) => {
         state.isLoading = true;
@@ -73,7 +75,6 @@ export const productSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.removeToWishList = action.payload;
-       state.message="Product remove to wishlist";
       })
       .addCase(removeToWishList.rejected, (state, action) => {
         state.isLoading = false;
@@ -82,17 +83,16 @@ export const productSlice = createSlice({
         state.message = action.error;
         
       })
-      .addCase(getFavorite.pending, (state) => {
+      .addCase(getUserFavorite.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getFavorite.fulfilled, (state, action) => {
+      .addCase(getUserFavorite.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.getFavorite = action.payload;
-       state.message="Product remove to wishlist";
+        state.getUserFavorite = action.payload;
       })
-      .addCase(getFavorite.rejected, (state, action) => {
+      .addCase(getUserFavorite.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

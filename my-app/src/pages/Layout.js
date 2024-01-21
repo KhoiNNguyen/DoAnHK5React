@@ -2,13 +2,14 @@ import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 function Layout() {
   return (
     <>
       <Header />
+      <div>
       <Outlet />
-      <Footer />
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -21,6 +22,8 @@ function Layout() {
         pauseOnHover
         theme="light"
       />
+      </div>
+<Footer />
     </>
   );
 }

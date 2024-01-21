@@ -2,16 +2,16 @@ import classNames from "classnames/bind";
 import styles from './Header.modual.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faSearch, faTruckMoving } from "@fortawesome/free-solid-svg-icons";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
+import { useSelector } from "react-redux";
 
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { FaFacebookF } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 
 const cx = classNames.bind(styles)
 function Header() {
+    const cartItem=useSelector((state) => state?.auth?.cartProduct);
     const [searchValue, setSearchValue] = useState('')
     const [register, setRegister] = useState(false);
     const [lgShow, setLgShow] = useState(false);
@@ -21,7 +21,6 @@ function Header() {
         const value = e.target.value;
         setSearchValue(value)
     }
-    console.log(searchValue)
 
     const handleSubmit = (e) => {
         console.log(searchValue)
@@ -33,15 +32,12 @@ function Header() {
         setRegister(true);
     }
 
-    const handleClose = () => setLgShow(false);
-    const handleCloseRegister = () => setRegister(false);
-
     const handleShow = () => {
         setLgShow(true);
 
     };
     const handLogout =() =>{
-        localStorage.removeItem('token');
+        localStorage.removeItem('customer');
         navigate('/')
     }
     return (<>
@@ -101,8 +97,10 @@ function Header() {
                                 </a>
                             </div>
                             <div className={cx("item cart")}>
-                                <Link to="/cart">
+                                <Link to="/cart" className="d-flex">
                                     <i className={cx("icon-cart")}><FontAwesomeIcon icon={faCartShopping} /></i>
+                                    {
+                                        <button>{cartItem?.length}</button>}
                                 </Link>
                             </div>
                         </div>

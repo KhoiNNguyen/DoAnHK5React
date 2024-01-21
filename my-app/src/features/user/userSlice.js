@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import userService from "./userService";
 import { toast } from "react-toastify";
-import { config } from "../../components/axiosClient/axiosClient";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -25,6 +24,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+
 export const addProToCart = createAsyncThunk(
   "cart/add-cart",
   async (cartData, thunkAPI) => {
@@ -47,6 +47,7 @@ export const getUserCart = createAsyncThunk(
   }
 );
 
+
 export const removeProductCartItem=createAsyncThunk(
   "cart/delete-cart",
   async (cartId,thunkAPI) => {
@@ -61,6 +62,37 @@ export const removeProductCartItem=createAsyncThunk(
 export const UpdateCart = createAsyncThunk("cart/update-cart", async (cartData, thunkAPI) => {
   try {
       return await userService.updateCart(cartData);;
+  } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+  }
+});
+
+export const getComments = createAsyncThunk(
+  "get-comment",
+  async (thunkAPI) => {
+    try {
+      return await userService.getComments();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+
+export const removeComments=createAsyncThunk(
+  "remove-comment",
+  async (commentId,thunkAPI) => {
+    try {
+      return await userService.removeComments(commentId);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const addComment = createAsyncThunk("add-comment", async (cartData, thunkAPI) => {
+  try {
+      return await userService.addComments(cartData);;
   } catch (err) {
       return thunkAPI.rejectWithValue(err);
   }
@@ -93,18 +125,12 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.createUser = action.payload;
-        if (state.isSuccess === true) {
-          toast.info("User Created Successfully");
-        }
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-        if (state.isError === true) {
-          toast.error(action.payload.response.data.message);
-        }
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -114,9 +140,8 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.user = action.payload;
-        if (state.isSuccess === true) {
-          localStorage.setItem("token", action.payload.token);
-          toast.info("Login Successfully");
+        if(state.isSuccess===true){
+          toast.info("success")
         }
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -124,9 +149,7 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload; // Sử dụng action.payload thay vì action.error
-        if (state.isError === true) {
-          toast.error(action.payload.response.data.message); // Có thể cần kiểm tra null hoặc undefined trước khi truy cập response.data.message
-        }
+        
       })
       .addCase(addProToCart.pending, (state) => {
         state.isLoading = true;
@@ -136,18 +159,12 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.cart = action.payload;
-        if (state.isSuccess === true) {
-          toast.info("add Successfully");
-        }
       })
       .addCase(addProToCart.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-        if (state.isError === true) {
-          toast.error(action.payload.response.data.message);
-        }
       })
       .addCase(getUserCart.pending, (state) => {
         state.isLoading = true;
@@ -164,9 +181,6 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-        if (state.isError === true) {
-          toast.error(action.payload.response.data.message);
-        }
       })
       .addCase(removeProductCartItem.pending, (state) => {
         state.isLoading = true;
@@ -176,19 +190,12 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.removeCart = action.payload;
-        if(state.isSuccess===true){
-          toast.success("remove success")
-        }
-       
       })
       .addCase(removeProductCartItem.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-        if (state.isError === true) {
-          toast.error(action.payload.response.data.message);
-        }
       })
       .addCase(UpdateCart.pending, (state) => {
         state.isLoading = true;
@@ -198,19 +205,60 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.removeCart = action.payload;
-        if(state.isSuccess===true){
-          toast.success("Update success")
-        }
-       
       })
       .addCase(UpdateCart.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-        if (state.isError === true) {
-          toast.error(action.payload.response.data.message);
+      })
+      .addCase(getComments.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getComments.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.getComments = action.payload;
+      })
+      .addCase(getComments.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(addComment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.addComment = action.payload;
+        if(state.isSuccess===true){
+          toast.info("success")
         }
+      })
+      .addCase(addComment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(removeComments.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(removeComments.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.removeComment = action.payload;
+      })
+      .addCase(removeComments.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
       });
   },
 });

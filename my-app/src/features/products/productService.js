@@ -3,7 +3,6 @@ import axiosClient, { config } from "../../components/axiosClient/axiosClient";
 const getFavorites=async()=>{
     const response = await axiosClient.get(`Favorites`,config);
     if(response.data){
-        console.log(response)
         return response.data;
     }
 }

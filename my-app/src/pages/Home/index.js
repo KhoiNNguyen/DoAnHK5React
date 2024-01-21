@@ -6,13 +6,11 @@ import "./Home.modual.scss";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../../components/axiosClient/axiosClient";
-import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "../../features/products/productSlice";
 
 function Home() {
   const [productApples, setProductApples] = useState([]);
-  const{addCartItem,addFavotiteItem}=useShoppingContext();
   const dispatch = useDispatch();
 
   let isRenderApple=false;
@@ -54,7 +52,7 @@ function Home() {
     const vivoProducts = productApples.filter(product => product.phone.brandId === 5).slice(0, 5);
     setVivoProduct(vivoProducts);
   }
-}, []);
+}, [productApples]);
 
   return (
     <>

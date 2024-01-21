@@ -10,7 +10,7 @@ import { useState } from "react";
 function Payment() {
 
   const location=useLocation();
-  const {totalPrice,cartItems}=location.state;
+  const {total,userCartState}=location.state;
   var [account,setAccount] = useState({
     username : "",
     SDT: "",
@@ -191,10 +191,10 @@ function Payment() {
               <div className="ProductSelectPayment1">
                 <div className="sumProduct d-flex justify-content-between">
                   <p>Tong Tien Tam Tinh:</p>
-                  <p>{totalPrice}</p>
+                  <p>{total}</p>
                 </div>
                 <div className="clickBuyNow1">
-                  <Link to="/cart/ThanhToan" state={{totalPrice,account,cartItems}}><button>Tiep Tuc</button></Link>
+                  <Link to="/cart/ThanhToan" state={{total,account,userCartState}}><button>Tiep Tuc</button></Link>
                 </div>
               </div>
             </div>

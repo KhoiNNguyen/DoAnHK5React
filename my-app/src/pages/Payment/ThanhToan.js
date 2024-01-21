@@ -1,15 +1,25 @@
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import { useShoppingContext } from "../../components/Context/ShoppingContext";
 
 function ThanhToan() {
   const { clearCart } = useShoppingContext();
   const location = useLocation();
-  const { totalPrice, account,cartItems } = location.state;
+  const { total, account,userCartState } = location.state;
   console.log(location);
   return (
     <div className="inner">
       <div className="w-50 m-auto">
+      <div className="header-cart d-flex">
+              <div className="icon-headerCart">
+                <Link to="/cart/payment" state={{total,userCartState}}>
+                <IoIosArrowBack />
+                </Link>
+              </div>
+              <div className="title-cart m-auto">
+                <h5>Thanh Toan</h5>
+              </div>
+            </div>
         <div className="navPayment d-flex justify-content-center">
           <div className="Payment-info  d-flex justify-content-center">
             <span>1.Thong Tin</span>
@@ -40,7 +50,7 @@ function ThanhToan() {
                       <div className="infoProductPayMent">
                         <div className="info-paymentProduct">
                           <p>Tien Hang</p>
-                          <p>{totalPrice}</p>
+                          <p>{total}</p>
                         </div>
                         <div className="info-paymentProduct">
                           <p>Phi Van Chuyen</p>
@@ -49,7 +59,7 @@ function ThanhToan() {
                       </div>
                       <div className="totalPayment">
                         <p>Tong Tien</p>
-                        <p>{totalPrice}</p>
+                        <p>{total}</p>
                       </div>
                     </div>
                   </div>
@@ -113,7 +123,7 @@ function ThanhToan() {
           <div className="ProductSelectPayment1">
             <div className="sumProduct d-flex justify-content-between">
               <p>Tong Tien Tam Tinh:</p>
-              <p>{totalPrice}</p>
+              <p>{total}</p>
             </div>
             <div className="clickBuyNow1">
               <button

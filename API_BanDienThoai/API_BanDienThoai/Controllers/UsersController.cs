@@ -152,7 +152,7 @@ namespace EshopIdentity.Controllers
 					token = new JwtSecurityTokenHandler().WriteToken(token),
 					expiration = token.ValidTo,
 					userRole = userRoles,
-                    userId= userId
+                    userId = userId
                 });
 			}
 			return Unauthorized();
@@ -170,12 +170,6 @@ namespace EshopIdentity.Controllers
             if (userExist != null)
             {
                 var errorResponse = new { Message = "User already exists" };
-                return new BadRequestObjectResult(errorResponse);
-            }
-            var checkEmail = await _userManager.FindByEmailAsync(register.Email);
-            if (checkEmail != null)
-            {
-                var errorResponse = new { Message = "Email already exists" };
                 return new BadRequestObjectResult(errorResponse);
             }
             User user = new User()

@@ -8,7 +8,7 @@ import { Container, Row, Col, Carousel, Button, Table,Card } from "react-bootstr
 import "./ProductDetail.modual.scss";
 import { useLocation } from "react-router-dom";
 import axiosClient from "../../components/axiosClient/axiosClient";
-import Comment from "../Comment/Comment";
+import CommentForm from "../Comment/Comment";
 import { useDispatch,useSelector } from "react-redux";
 import { UpdateCart, addProToCart } from "../../features/user/userSlice";
 
@@ -36,12 +36,10 @@ const PhoneDetail = () => {
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState({});
   const [prices, setPrices] = useState(price);
-  const [tym, setTym] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
   const [nameBr, setNameBr] = useState("");
   const [phones, setPhones] = useState([]);
   const [selectedColor, setSelectedColor] = useState(color); // State để lưu màu được chọn
-  const [selectId, setSelectId] = useState(item.id); // State để lưu màu được chọn
+  const [selectId, setSelectId] = useState(item.id); // State để lưu id được chọn
   const [selectedRom, setSelectedRom] = useState(rom); // State để lưu Rom được chọn
   const userCartState = useSelector((state) => state?.auth?.cartProduct);
   const [relatedProduct,setRelatedProduct]=useState([]);
@@ -54,16 +52,12 @@ const PhoneDetail = () => {
     setSelectedRom(rom); 
   };
 
-  const handleCardClick = (cardId, value) => {
-    setSelectedCard(cardId);
-    setTym(!value);
-  };
 
   const userId = JSON.parse(localStorage.getItem("customer")).userId;
   // const productId = item.id;
 
   const uploadCart = () => {
-    const findCart = userCartState.find(item => item.productId === selectId);
+  const findCart = userCartState.find(item => item.productId === selectId);
   if (findCart) {
     const newQuantity = findCart.quantity + 1;
     dispatch(UpdateCart({ id:findCart.id, quantity: newQuantity }));
@@ -116,10 +110,9 @@ const PhoneDetail = () => {
         if(BrandProducts.length>0){
           setRelatedProduct(BrandProducts)
         }
-        
       }
     });
-  },[]);
+  },[products]);
 
   return (
     <div className="inner">
@@ -401,23 +394,6 @@ const PhoneDetail = () => {
                           Cơ hội trúng 50 sổ tiết kiệm, tổng trị giá đến 500
                           triệu đồng
                         </li>
-                        <li>
-                          Thu cũ Đổi mới: Giảm đến 1 triệu (Tuỳ model máy cũ,
-                          Không kèm Trả góp 0%, thanh toán qua cổng online, mua
-                          kèm){" "}
-                        </li>
-                        <li>
-                          Giảm thêm 5% khi mua cùng sản phẩm có giá cao hơn (trừ
-                          Xe đạp, sản phẩm Apple, sản phẩm giá sốc)
-                        </li>
-                        <li>
-                          Hoàn 200,000đ cho chủ thẻ tín dụng HOME CREDIT khi
-                          thanh toán đơn hàng từ 5,000,000đ
-                        </li>
-                        <li>
-                          Nhập mã MMSALE100 giảm ngay 1% tối đa 100.000đ khi
-                          thanh toán qua MOMO
-                        </li>
                       </ul>
                     </div>
                     <div className="w-100">
@@ -512,7 +488,6 @@ const PhoneDetail = () => {
         <div className="container">
           <div className="d-flex justify-content-start flex-wrap">
             {relatedProduct.map(item=>{
-              console.log(item)
               return (
             <Card
               className="mt-3 p-3 col-3"
@@ -537,7 +512,6 @@ const PhoneDetail = () => {
                 <div className="d-flex justify-content-end">
                   <button
                     className="heart"
-                    onClick={() => handleCardClick(5, tym)}
                   >
                   </button>
                 </div>
@@ -647,7 +621,7 @@ const PhoneDetail = () => {
             <div className=" my-2 rounded-lg  bg-white py-3 px-3">
               <div className="flex-column">
                 <h4 className="text-danger font-weight-bold p-0">Bình luận</h4>
-                <Comment />
+                <CommentForm phoneId={item.phone.id}/>
               </div>
             </div>
           </Col>

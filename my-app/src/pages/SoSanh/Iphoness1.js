@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import axiosClient from "../../components/axiosClient/axiosClient";
-import { useShoppingContext } from "../../components/Context/ShoppingContext";
 import { Link } from "react-router-dom";
 
 
