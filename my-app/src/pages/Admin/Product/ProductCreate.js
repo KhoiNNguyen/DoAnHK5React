@@ -11,71 +11,71 @@ const ProductCreate = () => {
     const [product, setProduct] = useState({});
     const [phone, setPhone] = useState([]);
 
-    const handleChange = (e) =>{
+    const handleChange = (e) => {
         let name = e.target.name
         let value = e.target.value
-        setProduct(prev => ({...prev, [name]: value}));
+        setProduct(prev => ({ ...prev, [name]: value }));
     }
-    const handleCheck = (e) =>{
+    const handleCheck = (e) => {
         let name = e.target.name
         let value = e.target.checked
-        setProduct(prev => ({...prev, [name]: value}));
+        setProduct(prev => ({ ...prev, [name]: value }));
     }
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
         axiosClient.post(`/Products`, product)
-           .then(() => navigate('/Products'))
+            .then(() => navigate('/Products'))
     }
     useEffect(() => {
         axiosClient.get(`/Phones`)
             .then(res => setPhone(res.data));
-      }, []);
+    }, []);
 
     // date time
-    
-      
+
+
     return (
         <>
             <Form className="col-md-3">
                 <FormGroup className="mb-3">
                     <FormLabel>ROM: </FormLabel>
-                    <FormControl name="rom" type="text"  onChange={handleChange}></FormControl>
+                    <FormControl name="rom" type="text" onChange={handleChange}></FormControl>
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <FormLabel>Quantity: </FormLabel>
-                    <FormControl name="quantity" type="text"  onChange={handleChange}></FormControl>
+                    <FormControl name="quantity" type="text" onChange={handleChange}></FormControl>
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <FormLabel>Price: </FormLabel>
-                    <FormControl name="price" type="text"  onChange={handleChange}></FormControl>
+                    <FormControl name="price" type="text" onChange={handleChange}></FormControl>
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <FormLabel>Color: </FormLabel>
-                    <FormControl name="color" type="text"  onChange={handleChange}></FormControl>
+                    <FormControl name="color" type="text" onChange={handleChange}></FormControl>
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <FormLabel>PhoneId: </FormLabel>
-                    <FormSelect  name="phoneId" onChange={handleChange}>
-                    <option> None </option>
-                    {
-                        phone.map(item =>{
-                            return(
-                                <option value={item.id} >{item.name} </option>
-                            )
-                        })
-                    }
+                    <FormSelect name="phoneId" onChange={handleChange}>
+                        <option> None </option>
+                        {
+                            phone.map(item => {
+                                return (
+                                    <option value={item.id} >{item.name} </option>
+                                )
+                            })
+                        }
                     </FormSelect>
                 </FormGroup>
-                
+
                 <FormGroup className="mb-3">
-                    <FormCheck name="status" type="switch" label="Hoạt đông" onChange={handleCheck}/>
+                    <FormCheck name="status" type="switch" label="Hoạt đông" onChange={handleCheck} />
                 </FormGroup>
                 <Button type="submit" variant="success" onClick={handleSubmit}>
-                    <FontAwesomeIcon icon={faPlus}/> Thêm
+                    <FontAwesomeIcon icon={faPlus} /> Thêm
                 </Button>
             </Form>
         </>
     );
 }
- 
+
 export default ProductCreate;

@@ -50,74 +50,100 @@ import ButtonSoSanh from "./pages/SoSanh/ButtonSoSanh"
 // import Login from "./pages/Login/test"
 import LoginPage from "./pages/Login/LoginPage"
 import RegisterPage from "./pages/Login/RegisterPage"
+import TableProductVoucher from "./pages/Admin/ProductVoucher/TableProductVoucher"
+import HomeAdmin from "./pages/Admin/Home/HomeAdmin"
+import IndexAdmin from "./pages/Admin/Home/Components/Index/IndexAdmin"
+import TablePaymentMethod from "./pages/Admin/PaymentMethod/TablePaymentMethod"
+import TableVoucher from "./pages/Admin/Voucher/TableVoucher"
+import TableProduct from "./pages/Admin/Product/TableProduct"
+import TableAccount from "./pages/Admin/user/TableAccount"
 
 
-const App = () =>{
-    return(
+const App = () => {
+    return (
         <ShoppingContextProvider>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />}/>
-                    <Route path="/phoneDetail" element={<PhoneDetail />}/>
-                    <Route path="/phoneDetail/SoSanh" element={<SoSanh />}/>
-                    <Route path="/PhoneFavorite" element={<PhoneFavorite />}/>
-                    <Route path="/Apple" element={<Apple />} />
-                    <Route path="/Samsung" element={<SamSung />} />
-                    <Route path="/Xiaomi" element={<Xiaomi />} />
-                    <Route path="/OPPO" element={<Oppo />} />
-                    <Route path="/Vivo" element={<Vivo />} /> 
-                    <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                </Route>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Layout />}>
+                        <Route index element={<Home />} />
+                        <Route path="/phoneDetail" element={<PhoneDetail />} />
+                        <Route path="/phoneDetail/SoSanh" element={<SoSanh />} />
+                        <Route path="/PhoneFavorite" element={<PhoneFavorite />} />
+                        <Route path="/Apple" element={<Apple />} />
+                        <Route path="/Samsung" element={<SamSung />} />
+                        <Route path="/Xiaomi" element={<Xiaomi />} />
+                        <Route path="/OPPO" element={<Oppo />} />
+                        <Route path="/Vivo" element={<Vivo />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                    </Route>
 
-                <Route path="/" element={<LayoutHeader />}>
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/cart/payment" element={<Payment />} />
-                    <Route path="/cart/ThanhToan" element={<ThanhToan />}/>
-                    <Route path="/order" element={<Order />}/>
-                    <Route path="/order/DaGiao" element={<DaGiao />} />
-                    <Route path="/order/DangGiao" element={<DangGiao />} />
-                    <Route path="/order/DaHuy" element={<DaHuy />} />
-                    <Route path="/order/DaXacNhan" element={<DaXacNhan />} />
-                    <Route path="/order/DaDat" element={<DaDat />} />
-                    <Route path="/SoSanh" element={<SoSanh />}/>
-                    <Route path="/ButtonSoSanh" element={<ButtonSoSanh />}/>
-                    <Route path="/Iphone1" element={<Iphone1 />} />
-                    <Route path="/Iphone2" element={<Iphone2 />} />
-                </Route>
+                    <Route path="/" element={<LayoutHeader />}>
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/cart/payment" element={<Payment />} />
+                        <Route path="/cart/ThanhToan" element={<ThanhToan />} />
+                        <Route path="/order" element={<Order />} />
+                        <Route path="/order/DaGiao" element={<DaGiao />} />
+                        <Route path="/order/DangGiao" element={<DangGiao />} />
+                        <Route path="/order/DaHuy" element={<DaHuy />} />
+                        <Route path="/order/DaXacNhan" element={<DaXacNhan />} />
+                        <Route path="/order/DaDat" element={<DaDat />} />
+                        <Route path="/SoSanh" element={<SoSanh />} />
+                        <Route path="/ButtonSoSanh" element={<ButtonSoSanh />} />
+                        <Route path="/Iphone1" element={<Iphone1 />} />
+                        <Route path="/Iphone2" element={<Iphone2 />} />
+                    </Route>
 
-                <Route path="/Products" element={<Product />}/>
-                <Route path="/Products/Create" element={<ProductCreate />}/>
-                <Route path="/Products/Edit/:id" element={<ProductEdit />}/>
-                <Route path="/Phones" element={<Phone />}/>
-                <Route path="/Phones/Create" element={<PhoneCreate />}/>
-                <Route path="/Phones/Edit/:id" element={<PhoneEdit />}/>
-                <Route path="/Brands" element={<Brand />}/>
-                <Route path="/Brands/Create" element={<BrandCreate />}/>
-                <Route path="/Vouchers" element={<Voucher />}/>
-                <Route path="/Vouchers/Create" element={<VoucherCreate />}/>
-                <Route path="/Vouchers/Edit/:id" element={<VoucherEdit />}/>
-                <Route path="/PaymentMethods" element={<PaymentMethod />}/>
-                <Route path="/PaymentMethods/Create" element={<PaymentMethodCreate />}/>
-                <Route path="/PaymentMethods/Edit/:id" element={<PaymentMethodEdit />}/>
-                <Route path="/ProductVouchers" element={<ProductVoucher />}/>
-                <Route path="/ProductVouchers/Create" element={<ProductVoucherCreate />}/>
-                <Route path="/ProductVouchers/Edit/:id" element={<ProductVoucherEdit />}/>
-                
-                <Route path="/user" element={<User />}/>
-                <Route path="/user/create" element={<UserCreate />}/>
-                <Route path="/user/edit/:id" element={<UserEdit />}/>
+                    <Route path="/Products" element={<Product />} />
+                    <Route path="/Products/Create" element={<ProductCreate />} />
+                    <Route path="/Products/Edit/:id" element={<ProductEdit />} />
+                    <Route path="/Phones" element={<Phone />} />
+                    <Route path="/Phones/Create" element={<PhoneCreate />} />
+                    <Route path="/Phones/Edit/:id" element={<PhoneEdit />} />
+                    <Route path="/Brands" element={<Brand />} />
+                    <Route path="/Brands/Create" element={<BrandCreate />} />
+                    <Route path="/Vouchers" element={<Voucher />} />
+                    <Route path="/Vouchers/Create" element={<VoucherCreate />} />
+                    <Route path="/Vouchers/Edit/:id" element={<VoucherEdit />} />
+                    <Route path="/PaymentMethods" element={<PaymentMethod />} />
+                    <Route path="/PaymentMethods/Create" element={<PaymentMethodCreate />} />
+                    <Route path="/PaymentMethods/Edit/:id" element={<PaymentMethodEdit />} />
+                    <Route path="/ProductVouchers" element={<ProductVoucher />} />
+                    <Route path="/ProductVouchers/Create" element={<ProductVoucherCreate />} />
+                    <Route path="/ProductVouchers/Edit/:id" element={<ProductVoucherEdit />} />
+
+                    <Route path="/user" element={<User />} />
+                    <Route path="/user/create" element={<UserCreate />} />
+                    <Route path="/user/edit/:id" element={<UserEdit />} />
 
 
-                <Route path="/invoices" element={<Invoice />}/>
-                <Route path="/invoices/create" element={<InvoiceCreate/>}/>
-                <Route path="/invoices/edit/:id" element={<InvoiceEdit/>}/>
+                    <Route path="/invoices" element={<Invoice />} />
+                    <Route path="/invoices/create" element={<InvoiceCreate />} />
+                    <Route path="/invoices/edit/:id" element={<InvoiceEdit />} />
 
-                
+                    <Route path="/" element={<HomeAdmin/>} >
+                        <Route path='/admin' element={<IndexAdmin/>} />
+                        <Route path='/admin/productvoucher' element={<TableProductVoucher/>} />
+                        <Route path="/admin/ProductVouchers/Edit/:id" element={<ProductVoucherEdit />} />
 
-            </Routes>
-        </BrowserRouter>
+                        <Route path="/admin/pamentmethod" element={<TablePaymentMethod/>} />
+                        <Route path="/admin/PaymentMethods/Edit/:id" element={<PaymentMethodEdit />} />
+
+                        <Route path="/admin/voucher" element={<TableVoucher/>} />
+                        <Route path="/admin/Vouchers/Edit/:id" element={<VoucherEdit />} />
+
+                        <Route path="/admin/product" element={<TableProduct />} />
+                        <Route path="/admin/Products/Edit/:id" element={<ProductEdit />} />
+
+                        <Route path="/admin/user" element={<TableAccount/>} />
+                        <Route path="/admin/user/edit/:id" element={<UserEdit />} />
+
+                        {/* <Route path="/aaa" element={<TablePaymentMethod />} /> */}
+                    </Route>
+
+
+                </Routes>
+            </BrowserRouter>
         </ShoppingContextProvider>
     )
 }

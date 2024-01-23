@@ -24,7 +24,7 @@ const VoucherEdit = () => {
     const handleSubmit = (e) =>{
         e.preventDefault();
         axiosClient.put(`/Vouchers/${id}`, voucher)
-           .then(() => navigate('/Vouchers'))
+           .then(() => navigate('/admin/voucher'))
     }
     useEffect(() => {
         axiosClient.get(`/Vouchers/${id}`)

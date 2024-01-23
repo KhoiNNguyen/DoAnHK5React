@@ -24,7 +24,7 @@ const ProductEdit = () => {
     const handleSubmit = (e) =>{
         e.preventDefault();
         axiosClient.put(`/Products/${id}`, product)
-           .then(() => navigate('/Products'))
+           .then(() => navigate('/admin/product'))
     }
     useEffect(() => {
         axiosClient.get(`/Products/${id}`)

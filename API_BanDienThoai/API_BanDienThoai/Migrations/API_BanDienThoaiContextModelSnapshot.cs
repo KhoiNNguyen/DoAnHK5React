@@ -52,12 +52,6 @@ namespace API_BanDienThoai.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 

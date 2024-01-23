@@ -27,7 +27,7 @@ const UserEdit = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axiosClient.put(`/Users/${id}`, user)
-            .then(() => navigate('/user'))
+            .then(() => navigate('/admin/user'))
     }
     useEffect(() => {
         axiosClient.get(`/Users/${id}`)

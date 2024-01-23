@@ -62,7 +62,7 @@ const Product = () => {
                 <Table className="table table-light">
                     <thead className="table table-dark">
                         <tr>
-                            <th>STT</th>
+                            <th>Id</th>
                             <th>Phone</th>
                             <th>ROM</th>
                             <th>Quantity</th>
@@ -77,7 +77,7 @@ const Product = () => {
                             product.map(item =>{
                                 return(
                                     <tr>
-                                        <td>{i++}</td>
+                                        <td>{item.id}</td>
                                         <td>{item.phone.name}</td>
                                         <td>{item.rom}</td>
                                         <td>{item.quantity}</td>

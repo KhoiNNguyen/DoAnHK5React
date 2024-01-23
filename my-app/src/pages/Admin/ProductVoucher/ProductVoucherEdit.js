@@ -21,7 +21,7 @@ const ProductVoucherEdit = () => {
     const handleSubmit = (e) =>{
         e.preventDefault();
         axiosClient.put(`/ProductVouchers/${id}`,productVoucher)
-        .then(() => navigate('/ProductVouchers'))
+        .then(() => navigate('/admin/productvoucher'))
     }
     useEffect(()=>{
         axiosClient.get(`/ProductVouchers/${id}`)
@@ -37,9 +37,12 @@ const ProductVoucherEdit = () => {
     }, []);
     return (  
         <>
-            <Form className="col-md-3">
-                <FormGroup className="md-3">
-                    <FormLabel>Product: </FormLabel>
+        <div className='my-3 add-new'>
+            <span>Edit product voucher</span>
+        </div>
+            <Form className="col-md-5">
+                <FormGroup className="md-3 mt-2">
+                    <FormLabel>Product</FormLabel>
                     <FormSelect  name="productId" onChange={handleChange} value={productVoucher.productId}>
                         <option> None </option>
                         {
@@ -52,7 +55,7 @@ const ProductVoucherEdit = () => {
                     </FormSelect>
                 </FormGroup>
                 <FormGroup className="md-3">
-                    <FormLabel>Voucher: </FormLabel>
+                    <FormLabel>Voucher</FormLabel>
                     <FormSelect  name="voucherId" onChange={handleChange} value={productVoucher.voucherId}>
                         <option> None </option>
                         {

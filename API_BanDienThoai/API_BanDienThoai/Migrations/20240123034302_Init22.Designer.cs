@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_BanDienThoai.Migrations
 {
     [DbContext(typeof(API_BanDienThoaiContext))]
-    [Migration("20240112054449_Add_AttributeCart")]
-    partial class Add_AttributeCart
+    [Migration("20240123034302_Init22")]
+    partial class Init22
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,12 +53,6 @@ namespace API_BanDienThoai.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");

@@ -4,7 +4,7 @@
 
 namespace API_BanDienThoai.Migrations
 {
-    public partial class FixFavorites : Migration
+    public partial class Init22 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
