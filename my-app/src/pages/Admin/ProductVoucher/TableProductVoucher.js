@@ -29,7 +29,7 @@ function TableProductVoucher() {
 
     const handleClose = () => {
         setIsModalShowAddNew(false)
-        setIsModalShowEdit(false)
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -234,11 +234,6 @@ function TableProductVoucher() {
 
             <ModelAddNewProductVoucher
                 show={isModalShowAddNew}
-                handleClose={handleClose}
-            />
-            <ModelEditProductVoucher
-                show={isModalShowEdit}
-                dataProductVoucherEdit={dataProductVoucherEdit}
                 handleClose={handleClose}
             />
         </>

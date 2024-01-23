@@ -37,6 +37,7 @@ const TablePaymentMethod = () => {
 
     const handleClose = () => {
         setIsModalShowAddNew(false)
+        window.location.reload();
     }
 
     const handleSearch = (event) => {

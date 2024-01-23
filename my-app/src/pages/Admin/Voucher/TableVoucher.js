@@ -74,7 +74,7 @@ const TableVoucher = () => {
                 arr[1] = item.voucherCode;
                 arr[2] = item.discound;
                 arr[3] = item.startTime;
-                arr[4] = item.EndDate;
+                arr[4] = item.endDate;
                 arr[5] = item.description;
                 arr[6] = item.status ? "Hoạt động" : "ko hoạt động";
                 result.push(arr);
@@ -126,7 +126,7 @@ const TableVoucher = () => {
                                             voucherCode: item[1],
                                             discound: item[2],
                                             startTime: item[3],
-                                            EndDate: item[4],
+                                            endDate: item[4],
                                             description: item[5],
                                             status: item[6],
                                         };

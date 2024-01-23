@@ -26,8 +26,17 @@ const ModelAddNewProductVoucher = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axiosClient.post(`/ProductVouchers`, productVoucher)
-            .then(() => navigate('/admin'))
-        toast.success('A product voucher create success!')
+            .then(res => {
+                // Giả sử res.data chứa dữ liệu voucher mới được thêm vào
+                setProductVoucher(res.data);
+
+                // Đóng modal sau khi thêm voucher thành công
+                handleClose();
+            })
+            .catch(error => {
+                // Xử lý lỗi nếu cần thiết
+                console.error("Lỗi khi thêm voucher:", error);
+            });
 
     }
 

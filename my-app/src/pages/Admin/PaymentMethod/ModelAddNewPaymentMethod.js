@@ -24,7 +24,17 @@ const ModelAddNewPaymentMethod = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axiosClient.post(`/PaymentMethods`, paymentMethod)
-            .then(() => navigate('/aaa'))
+            .then(res => {
+                // Giả sử res.data chứa dữ liệu voucher mới được thêm vào
+                setPaymentMethod(res.data);
+
+                // Đóng modal sau khi thêm voucher thành công
+                handleClose();
+            })
+            .catch(error => {
+                // Xử lý lỗi nếu cần thiết
+                console.error("Lỗi khi thêm voucher:", error);
+            });
     }
 
     return (
